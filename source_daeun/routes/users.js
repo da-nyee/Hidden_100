@@ -1,3 +1,8 @@
+const fs = require('fs');
+const express = require('express');
+const ejs = require('ejs');
+const mysql = require('mysql');
+
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const router = express.Router();
