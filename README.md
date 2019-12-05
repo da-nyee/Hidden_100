@@ -5,7 +5,7 @@
 - C2C business
 
 ### Developers
-- 서지연
-- 이다은
-- 이우석
-- 한혜경
+- https://github.com/clairmentine (Jiyeon Seo, 서지연)
+- https://github.com/da-nyee (Daeun Lee, 이다은)
+- https://github.com/qkdrnvhrrur (이우석)
+- https://github.com/Han-HeyGyeong (Hyegyeong Han, 한혜경)

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+
+        <link rel="stylesheet" type="text/css" href="./css/login_form.css?var=<?=$sys['var']?>">
+        <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css?var=<?=$sys['var']?>">
+        <link rel="stylesheet" type="text/css" href="./css/bootstrap.min.css?var=<?=$sys['var']?>">
+    </head>
+
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                    <div class="card card-signin my-5">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Settings</h5>
+                            <form class="form-signin" name="member_modify_form" id="member_modify_form" method="post" action="member_modify.php?id=<?=$userid?>">
+                                <div class="form-label-group">
+                                    이름: 
+                                </div>
+                                
+                                <div class="form-label-group">
+                                    닉네임: 
+                                </div>
+                                
+                                <div class="form-label-group">
+                                    이메일: 
+                                </div>
+                                
+                                <div class="form-label-group">
+                                    아이디: 
+                                </div>
+                                
+                                <div class="form-label-group">
+                                    비밀번호: <input type="password" id="pass" name="pass" class="form-control" placeholder="비밀번호" value="<?=$pass?>">
+                                </div>
+                                
+                                <div class="form-label-group">
+                                    비밀번호 확인: <input type="password" id="pass_confirm" name="pass_confirm" class="form-control" placeholder="비밀번호 확인" value="<?=$pass?>">
+                                </div>
+                                <br/>
+                                
+                                <button class="btn btn-lg btn-primary btn-block text-uppercase" id="update" type="button" onclick="check_input()">Update</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
