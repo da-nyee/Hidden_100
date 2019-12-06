@@ -1,0 +1,34 @@
+		<div class="main-add" style="background: #FFFFFF;">
+			<div class="row" style="padding: 2%; margin: 0px ">
+			 
+				<div class="col-3">
+					<img src="images/today_product.png" style="width:100%; height: auto;">
+				</div>
+				<% goodslist.forEach(function(item){ %>
+				<div class="col-2">
+						<img src="images/product/sample_1.jpg" style="width:70%; height: auto;">
+						<p><%=item.goo_name%></p>
+				</div>
+				<% }) %>
+				<div class="col-1"> 
+				</div>
+				
+			</div>
+		</div>
+	<%# 상품 페이지 1행 main_good1의 데이터 사용%>
+		<div class="row" style="padding: 2%; margin: 0px ">
+		<% goodslist.forEach(function(item){ %>
+		  <div class="col-3 product">
+			  <img src="images/product/1.jpg" style="width:90%;">
+			  <p/>
+			  <p><%=item.goo_name%></p>
+			  <p><%=item.goal_price%> 원</p>
+			  <div style="text-align:center;">
+				<button type="button" class="btn">응모하기</button>
+			  </div>
+		  </div>
+ 		<%})%>
+		</div>
+	<%# 상품 페이지 2행 main_good2의 데이터 사용%>
+
+	
