@@ -5,7 +5,7 @@ const mysql=require('mysql');
 const router=express.Router();
 
 const client = mysql.createConnection({
-	host: '203.249.127.60', // DB서버 IP주소
+	host: 'localhost', // DB서버 IP주소
 	port: 3306, // DB서버 Port주소
 	user: '2019pprj', // DB접속 아이디
 	password: 'pprj2019', // 암호
