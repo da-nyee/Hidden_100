@@ -20,20 +20,6 @@ client.connect((error)=>{
         console.log("connect sucess!!!");
 });
 
-const calcTime=(results)=>{
-    const leftTime=new Array();
-    const currentTime=Date.now();   //utc기준 밀리초 반환
-
-    results.forEach((item)=>{
-        let endTime=new Date(item.time_year, item.time_month-1, item.time_day,
-            item.time_hour, item.time_minute);  //utc가 반환 된다.
-
-        leftTime.push(Date(endTime-currentTime).split(' '));                           
-    });
-
-    console.log('left : ', leftTime);   //한국시간을 문자열로 출력한다.
-}
-
 const getMain=(req, res)=>{
     let htmlstream='';
     htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
@@ -41,7 +27,7 @@ const getMain=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods ORDER BY regist_day DESC limit 8';
+    const sql='SELECT * FROM t1_goods ORDER BY regist_day ASC limit 8';
     client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행. 레코드 전체는 배열으로, 레코드 각각은 json형식으로 가져온다.
         if (error)
             res.status(562).end("DB query is failed");
@@ -74,7 +60,7 @@ const getClothes=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'clothes\' ORDER BY regist_day DESC limit 8';
+    const sql='SELECT * FROM t1_goods where goo_type=\'clothes\' ORDER BY regist_day ASC limit 8';
     client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
@@ -92,7 +78,7 @@ const getClothes=(req, res)=>{
             res.end(ejs.render(htmlstream, {goodslist:results}));
         }        
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            calcTime(results);
+            //calcTime(results);
 
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
             res.end(ejs.render(htmlstream, {goodslist:results}));  // 조회된 상품정보
@@ -109,7 +95,7 @@ const getDigital=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'digital\' ORDER BY regist_day DESC limit 8';
+    const sql='SELECT * FROM t1_goods where goo_type=\'digital\' ORDER BY regist_day ASC limit 8';
     client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
@@ -142,7 +128,7 @@ const getMakeup=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'makeup\' ORDER BY regist_day DESC limit 8';
+    const sql='SELECT * FROM t1_goods where goo_type=\'makeup\' ORDER BY regist_day ASC limit 8';
     client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
@@ -175,7 +161,7 @@ const getFurniture=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'furniture\' ORDER BY regist_day DESC limit 8';
+    const sql='SELECT * FROM t1_goods where goo_type=\'furniture\' ORDER BY regist_day ASC limit 8';
     client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
