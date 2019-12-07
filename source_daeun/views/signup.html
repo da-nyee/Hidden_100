@@ -117,63 +117,79 @@
         </nav>
         <br/><br/>
 
-        <div class="container">
-            <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <h1>회원가입</h1>
-                </div>
-            </div>
-            <br/>
-
-            <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <input type="text" class="form-control" name="name" placeholder="이름">
-                </div>
-            </div>
-            <br/>
-            
-            <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <input type="text" class="form-control" name="id" placeholder="아이디">
-                </div>
-            </div>
-            <br/>
-            
-            <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <input type="password" class="form-control" name="pass1" placeholder="비밀번호">
-                </div>
-            </div>
-            <br/>
-
-            <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <input type="password" class="form-control" name="pass2" placeholder="비밀번호 확인">
-                </div>
-            </div>
-            <br/>
-
-            <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <input type="text" class="form-control" name="addr" placeholder="주소">
-                </div>
-            </div>
-            <br/><br/>
-
-            <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <button type="button" class="btn">회원가입</button>
-                </div>
-            </div>
-        </div>
-        <br/><br/><br/><br/>
+        <script language="javascript">
+                function validate(){
+                    let id = document.getElementById("id").value;
+                    let pass1 = document.getElementById("pass1").value;
+                    let pass2 = document.getElementById("pass2").value;
+    
+                    if(pass1 != pass2){
+                        alert("비밀번호가 서로 다릅니다. 다시 입력해주세요!");
+                        return false;
+                    }
+                    return true;
+                }
+        </script>
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-4">
+                    <h1>회원가입</h1>
+                </div>
+            </div>
+            <br/>
+    
+            <form name="signup" onsubmit="return validate()" method=post action="/users">
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" name="name" placeholder="이름">
+                    </div>
+                </div>
+                <br/>
+    
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" name="id" placeholder="아이디">
+                    </div>
+                </div>
+                <br/>
+    
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <input type="password" class="form-control" name="pass1" placeholder="비밀번호">
+                    </div>
+                </div>
+                <br/>
+    
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <input type="password" class="form-control" name="pass2" placeholder="비밀번호 확인">
+                    </div>
+                </div>
+                <br/>
+    
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <input type="text" class="form-control" name="addr" placeholder="주소">
+                    </div>
+                </div>
+                <br/><br/>
+    
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <button type="submit" class="btn">회원가입</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <br/><br/><br/><br/>
 
         <footer class="page-footer font-small blue" style="margin: 0px ">
             <div class="footer-copyright text-center py-3"> <small> © 2019 Copyright:  이 사이트는 P-실무 프로젝트로 제작중입니다.
