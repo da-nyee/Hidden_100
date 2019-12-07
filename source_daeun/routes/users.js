@@ -3,6 +3,8 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const router = express.Router();
 const mysql = require('mysql');
+const fs = require('fs');
+const ejs = require('ejs');
 
 router.use(bodyParser.urlencoded({extended:false}));
 
@@ -23,6 +25,7 @@ const PrintSignup = (req, res) => {
     htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/footer.ejs','utf8');
 
     res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
+    res.end(ejs.render(htmlstream));
 };
 
 const HandleSignup = (req, res) => {
