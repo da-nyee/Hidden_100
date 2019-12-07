@@ -210,4 +210,85 @@ const HandleProfile = (req, res) => {
 router.get('/profile', PrintProfile);
 router.post('/profile', HandleProfile);
 
+/* 회원탈퇴 */
+const PrintDeletion = (req, res) => {
+    let htmlstream = '';
+
+    htmlstream = fs.readFileSync(__dirname + '/../views/header.ejs','utf8');
+    htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/user_nav.ejs','utf8');
+    htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/user_deletion.ejs','utf8');
+    htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/footer.ejs','utf8');
+    
+    res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
+
+    if(req.session.auth){ // true: 로그인 상태, false: 비로그인 상태
+        res.end(ejs.render(htmlstream, {
+            'title':'Hidden 100',
+            'regurl':'/users/profile',
+            'reglabel':req.session.who,
+            'logurl':'/users/logout',
+            'loglabel':'로그아웃'
+        }));
+    }
+    else{
+        res.end(ejs.render(htmlstream, {
+            'title':'Hidden 100',
+            'regurl':'/users/reg',
+            'reglabel':'회원가입',
+            'logurl':'/users/auth',
+            'loglabel':'로그인'
+        }));
+    }
+};
+
+const HandleDeletion = (req, res) => {
+    let body = req.body;
+    let mem_id, mem_pass;
+    let sql_str;
+    let htmlstream = '';
+
+    console.log(body.id);
+    console.log(body.pass);
+
+    if(body.id == '' || body.pass == ''){
+        console.log("아이디 혹은 비밀번호가 입력되지 않아 회원탈퇴가 불가합니다!");
+        res.status(562).end('<meta charset="utf-8">아이디 혹은 비밀번호가 입력되지 않아 회원탈퇴가 불가합니다!');
+    }
+    else{
+        sql_str = "SELECT mem_id, mem_pass, mem_name from t1_member where mem_id='"+body.id+"' and mem_pass='"+body.pass+"';";
+        console.log("SQL: " + sql_str);
+
+        db.query(sql_str, (error, results, fields) => {
+            if(error){
+                res.status(562).end("Login fails as there is no id in DB!");
+            }
+            else{
+                db.query("SELECT * from t1_member where mem_id=?", [body.id], (error, results, fields) => {
+                    if(!error){
+                        db.query("DELETE from t1_member where mem_id=? and mem_pass=?", [body.id, body.pass], (error, results, fields) => {
+                            if(error){
+                                htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
+                                res.status(562).end(ejs.render(htmlstream, {
+                                    'title':'Hidden 100',
+                                    'warn_title':'회원탈퇴 오류',
+                                    'warn_message':'회원탈퇴에 실패하였습니다!',
+                                    'return_url':'/users/reg'
+                                }));
+                            }
+                            else{
+                                console.log("회원탈퇴 되었습니다.");
+                                res.redirect('/users/reg');
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+}
+
+/* REST API의 URI와 handler를 mapping */
+router.get('/deletion', PrintDeletion);
+router.post('/deletion', HandleDeletion);
+
 module.exports = router;
