@@ -10,17 +10,17 @@ const GetMainUI = (req, res) => {
 
     logging(loglevel, 'router.get() invoked!');
 
-    htmlstream = fs.readFileSync(__dirname + '/..views/header.ejs','utf8');
+    htmlstream = fs.readFileSync(__dirname + '/../views/header.ejs','utf8');
 
     if(req.session.auth && req.session.admin){
-        htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/admin_var.ejs','utf8');
-        htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/product.ejs','utf8');
+        htmlstream = htmlstream + fs.readFileSync(__dirname + '/..//views/admin_var.ejs','utf8');
+        htmlstream = htmlstream + fs.readFileSync(__dirname + '/..//views/product.ejs','utf8');
     }
     else{
-        htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/user_nav.ejs','utf8');
-        htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/product.ejs','utf8');
+        htmlstream = htmlstream + fs.readFileSync(__dirname + '/..//views/user_nav.ejs','utf8');
+        htmlstream = htmlstream + fs.readFileSync(__dirname + '/..//views/product.ejs','utf8');
     }
-    htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/footer.ejs','utf8');
+    htmlstream = htmlstream + fs.readFileSync(__dirname + '/..//views/footer.ejs','utf8');
 
     res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
 

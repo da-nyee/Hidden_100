@@ -46,12 +46,12 @@ const HandleSignup = (req, res) => {
                     'title':'Hidden 100',
                     'warn_title':'회원가입 오류',
                     'warn_message':'이미 회원으로 등록되어 있습니다!',
-                    'return_url':'/'
+                    'return_url':'/users/auth'
                 }));
             }
             else{
                 console.log("회원가입에 성공하셨습니다! 신규회원으로 등록되었습니다.");
-                res.redirect('/');
+                res.redirect('/users/auth');
             }
         });
     }
@@ -60,7 +60,6 @@ const HandleSignup = (req, res) => {
 /* REST API의 URI와 handler를 mapping */
 router.get('/reg', PrintSignup);
 router.post('/reg', HandleSignup);
-router.get('/', function(req,res){res.send('respond with a resource 111');});
 
 /* 로그인 */
 const PrintSignin = (req, res) => {
@@ -121,7 +120,7 @@ const HandleSignin = (req, res) => {
                         'title':'Hidden 100',
                         'warn_title':'로그인 오류',
                         'warn_message':'등록된 계정이나 비밀번호가 틀립니다.',
-                        'return_url':'/'
+                        'return_url':'/users/profile'
                     }));
                 }
                 else{ // select 조회 결과가 있는 경우
@@ -138,7 +137,7 @@ const HandleSignin = (req, res) => {
                             if(body.id == 'admin'){ // 인증된 사용자가 관리자(admin)인 경우 이를 표시
                                 req.session.admin = true;
                             }
-                            res.redirect('/');
+                            res.redirect('/users/profile');
                         }
                     });
                 }
@@ -150,5 +149,65 @@ const HandleSignin = (req, res) => {
 /* REST API의 URI와 handler를 mapping */
 router.get('/auth', PrintSignin);
 router.post('/auth', HandleSignin);
+
+/* 로그아웃 */
+const HandleSignout = (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+}
+
+/* REST API의 URI와 handler를 mapping */
+router.get('/logout', HandleSignout);
+
+/* 정보수정 */
+const PrintProfile = (req, res) => {
+    let htmlstream = '';
+
+    let body = req.body;
+    let user;
+
+    htmlstream = fs.readFileSync(__dirname + '/../views/header.ejs','utf8');
+    htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/user_nav.ejs','utf8');
+    htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/user_settings.ejs','utf8');
+    htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/footer.ejs','utf8');
+
+    res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
+    res.end(ejs.render(htmlstream));
+};
+
+const HandleProfile = (req, res) => {
+    let body = req.body;
+    let htmlstream = '';
+
+    if(body.pass1 == '' || body.addr == ''){
+        console.log("데이터 입력이 되지 않아 DB에 저장할 수 없습니다.");
+        res.status(561).end('<meta charset="utf-8">데이터가 입력되지 않아 정보수정을 할 수 없습니다!');
+    }
+    else{
+        db.query("SELECT * from t1_member where mem_id=?", [body.id], (error, results, fields) => {
+            if(!error){
+                db.query("UPDATE t1_member SET mem_pass=?, mem_addr=? where mem_id=?", [body.pass1, body.addr, body.id], (error, results, fields) => {
+                    if(error){
+                        htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
+                        res.status(562).end(ejs.render(htmlstream, {
+                            'title':'Hidden 100',
+                            'warn_title':'정보수정 오류',
+                            'warn_message':'정보수정에 실패하였습니다!',
+                            'return_url':'/users/profile'
+                        }));
+                    }
+                    else{
+                        console.log("정보수정이 성공적으로 완료되었습니다!");
+                        res.redirect('/users/profile');
+                    }
+                });
+            }
+        });
+    }
+};
+
+/* REST API의 URI와 handler를 mapping */
+router.get('/profile', PrintProfile);
+router.post('/profile', HandleProfile);
 
 module.exports = router;
