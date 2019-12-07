@@ -7,6 +7,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+const mainui = require('./routes/mainui');
 const users = require('./routes/users');
 
 const PORT = 65001;
@@ -26,6 +27,7 @@ app.use(session({
 }));
 
 /* URI와 handler 매핑 */
+app.use('/', mainui);
 app.use('/users', users);
 
 /* 쇼핑몰 웹서버 실행 */
