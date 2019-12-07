@@ -46,7 +46,7 @@ const getApply=(req, res)=>{
          htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
         
          res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-         res.end(ejs.render(htmlstream, {applylist:results}));
+         res.end(ejs.render(htmlstream));
      }
       else {  // 조회된 상품이 있다면, 상품리스트를 출력
          res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
@@ -79,7 +79,7 @@ const getWinning=(req, res)=>{
          htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
         
          res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-         res.end(ejs.render(htmlstream, {applylist:results}));
+         res.end(ejs.render(htmlstream));
      }
       else {  // 조회된 상품이 있다면, 상품리스트를 출력
          res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
