@@ -52,7 +52,7 @@ const getMain=(req, res)=>{
 }
 
 router.get('/', getMain);
-
+/*
 const getClothes=(req, res)=>{
     let htmlstream='';
     htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
@@ -78,8 +78,6 @@ const getClothes=(req, res)=>{
             res.end(ejs.render(htmlstream, {goodslist:results}));
         }        
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            //calcTime(results);
-
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
             res.end(ejs.render(htmlstream, {goodslist:results}));  // 조회된 상품정보
         }
@@ -186,5 +184,5 @@ const getFurniture=(req, res)=>{
 }
 
 router.get('/furniture', getFurniture);
-
+*/
 module.exports=router;

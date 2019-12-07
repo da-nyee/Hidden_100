@@ -14,26 +14,18 @@
 			leftTime.push(temp[1]+':'+temp[4].substring(0, 5));
     	});
 		
-		console.log('left : ', leftTime);
+		//console.log('left : ', leftTime);
 		return leftTime;
 	}
 
-	const leftTime=calcTime(goodslist);
+	let leftTime=calcTime(goodslist);
 %>
 
 <div class="main-add" style="background: #FFFFFF;">
 	<div class="row" style="padding: 2%; margin: 0px "> 
 		<div class="col-3">
-			<img src="images/today_product.png" style="width:100%; height: auto;">
+			<img src="/images/today_product.png" style="width:100%; height: auto;">
 		</div>
-		<% for(let i=0;i<(goodslist.length<4?goodslist.length:4);i++){ %>
-			<div class="col-2">
-				<img src="images/product/sample_1.jpg" style="width:70%; height: auto;">
-				<p><%=goodslist[i].goo_name%></p>
-				<p><%=goodslist[i].goal_price%> 원</p>
-				<p style="font-size:15px"><%=leftTime[i].split(':')[0]%>일 <%=leftTime[i].split(':')[1]%>시간 <%=leftTime[i].split(':')[2]%>분 남음</p>
-			</div>
-		<% } %>
 		<div class="col-1"> 
 		</div>
 	</div>
@@ -43,16 +35,15 @@
 <div class="row" style="padding: 2%; margin: 0px ">
 	<% goodslist.forEach(function(item, i){ %>
 		<div class="col-3 product">
-			<img src="images/product/1.jpg" style="width:90%;">
+			<img src="/images/product/1.jpg" style="width:90%;">
 			<p><%=item.goo_name%></p>
 			<p><%=item.goal_price%> 원</p>
-			<p style="font-size:15px"><%=leftTime[i].split(':')[0]%>일 <%=leftTime[i].split(':')[1]%>시간 <%=leftTime[i].split(':')[2]%>분 남음</p>
+			<p id=time style="font-size:15px"><%=leftTime[i].split(':')[0]%>일 <%=leftTime[i].split(':')[1]%>시간 <%=leftTime[i].split(':')[2]%>분 남음</p>
 			<div style="text-align:center;">
 				<button type="button" class="btn">응모하기</button>
 			</div>
 		</div>
  	<%})%>
 </div>
-   
 
 	
