@@ -8,7 +8,8 @@ const   session = require('express-session');
 const   multer = require('multer');
 // 업로드 디렉터리를 설정한다. 실제디렉터리: /home/bmlee/
 // const  upload = multer({dest: __dirname + '/../uploads/products'});
-const  router = express.Router();
+const router = express.Router();
+const db=require('./records');
 
 // router.use(bodyParser.urlencoded({ extended: false }));
 const client = mysql.createConnection({
@@ -26,8 +27,6 @@ client.connect((error)=>{
     else
         console.log("connect sucess!!!");
 });
-
-let records=new Array();
 
 const getClothes=(req, res)=>{
     let htmlstream='';
@@ -54,6 +53,7 @@ const getClothes=(req, res)=>{
             res.end(ejs.render(htmlstream));
         }        
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
+            db.records=results;
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
             res.end(ejs.render(htmlstream, {goodslist:results}));  // 조회된 상품정보
         }
@@ -87,6 +87,7 @@ const getDigital=(req, res)=>{
             res.end(ejs.render(htmlstream));
         }
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
+            db.records=results;
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
             res.end(ejs.render(htmlstream, {goodslist:results}));  // 조회된 상품정보
         }
@@ -120,6 +121,7 @@ const getMakeup=(req, res)=>{
             res.end(ejs.render(htmlstream));
         }
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
+            db.records=results;
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
             res.end(ejs.render(htmlstream, {goodslist:results}));  // 조회된 상품정보
         }
@@ -132,7 +134,7 @@ const getFurniture=(req, res)=>{
     let htmlstream='';
     htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/user_nav.ejs', 'utf8'); //user_nav
-    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/test.ejs', 'utf8');  //Body
+    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
     const sql='SELECT * FROM t1_goods where goo_type=\'furniture\' ORDER BY regist_day ASC limit 8';
@@ -153,8 +155,8 @@ const getFurniture=(req, res)=>{
             res.end(ejs.render(htmlstream));
         }            
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            records=results;
-            console.log(records);
+            db.records=results;
+            //console.log('records : ', records);
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
             res.end(ejs.render(htmlstream, {goodslist:results}));  // 조회된 상품정보
         }
@@ -168,20 +170,21 @@ const calcTime=(req, res)=>{
     const currentTime=new Date();   //UTC현재 시간
 
     //*UTC시간을 그냥 문자열로 바꾸면 KST시간으로 자동으로 바뀐다. 주의가 필요!!!
-    results.forEach((item)=>{
+    db.records.forEach((item)=>{
         let endTime=new Date(item.time_year, item.time_month-1, item.time_day-1,
             item.time_hour, item.time_minute); //UTC끝나는 시간-1일
 
         //console.log(new Date(endTime-currentTime).toUTCString());   //UTC시간으로 문자열 변환
         const temp=new Date(endTime-currentTime).toUTCString().split(' ');
 
-        leftTime.push(temp[1]+':'+temp[4].substring(0, 5));
+        leftTime.push(item.goo_id+':'+temp[1]+':'+temp[4].substring(0, 5));
     });
     
     //console.log('left : ', leftTime);
-    return leftTime;
+    //console.log('toJson : ', JSON.stringify(leftTime));
+    res.end(JSON.stringify(leftTime));
 }
 
-router.get('/calTime', calcTime);
+router.get('/calcTime', calcTime);
 
 module.exports = router;

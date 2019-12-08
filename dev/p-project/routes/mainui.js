@@ -4,6 +4,11 @@ const ejs=require('ejs');
 const mysql=require('mysql');
 const router=express.Router();
 
+const db=require('./records');  //Object를 반환한다{key:value}.
+                                //object는 첫 문자가 영문 소문자이고 빌트인 오브젝트로 생성한 오브젝트를 나타낸다(ex:Function, Object, Array, Number, String 등).
+                                //첫 문자가 대문자인 Object는 {key:value}형태를 의미한다.
+                                //new연산자로 생성한 오브젝트를 인스턴스라고 한다. 
+                                //그냥 바로 변수에 저장하면 안 된다!!!???
 const client = mysql.createConnection({
 	host: 'localhost', // DB서버 IP주소
 	port: 3306, // DB서버 Port주소
@@ -45,6 +50,8 @@ const getMain=(req, res)=>{
             res.end(ejs.render(htmlstream));
         }            
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
+            db.records=results; //db객체의 records변수에 저장.
+            //console.log(records);
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
             res.end(ejs.render(htmlstream, {goodslist:results}));  // 조회된 상품정보
         }
