@@ -9,6 +9,7 @@ const   multer = require('multer');
 // 업로드 디렉터리를 설정한다. 실제디렉터리: /home/bmlee/
 // const  upload = multer({dest: __dirname + '/../uploads/products'});
 const router = express.Router();
+
 const db=require('./records');
 
 // router.use(bodyParser.urlencoded({ extended: false }));
@@ -17,7 +18,8 @@ const client = mysql.createConnection({
 	port: 3306, // DB서버 Port주소
 	user: '2019pprj', // DB접속 아이디
 	password: 'pprj2019', // 암호
-	database: 'db2019' //사용할 DB명
+    database: 'db2019', //사용할 DB명
+    multipleStatements: true
 });
 
 client.connect((error)=>{
@@ -29,14 +31,17 @@ client.connect((error)=>{
 });
 
 const getAdmin=(req, res)=>{
-    let htmlstream='';
+    var htmlstream='';
+
     htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/admin_nav.ejs', 'utf8'); //admin_nav
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/adminpro.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods ORDER BY regist_day deSC limit 8';
-    client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행. 레코드 전체는 배열으로, 레코드 각각은 json형식으로 가져온다.
+    const sql='SELECT * FROM t1_goods where status=\'active\' and goo_type=\'digital\' ORDER BY regist_day deSC limit 8;';
+    const sql2='select goo_id from t1_deal where status=\'active\' group by buyer_id;';
+    const sql3='select goo_id, sum(invest_coin)total from t1_deal where status=\'active\' group by goo_id;'
+    client.query(sql+sql2+sql3, (error, results, fields) => {  // 상품조회 SQL실행. 레코드 전체는 배열으로, 레코드 각각은 json형식으로 가져온다.        
         if (error)
             res.status(562).end("DB query is failed");
 
@@ -53,10 +58,12 @@ const getAdmin=(req, res)=>{
             res.end(ejs.render(htmlstream));
         }            
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            db.records=results; //db객체의 records변수에 저장.
-            //console.log(records);
+            db.records=results[0]; //db객체의 records변수에 저장.
+            console.log(results[1]);
+            console.log(results[2]);
+
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-            res.end(ejs.render(htmlstream, {goodslist:results}));  // 조회된 상품정보
+            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:results[1], total:results[2]}));  // 조회된 상품정보
         }
     });
 }

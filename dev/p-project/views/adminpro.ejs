@@ -17,10 +17,15 @@
 			<img src="/images/product/1.jpg" style="width:90%;">
 			<p><%=item.goo_name%></p>
 			<p><%=item.goal_price%> 원</p>
-			<p id=<%=item.goo_id%>></p>
-			<div style="text-align:center;">
-				<button type="button" class="btn">응모하기</button>
-			</div>
+            <p id=<%=item.goo_id%>></p>
+            <%for(let i=0;i<total.length;i++){
+                if(total[i].goo_id==item.goo_id){%>
+                    <p><%=total[i].total%>원 적립 됨</p>
+                    <%break;
+                } else if(i==(total.length-1)){%>
+                    <p>0원 적립 됨</p>
+                <%}
+            }%>
 		</div>
  	<%})%>
 </div>
