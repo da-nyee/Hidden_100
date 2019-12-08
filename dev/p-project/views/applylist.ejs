@@ -1,16 +1,25 @@
+<script type="text/javascript" src="/javascript/calcTime.js"></script>
+
 <h1 style="margin:20px;" class="display-3">거래내역</h1>
 
 <h3 style="margin:20px;" class="display-4 text-muted">응모내역</h3>
 
-<% applylist.forEach(function(item, i){ %>
+<% applylist.forEach(function(item, i){%>
     <div class="main-add" style="background: #FFFFFF; margin:20px; padding:10px;">
         <div class="row">
                 <div class="col-2 product">
                     <img src="/images/product/1.jpg" style="width:100%">
                 </div>
                 <div class="col-3 product text-left">
-                    <p><%=item.goo_name%></p>
-                    <p><%=item.goal_price%> 원</p>
+                    <p>상품명 : <%=item.goo_name%></p>
+                    <p>목표금액 : <%=item.goal_price%>원</p>
+                    <p>응모액 : <%=item.invest_coin%>원</p>
+                    <p id=<%=item.goo_id%>></p>
+                    <%if(item.status=='active'){%>
+                        <p>진행중입니다.</p>
+                    <%} else if(item.status=='win'){%>
+                        <p>당첨되셨습니다.</p>
+                    <%}%>
                 </div>
         </div>
     </div>

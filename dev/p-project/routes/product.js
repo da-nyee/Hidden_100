@@ -35,7 +35,7 @@ const getClothes=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'clothes\' ORDER BY regist_day ASC limit 8';
+    const sql='SELECT * FROM t1_goods where goo_type=\'clothes\' and status=\'active\' ORDER BY regist_day DESC limit 8';
     client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
@@ -69,7 +69,7 @@ const getDigital=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'digital\' ORDER BY regist_day ASC limit 8';
+    const sql='SELECT * FROM t1_goods where goo_type=\'digital\' and status=\'active\' ORDER BY regist_day DESC limit 8';
     client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
@@ -103,7 +103,7 @@ const getMakeup=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'makeup\' ORDER BY regist_day ASC limit 8';
+    const sql='SELECT * FROM t1_goods where goo_type=\'makeup\' and status=\'active\' ORDER BY regist_day DESC limit 8';
     client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
@@ -137,7 +137,7 @@ const getFurniture=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'furniture\' ORDER BY regist_day ASC limit 8';
+    const sql='SELECT * FROM t1_goods where goo_type=\'furniture\' and status=\'active\' ORDER BY regist_day DESC limit 8';
     client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");

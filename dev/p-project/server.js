@@ -8,9 +8,10 @@ const   createError = require('http-errors');
 const   path = require('path');
 
 // 쇼핑몰 개발소스 모듈
-const   mainui = require('./routes/mainui');
-const   users = require('./routes/users');
-const   product = require('./routes/product');
+const mainui = require('./routes/mainui');
+const users = require('./routes/users');
+const product = require('./routes/product');
+const admin=require('./routes/admin');
 //const   test = require('./routes/test');
 
 // 쇼핑몰전용 PORT주소 설정
@@ -33,6 +34,7 @@ app.use(session({ key: 'sid',
 app.use('/', mainui);       // URI (/) 접속하면 main로 라우팅
 app.use('/users', users);   // URI('/users') 접속하면 users로 라우팅
 app.use('/product', product); // URI('/product') 접속하면 product로 라우팅
+app.use('/admin', admin);
 //app.use('/test', test);
 
 // 서버를 실행합니다.
