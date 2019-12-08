@@ -25,7 +25,8 @@ const calcTime=()=>{
     xhr.send();
 }
 
-setTimeout(calcTime, 0);    //setImmediate는 안 되더라...
+//setImmediate(calcTime);    setImmediate는 안 되더라...
+setTimeout(calcTime, 0);
 setInterval(calcTime, 30000);
 
 
