@@ -59,9 +59,7 @@ const getAdmin=(req, res)=>{
         }            
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
             db.records=results[0]; //db객체의 records변수에 저장.
-            console.log(results[1]);
-            console.log(results[2]);
-
+            
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
             res.end(ejs.render(htmlstream, {goodslist:results[0], attend:results[1], total:results[2]}));  // 조회된 상품정보
         }
