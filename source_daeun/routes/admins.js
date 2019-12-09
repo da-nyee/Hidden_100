@@ -210,4 +210,85 @@ const HandleProfile = (req, res) => {
 router.get('/profile', PrintProfile);
 router.post('/profile', HandleProfile);
 
+/* 관리자탈퇴 */
+const PrintDeletion = (req, res) => {
+    let htmlstream = '';
+
+    htmlstream = fs.readFileSync(__dirname + '/../views/header.ejs','utf8');
+    htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/admin_nav.ejs','utf8');
+    htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/admin_deletion.ejs','utf8');
+    htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/footer.ejs','utf8');
+    
+    res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
+
+    if(req.session.auth){ // true: 로그인 상태, false: 비로그인 상태
+        res.end(ejs.render(htmlstream, {
+            'title':'Hidden 100',
+            'regurl':'/admins/profile',
+            'reglabel':req.session.who,
+            'logurl':'/admins/logout',
+            'loglabel':'로그아웃'
+        }));
+    }
+    else{
+        res.end(ejs.render(htmlstream, {
+            'title':'Hidden 100',
+            'regurl':'/admins/reg',
+            'reglabel':'회원가입',
+            'logurl':'/admins/auth',
+            'loglabel':'로그인'
+        }));
+    }
+};
+
+const HandleDeletion = (req, res) => {
+    let body = req.body;
+    let admin_id, admin_pass;
+    let sql_str;
+    let htmlstream = '';
+
+    console.log(body.id);
+    console.log(body.pass);
+
+    if(body.id == '' || body.pass == ''){
+        console.log("아이디 혹은 비밀번호가 입력되지 않아 관리자탈퇴가 불가합니다!");
+        res.status(562).end('<meta charset="utf-8">아이디 혹은 비밀번호가 입력되지 않아 관리자탈퇴가 불가합니다!');
+    }
+    else{
+        sql_str = "SELECT * from t1_admin where admin_id='"+body.id+"' and admin_pass='"+body.pass+"';";
+        console.log("SQL: " + sql_str);
+
+        db.query(sql_str, (error, results, fields) => {
+            if(error){
+                res.status(562).end("Login fails as there is no id in DB!");
+            }
+            else{
+                db.query("SELECT * from t1_admin where admin_id=?", [body.id], (error, results, fields) => {
+                    if(!error){
+                        db.query("DELETE from t1_admin where admin_id=? and admin_pass=?", [body.id, body.pass], (error, results, fields) => {
+                            if(error){
+                                htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
+                                res.status(562).end(ejs.render(htmlstream, {
+                                    'title':'Hidden 100',
+                                    'warn_title':'관리자탈퇴 오류',
+                                    'warn_message':'관리자탈퇴에 실패하였습니다!',
+                                    'return_url':'/admins/reg'
+                                }));
+                            }
+                            else{
+                                console.log("관리자탈퇴 되었습니다.");
+                                res.redirect('/admins/reg');
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    }
+}
+
+/* REST API의 URI와 handler를 mapping */
+router.get('/deletion', PrintDeletion);
+router.post('/deletion', HandleDeletion);
+
 module.exports = router;
