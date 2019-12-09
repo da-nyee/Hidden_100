@@ -9,6 +9,7 @@ const app = express();
 
 const mainui = require('./routes/mainui');
 const users = require('./routes/users');
+const admins = require('./routes/admins');
 
 const PORT = 65001;
 
@@ -29,6 +30,7 @@ app.use(session({
 /* URI와 handler 매핑 */
 app.use('/', mainui);
 app.use('/users', users);
+app.use('/admins', admins);
 
 /* 쇼핑몰 웹서버 실행 */
 app.listen(PORT, function(){
