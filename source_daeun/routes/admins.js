@@ -159,4 +159,55 @@ const HandleSignout = (req, res) => {
 /* REST API의 URI와 handler를 mapping */
 router.get('/logout', HandleSignout);
 
+/* 정보수정 */
+const PrintProfile = (req, res) => {
+    let htmlstream = '';
+
+    let body = req.body;
+    let user;
+
+    htmlstream = fs.readFileSync(__dirname + '/../views/header.ejs','utf8');
+    htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/admin_nav.ejs','utf8');
+    htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/admin_settings.ejs','utf8');
+    htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/footer.ejs','utf8');
+
+    res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
+    res.end(ejs.render(htmlstream));
+};
+
+const HandleProfile = (req, res) => {
+    let body = req.body;
+    let htmlstream = '';
+
+    if(body.pass1 == '' || body.addr == ''){
+        console.log("데이터 입력이 되지 않아 DB에 저장할 수 없습니다.");
+        res.status(561).end('<meta charset="utf-8">데이터가 입력되지 않아 정보수정을 할 수 없습니다!');
+    }
+    else{
+        db.query("SELECT * from t1_admin where admin_id=?", [body.id], (error, results, fields) => {
+            if(!error){
+                db.query("UPDATE t1_admin SET admin_pass=? where admin_id=?", [body.pass1, body.id], (error, results, fields) => {
+                    if(error){
+                        htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
+                        res.status(562).end(ejs.render(htmlstream, {
+                            'title':'Hidden 100',
+                            'warn_title':'정보수정 오류',
+                            'warn_message':'정보수정에 실패하였습니다!',
+                            'return_url':'/admins/profile'
+                        }));
+                    }
+                    else{
+                        console.log("정보수정이 성공적으로 완료되었습니다!");
+                        res.redirect('/admins/profile');
+                    }
+                });
+            }
+        });
+    }
+};
+
+/* REST API의 URI와 handler를 mapping */
+router.get('/profile', PrintProfile);
+router.post('/profile', HandleProfile);
+
 module.exports = router;
