@@ -40,9 +40,11 @@ const HandleSignup = (req, res) => {
     let body = req.body;
     let htmlstream = '';
 
-    if(body.id == '' || body.pass1 == '' || body.name == '' || body.addr == ''){
-        console.log("데이터 입력이 되지 않아 DB에 저장할 수 없습니다.");
-        res.status(561).end('<meta charset="utf-8">데이터가 입력되지 않아 회원가입을 할 수 없습니다!');
+    let mem_pass1, mem_pass2;
+
+    if(body.pass1 != body.pass2){
+        console.log("비밀번호가 서로 다릅니다. 다시 확인해주세요!");
+        res.send('<script type="text/javascript">alert("비밀번호가 서로 다릅니다. 다시 확인해주세요!"); location.href="/users/reg"; </script>');
     }
     else{
         db.query('INSERT INTO t1_member(mem_name, mem_id, mem_pass, mem_email, mem_phone, mem_bday, mem_addr) VALUES(?,?,?,?,?,?,?)',
@@ -106,49 +108,43 @@ const HandleSignin = (req, res) => {
     console.log(body.id);
     console.log(body.pass);
 
-    if(body.id == '' || body.pass == ''){
-        console.log("아이디 혹은 비밀번호가 입력되지 않아 로그인 할 수 없습니다!");
-        res.status(562).end('<meta charset="utf-8">아이디 혹은 비밀번호가 입력되지 않아 로그인 할 수 없습니다!');
-    }
-    else{
-        sql_str = "SELECT * from t1_member where mem_id='"+body.id+"' and mem_pass='"+body.pass+"';";
-        console.log("SQL: " + sql_str);
+    sql_str = "SELECT * from t1_member where mem_id='"+body.id+"' and mem_pass='"+body.pass+"';";
+    console.log("SQL: " + sql_str);
 
-        db.query(sql_str, (error, results, fields) => {
-            if(error){
-                res.status(562).end("Login fails as there is no id in DB!");
+    db.query(sql_str, (error, results, fields) => {
+        if(error){
+            res.status(562).end("Login fails as there is no id in DB!");
+        }
+        else{
+            if(results.length <= 0){ // select 조회 결과가 없는 경우
+                htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
+                res.status(562).end(ejs.render(htmlstream, {
+                    'title':'Hidden 100',
+                    'warn_title':'로그인 오류',
+                    'warn_message':'등록된 계정이나 비밀번호가 틀립니다.',
+                    'return_url':'/users/profile'
+                }));
             }
-            else{
-                if(results.length <= 0){ // select 조회 결과가 없는 경우
-                    htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
-                    res.status(562).end(ejs.render(htmlstream, {
-                        'title':'Hidden 100',
-                        'warn_title':'로그인 오류',
-                        'warn_message':'등록된 계정이나 비밀번호가 틀립니다.',
-                        'return_url':'/users/profile'
-                    }));
-                }
-                else{ // select 조회 결과가 있는 경우
-                    results.forEach((item, index) => {
-                        mem_id = item.mem_id;
-                        mem_pass = item.mem_pass;
-                        mem_name = item.mem_name;
-                        console.log("DB에서 로그인 성공한 ID/비밀번호: %s/%s", mem_id, mem_pass);
+            else{ // select 조회 결과가 있는 경우
+                results.forEach((item, index) => {
+                    mem_id = item.mem_id;
+                    mem_pass = item.mem_pass;
+                    mem_name = item.mem_name;
+                    console.log("DB에서 로그인 성공한 ID/비밀번호: %s/%s", mem_id, mem_pass);
 
-                        if(body.id == mem_id && body.pass == mem_pass){
-                            req.session.auth = 99; // 임의의 수로 로그인 성공 설정
-                            req.session.who = mem_id;
+                    if(body.id == mem_id && body.pass == mem_pass){
+                        req.session.auth = 99; // 임의의 수로 로그인 성공 설정
+                        req.session.who = mem_id;
 
-                            if(body.id == 'admin'){ // 인증된 사용자가 관리자(admin)인 경우 이를 표시
-                                req.session.admin = true;
-                            }
-                            res.send('<script type="text/javascript">alert("로그인 되었습니다!"); location.href="/"; </script>');
+                        if(body.id == 'admin'){ // 인증된 사용자가 관리자(admin)인 경우 이를 표시
+                            req.session.admin = true;
                         }
-                    });
-                }
+                        res.send('<script type="text/javascript">alert("로그인 되었습니다!"); location.href="/"; </script>');
+                    }
+                });
             }
-        });
-    }
+        }
+    });
 }
 
 /* REST API의 URI와 handler를 mapping */
@@ -312,7 +308,7 @@ const HandleDeletion = (req, res) => {
                             }
                             else{
                                 req.session.destroy();
-                                
+
                                 console.log("회원탈퇴 되었습니다.");
                                 res.send('<script type="text/javascript">alert("회원탈퇴 되었습니다."); location.href="/"; </script>');
                             }

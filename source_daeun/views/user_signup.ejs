@@ -1,17 +1,3 @@
-<script language="javascript">
-    function validate(){
-        let pass1 = document.getElementById("pass1").value;
-        let pass2 = document.getElementById("pass2").value;
-
-        if(pass1 != pass2){
-            alert("비밀번호가 서로 다릅니다. 다시 입력해주세요!");
-            
-            return false;
-        }
-        return true;
-    }
-</script>
-
 <div class="container">
     <div class="row">
         <div class="col-4"></div>
@@ -21,11 +7,11 @@
     </div>
     <br/>
 
-    <form name="signup" onsubmit="return validate()" method=post action="/users/reg">
+    <form name="signup" method=post action="/users/reg">
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-                <input type="text" class="form-control" name="name" placeholder="이름">
+                <input type="text" class="form-control" name="name" placeholder="이름" required>
             </div>
         </div>
         <br/>
@@ -33,7 +19,7 @@
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-                <input type="text" class="form-control" name="id" placeholder="아이디">
+                <input type="text" class="form-control" name="id" placeholder="아이디" required>
             </div>
         </div>
         <br/>
@@ -41,7 +27,7 @@
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-                <input type="password" class="form-control" name="pass1" placeholder="비밀번호">
+                <input type="password" class="form-control" name="pass1" placeholder="비밀번호" required>
             </div>
         </div>
         <br/>
@@ -49,7 +35,7 @@
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-                <input type="password" class="form-control" name="pass2" placeholder="비밀번호 확인">
+                <input type="password" class="form-control" name="pass2" placeholder="비밀번호 확인" required>
             </div>
         </div>
         <br/>
@@ -57,7 +43,7 @@
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-                <input type="text" class="form-control" name="email" placeholder="이메일 ('@' 포함해서 입력해주세요">
+                <input type="text" class="form-control" name="email" placeholder="이메일 ('@' 포함해서 입력해주세요" required>
             </div>
         </div>
         <br/>
@@ -65,7 +51,7 @@
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-                <input type="text" class="form-control" name="phone" placeholder="전화번호 ('-' 없이 숫자만 입력해주세요)">
+                <input type="text" class="form-control" name="phone" placeholder="전화번호 ('-' 없이 숫자만 입력해주세요)" required>
             </div>
         </div>
         <br/>
@@ -73,7 +59,7 @@
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-                <input type="text" class="form-control" name="bday" placeholder="생년월일 (6자리로 입력해주세요 ex. 970418)">
+                <input type="text" class="form-control" name="bday" placeholder="생년월일 (6자리로 입력해주세요 ex. 970418)" required>
             </div>
         </div>
         <br/>
@@ -81,7 +67,7 @@
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-                <input type="text" class="form-control" name="addr" placeholder="주소">
+                <input type="text" class="form-control" name="addr" placeholder="주소" required>
             </div>
         </div>
         <br/><br/>
