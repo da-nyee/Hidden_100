@@ -9,6 +9,7 @@ const   multer = require('multer');
 // 업로드 디렉터리를 설정한다. 실제디렉터리: /home/bmlee/
 // const  upload = multer({dest: __dirname + '/../uploads/products'});
 const  router = express.Router();
+const db=require('./records');
 
 // router.use(bodyParser.urlencoded({ extended: false }));
 const client = mysql.createConnection({
@@ -16,7 +17,8 @@ const client = mysql.createConnection({
 	port: 3306, // DB서버 Port주소
 	user: '2019pprj', // DB접속 아이디
 	password: 'pprj2019', // 암호
-	database: 'db2019' //사용할 DB명
+    database: 'db2019', //사용할 DB명
+    multipleStatements: true
 });
 
 client.connect((error)=>{
@@ -26,6 +28,8 @@ client.connect((error)=>{
     else
         console.log("connect sucess!!!");
 });
+
+const sql2='select goo_id, buyer_id from t1_deal where status=\'active\' order by goo_id;';
 
 //  -----------------------------------  상품리스트 기능 -----------------------------------------
 // (관리자용) 등록된 상품리스트를 브라우져로 출력합니다.
@@ -95,8 +99,8 @@ const getClothes=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'clothes\' ORDER BY regist_day ASC limit 8';
-    client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
+    const sql='SELECT * FROM t1_goods where goo_type=\'clothes\' ORDER BY regist_day ASC limit 8;';
+    client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
 
@@ -113,17 +117,51 @@ const getClothes=(req, res)=>{
 		if(req.session.auth==undefined){req.session.auth=0;}
 		if(req.session.who==undefined){req.session.who='0';}
 
-            res.end(ejs.render(htmlstream, {goodslist:results,
+            res.end(ejs.render(htmlstream, {
 					    auth:req.session.auth ,
 					    mem_id:req.session.who,
-		}));
+		    }));
         }        
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-		if(req.session.auth==undefined){req.session.auth=0;}
-		if(req.session.who==undefined){req.session.who='0';}
+            if(req.session.auth==undefined){req.session.auth=0;}
+		        if(req.session.who==undefined){req.session.who='0';}
 
-            res.end(ejs.render(htmlstream, {goodslist:results,
+            db.records=results[0];
+            let deal={
+                id:0,
+                buyers:[],
+            }
+            let deals=new Array();
+
+            results[1].forEach((data, index)=>{
+                if(deal.buyers.length==0){
+                    deal.id=data.goo_id;
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                if(deal.id!=data.goo_id){
+                    deals.push(Object.assign({}, deal));
+                    deal.id=data.goo_id;
+                    deal.buyers=[];
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                for(let i=0;i<deal.buyers.length;i++){
+                    if(deal.buyers[i]==data.buyer_id){
+                        break;
+                    }
+
+                    if(i==(deal.buyers.length-1)){
+                        deal.buyers.push(data.buyer_id);
+                    }
+                }
+
+                if(index==(results[1].length-1))
+                    deals.push(Object.assign({}, deal));
+            });
+            
+            res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
+            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:deals,
 					    auth:req.session.auth ,
 					    mem_id:req.session.who,
 		}));
@@ -140,8 +178,8 @@ const getDigital=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'digital\' ORDER BY regist_day ASC limit 8';
-    client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
+    const sql='SELECT * FROM t1_goods where goo_type=\'digital\' ORDER BY regist_day ASC limit 8;';
+    client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
 
@@ -154,20 +192,55 @@ const getDigital=(req, res)=>{
             htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/nothing.ejs', 'utf8');  //Body
             htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-		if(req.session.auth==undefined){req.session.auth=0;}
-		if(req.session.who==undefined){req.session.who='0';}
+        
+            if(req.session.auth==undefined){req.session.auth=0;}
+		        if(req.session.who==undefined){req.session.who='0';}
 
-            res.end(ejs.render(htmlstream, {goodslist:results,
+            res.end(ejs.render(htmlstream, {
 					    auth:req.session.auth ,
 					    mem_id:req.session.who,
 		}));
         }
-        else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-		if(req.session.auth==undefined){req.session.auth=0;}
-		if(req.session.who==undefined){req.session.who='0';}
+        else {  // 조회된 상품이 있다면, 상품리스트를 출력 
+		    if(req.session.auth==undefined){req.session.auth=0;}
+		        if(req.session.who==undefined){req.session.who='0';}
 
-            res.end(ejs.render(htmlstream, {goodslist:results,
+            db.records=results[0];
+            let deal={
+                id:0,
+                buyers:[],
+            }
+            let deals=new Array();
+
+            results[1].forEach((data, index)=>{
+                if(deal.buyers.length==0){
+                    deal.id=data.goo_id;
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                if(deal.id!=data.goo_id){
+                    deals.push(Object.assign({}, deal));
+                    deal.id=data.goo_id;
+                    deal.buyers=[];
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                for(let i=0;i<deal.buyers.length;i++){
+                    if(deal.buyers[i]==data.buyer_id){
+                        break;
+                    }
+
+                    if(i==(deal.buyers.length-1)){
+                        deal.buyers.push(data.buyer_id);
+                    }
+                }
+
+                if(index==(results[1].length-1))
+                    deals.push(Object.assign({}, deal));
+            });    
+
+            res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
+            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:deals,
 					    auth:req.session.auth ,
 					    mem_id:req.session.who,
 		}));
@@ -184,8 +257,8 @@ const getMakeup=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'makeup\' ORDER BY regist_day ASC limit 8';
-    client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
+    const sql='SELECT * FROM t1_goods where goo_type=\'makeup\' ORDER BY regist_day ASC limit 8;';
+    client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
 
@@ -198,17 +271,51 @@ const getMakeup=(req, res)=>{
             htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/nothing.ejs', 'utf8');  //Body
             htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-            res.end(ejs.render(htmlstream, {goodslist:results,
+            res.end(ejs.render(htmlstream, {
 					    auth:req.session.auth ,
 					    mem_id:req.session.who,
 		}));
         }
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-		if(req.session.auth==undefined){req.session.auth=0;}
-		if(req.session.who==undefined){req.session.who='0';}
+            if(req.session.auth==undefined){req.session.auth=0;}
+		        if(req.session.who==undefined){req.session.who='0';}
+            
+            db.records=results[0];
+            let deal={
+                id:0,
+                buyers:[],
+            }
+            let deals=new Array();
 
-            res.end(ejs.render(htmlstream, {goodslist:results,
+            results[1].forEach((data, index)=>{
+                if(deal.buyers.length==0){
+                    deal.id=data.goo_id;
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                if(deal.id!=data.goo_id){
+                    deals.push(Object.assign({}, deal));
+                    deal.id=data.goo_id;
+                    deal.buyers=[];
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                for(let i=0;i<deal.buyers.length;i++){
+                    if(deal.buyers[i]==data.buyer_id){
+                        break;
+                    }
+
+                    if(i==(deal.buyers.length-1)){
+                        deal.buyers.push(data.buyer_id);
+                    }
+                }
+
+                if(index==(results[1].length-1))
+                    deals.push(Object.assign({}, deal));
+            });
+
+            res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
+            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:deals,
 					    auth:req.session.auth ,
 					    mem_id:req.session.who,
 		}));
@@ -225,8 +332,8 @@ const getFurniture=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'furniture\' ORDER BY regist_day ASC limit 8';
-    client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
+    const sql='SELECT * FROM t1_goods where goo_type=\'furniture\' ORDER BY regist_day ASC limit 8;';
+    client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
 
@@ -239,17 +346,51 @@ const getFurniture=(req, res)=>{
             htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/nothing.ejs', 'utf8');  //Body
             htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-            res.end(ejs.render(htmlstream, {goodslist:results,
+            res.end(ejs.render(htmlstream, {
 					    auth:req.session.auth ,
 					    mem_id:req.session.who,
 		}));
         }            
-        else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-		if(req.session.auth==undefined){req.session.auth=0;}
-		if(req.session.who==undefined){req.session.who='0';}
+        else {  // 조회된 상품이 있다면, 상품리스트를 출력    
+		    if(req.session.auth==undefined){req.session.auth=0;}
+		        if(req.session.who==undefined){req.session.who='0';}
+            
+            db.records=results[0];
+            let deal={
+                id:0,
+                buyers:[],
+            }
+            let deals=new Array();
 
-            res.end(ejs.render(htmlstream, {goodslist:results,
+            results[1].forEach((data, index)=>{
+                if(deal.buyers.length==0){
+                    deal.id=data.goo_id;
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                if(deal.id!=data.goo_id){
+                    deals.push(Object.assign({}, deal));
+                    deal.id=data.goo_id;
+                    deal.buyers=[];
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                for(let i=0;i<deal.buyers.length;i++){
+                    if(deal.buyers[i]==data.buyer_id){
+                        break;
+                    }
+
+                    if(i==(deal.buyers.length-1)){
+                        deal.buyers.push(data.buyer_id);
+                    }
+                }
+
+                if(index==(results[1].length-1))
+                    deals.push(Object.assign({}, deal));
+            });
+
+            res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
+            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:deals,
 					    auth:req.session.auth ,
 					    mem_id:req.session.who,
 		}));
@@ -258,5 +399,27 @@ const getFurniture=(req, res)=>{
 }
 
 router.get('/furniture', getFurniture);
+
+const calcTime=(req, res)=>{
+    const leftTime=new Array();
+    const currentTime=new Date();   //UTC현재 시간
+    
+    //*UTC시간을 그냥 문자열로 바꾸면 KST시간으로 자동으로 바뀐다. 주의가 필요!!!
+    db.records.forEach((item)=>{
+        let endTime=new Date(item.time_year, item.time_month-1, item.time_day,
+            item.time_hour, item.time_minute); //UTC끝나는 시간-1일
+
+        //console.log(new Date(endTime-currentTime).toUTCString());   //UTC시간으로 문자열 변환
+        const temp=new Date(endTime-currentTime).toUTCString().split(' ');
+
+        leftTime.push(item.goo_id+':'+temp[1]+':'+temp[4].substring(0, 5));
+    });
+    
+    //console.log('left : ', leftTime);
+    //console.log('toJson : ', JSON.stringify(leftTime));
+    res.end(JSON.stringify(leftTime));
+}
+
+router.get('/calcTime', calcTime);
 
 module.exports = router;

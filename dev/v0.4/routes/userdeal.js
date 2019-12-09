@@ -13,7 +13,8 @@ const client = mysql.createConnection({
 	port: 3306, // DB서버 Port주소
 	user: '2019pprj', // DB접속 아이디
 	password: 'pprj2019', // 암호
-	database: 'db2019' //사용할 DB명
+   database: 'db2019', //사용할 DB명
+   multipleStatements: true
 });
 
 client.connect((error)=>{
@@ -31,8 +32,10 @@ const getApply=(req, res)=>{
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/user_nav.ejs', 'utf8'); //user_nav
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/applylist.ejs', 'utf8');  //Body
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
-   const sql='SELECT * FROM t1_deal, t1_goods where t1_deal.buyer_id=\''+req.session.who+'\'  and t1_deal.goo_id=t1_goods.goo_id ORDER BY invest_day ASC limit 8'; 
-     client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
+   //const sql='SELECT * FROM t1_deal, t1_goods where t1_deal.buyer_id=\''+req.session.who+'\'  and t1_deal.goo_id=t1_goods.goo_id ORDER BY invest_day ASC limit 8'; 
+   const sql='select goo_id, goo_name, goal_price, buyer_id, status, sum(invest_coin)total from t1_deal where buyer_id=\''+req.session.who+'\' group by goo_id order by invest_day desc;'; //로그인 기능이 완성 되면 buyer_id값 수정
+   const sql2='select t1_deal.*, t1_goods.time_year, t1_goods.time_month, t1_goods.time_day, t1_goods.time_hour, t1_goods.time_minute from t1_deal inner join t1_goods on t1_deal.goo_id=t1_goods.goo_id where buyer_id=\''+req.session.who+'\' ORDER BY invest_day deSC;'
+   client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행
       if (error)
          res.status(562).end("DB query is failed");
 
@@ -53,23 +56,21 @@ const getApply=(req, res)=>{
      }
       else {  // 조회된 상품이 있다면, 상품리스트를 출력
          res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-         res.end(ejs.render(htmlstream, {applylist:results,
+         res.end(ejs.render(htmlstream, {applylist:results[0],
 					 auth:req.session.auth ,
 					 mem_id:req.session.who,
-					}));  // 조회된 상품정보
+			}));  // 조회된 상품정보
       }
    });
 	}else{
-	           htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
-                    res.status(562).end(ejs.render(htmlstream, {
-                        'title':'Hidden 100',
-                        'warn_title':'로그인 오류',
-                        'warn_message':'로그인이 필요한 서비스입니다.',
-                        'return_url':'/users/auth'
-                    }));
-
+	   htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
+      res.status(562).end(ejs.render(htmlstream, {
+         'title':'Hidden 100',
+         'warn_title':'로그인 오류',
+         'warn_message':'로그인이 필요한 서비스입니다.',
+         'return_url':'/users/auth'
+      }));
 	}
-
 }
 
 router.get('/applylist', getApply);

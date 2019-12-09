@@ -84,15 +84,12 @@ const PrintSignin = (req, res) => {
  
 	     auth:0 ,
 	     mem_id:0
-
         }));
     }
     else{
         res.end(ejs.render(htmlstream, {
- 
-	     auth:0 ,
-             mem_id:0
-
+	        auth:0 ,
+            mem_id:0
         }));
     }
 };
