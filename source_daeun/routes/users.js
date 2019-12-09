@@ -26,7 +26,14 @@ const PrintSignup = (req, res) => {
     htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/footer.ejs','utf8');
 
     res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-    res.end(ejs.render(htmlstream));
+   if(req.session.auth==undefined){req.session.auth=0;}
+   if(req.session.who==undefined){req.session.who='0';}
+
+    res.end(ejs.render(htmlstream, {
+   auth:req.session.auth ,
+   mem_id:req.session.who,
+    }));
+
 };
 
 const HandleSignup = (req, res) => {
@@ -38,8 +45,8 @@ const HandleSignup = (req, res) => {
         res.status(561).end('<meta charset="utf-8">데이터가 입력되지 않아 회원가입을 할 수 없습니다!');
     }
     else{
-        db.query('INSERT INTO t1_member(mem_id, mem_pass, mem_name, mem_phone, mem_addr) VALUES(?,?,?,?,?)',
-        [body.id, body.pass1, body.name, body.phone, body.addr], (error, results, fields) => {
+        db.query('INSERT INTO t1_member(mem_name, mem_id, mem_pass, mem_email, mem_phone, mem_bday, mem_addr) VALUES(?,?,?,?,?,?,?)',
+        [body.name, body.id, body.pass1, body.email, body.phone, body.bday, body.addr], (error, results, fields) => {
             if(error){
                 htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
                 res.status(562).end(ejs.render(htmlstream, {
@@ -51,7 +58,7 @@ const HandleSignup = (req, res) => {
             }
             else{
                 console.log("회원가입에 성공하셨습니다! 신규회원으로 등록되었습니다.");
-                res.redirect('/users/auth');
+                res.send('<script type="text/javascript">alert("회원가입에 성공하셨습니다! 신규회원으로 등록되었습니다."); location.href="/users/auth"; </script>');
             }
         });
     }
@@ -74,20 +81,18 @@ const PrintSignin = (req, res) => {
 
     if(req.session.auth){ // true: 로그인 상태, false: 비로그인 상태
         res.end(ejs.render(htmlstream, {
-            'title':'Hidden 100',
-            'regurl':'/users/profile',
-            'reglabel':req.session.who,
-            'logurl':'/users/logout',
-            'loglabel':'로그아웃'
+ 
+        auth:0 ,
+        mem_id:0
+
         }));
     }
     else{
         res.end(ejs.render(htmlstream, {
-            'title':'Hidden 100',
-            'regurl':'/users/reg',
-            'reglabel':'회원가입',
-            'logurl':'/users/auth',
-            'loglabel':'로그인'
+ 
+        auth:0 ,
+             mem_id:0
+
         }));
     }
 };
@@ -106,7 +111,7 @@ const HandleSignin = (req, res) => {
         res.status(562).end('<meta charset="utf-8">아이디 혹은 비밀번호가 입력되지 않아 로그인 할 수 없습니다!');
     }
     else{
-        sql_str = "SELECT mem_id, mem_pass, mem_name from t1_member where mem_id='"+body.id+"' and mem_pass='"+body.pass+"';";
+        sql_str = "SELECT * from t1_member where mem_id='"+body.id+"' and mem_pass='"+body.pass+"';";
         console.log("SQL: " + sql_str);
 
         db.query(sql_str, (error, results, fields) => {
@@ -132,12 +137,12 @@ const HandleSignin = (req, res) => {
 
                         if(body.id == mem_id && body.pass == mem_pass){
                             req.session.auth = 99; // 임의의 수로 로그인 성공 설정
-                            req.session.who = mem_name;
+                            req.session.who = mem_id;
 
                             if(body.id == 'admin'){ // 인증된 사용자가 관리자(admin)인 경우 이를 표시
                                 req.session.admin = true;
                             }
-                            res.redirect('/users/profile');
+                            res.send('<script type="text/javascript">alert("로그인 되었습니다!"); location.href="/"; </script>');
                         }
                     });
                 }
@@ -161,6 +166,7 @@ router.get('/logout', HandleSignout);
 
 /* 정보수정 */
 const PrintProfile = (req, res) => {
+   if(req.session.auth==99){
     let htmlstream = '';
 
     let body = req.body;
@@ -172,7 +178,25 @@ const PrintProfile = (req, res) => {
     htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/footer.ejs','utf8');
 
     res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-    res.end(ejs.render(htmlstream));
+      if(req.session.auth==undefined){req.session.auth=0;}
+      if(req.session.who==undefined){req.session.who='0';}
+
+            res.end(ejs.render(htmlstream, {
+                   auth:req.session.auth ,
+                   mem_id:req.session.who,
+      }));
+   }else{
+              htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
+                    res.status(562).end(ejs.render(htmlstream, {
+                        'title':'Hidden 100',
+                        'warn_title':'로그인 오류',
+                        'warn_message':'로그인이 필요한 서비스입니다.',
+                        'return_url':'/users/auth'
+                    }));
+
+   }
+
+
 };
 
 const HandleProfile = (req, res) => {
@@ -186,7 +210,7 @@ const HandleProfile = (req, res) => {
     else{
         db.query("SELECT * from t1_member where mem_id=?", [body.id], (error, results, fields) => {
             if(!error){
-                db.query("UPDATE t1_member SET mem_pass=?, mem_phone=?, mem_addr=? where mem_id=?", [body.pass1, body.phone, body.addr, body.id], (error, results, fields) => {
+                db.query("UPDATE t1_member SET mem_pass=?, mem_email=?, mem_phone=?, mem_addr=? where mem_id=?", [body.pass1, body.email, body.phone, body.addr, body.id], (error, results, fields) => {
                     if(error){
                         htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
                         res.status(562).end(ejs.render(htmlstream, {
@@ -198,7 +222,7 @@ const HandleProfile = (req, res) => {
                     }
                     else{
                         console.log("정보수정이 성공적으로 완료되었습니다!");
-                        res.redirect('/users/profile');
+                        res.send('<script type="text/javascript">alert("정보수정이 성공적으로 완료되었습니다!"); location.href="/users/profile"; </script>');
                     }
                 });
             }
@@ -212,6 +236,8 @@ router.post('/profile', HandleProfile);
 
 /* 회원탈퇴 */
 const PrintDeletion = (req, res) => {
+   if(req.session.auth==99){
+
     let htmlstream = '';
 
     htmlstream = fs.readFileSync(__dirname + '/../views/header.ejs','utf8');
@@ -223,22 +249,31 @@ const PrintDeletion = (req, res) => {
 
     if(req.session.auth){ // true: 로그인 상태, false: 비로그인 상태
         res.end(ejs.render(htmlstream, {
-            'title':'Hidden 100',
-            'regurl':'/users/profile',
-            'reglabel':req.session.who,
-            'logurl':'/users/logout',
-            'loglabel':'로그아웃'
+ 
+       auth:req.session.auth ,
+       mem_id:req.session.who,
+
         }));
     }
     else{
         res.end(ejs.render(htmlstream, {
-            'title':'Hidden 100',
-            'regurl':'/users/reg',
-            'reglabel':'회원가입',
-            'logurl':'/users/auth',
-            'loglabel':'로그인'
+ 
+       auth:req.session.auth ,
+       mem_id:req.session.who,
+
         }));
     }
+   }else{
+              htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
+                    res.status(562).end(ejs.render(htmlstream, {
+                        'title':'Hidden 100',
+                        'warn_title':'로그인 오류',
+                        'warn_message':'로그인이 필요한 서비스입니다.',
+                        'return_url':'/users/auth'
+                    }));
+
+   }
+
 };
 
 const HandleDeletion = (req, res) => {
@@ -276,8 +311,10 @@ const HandleDeletion = (req, res) => {
                                 }));
                             }
                             else{
+                                req.session.destroy();
+                                
                                 console.log("회원탈퇴 되었습니다.");
-                                res.redirect('/users/reg');
+                                res.send('<script type="text/javascript">alert("회원탈퇴 되었습니다."); location.href="/"; </script>');
                             }
                         });
                     }
