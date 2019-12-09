@@ -5,7 +5,6 @@ const   express = require('express');
 const   app = express();
 const   createError = require('http-errors');
 const   path = require('path');
-
 // 쇼핑몰 개발소스 모듈
  
 const mygoods = require('./routes/mygoods');
@@ -16,7 +15,7 @@ const mainui = require('./routes/main');
 const admin = require('./routes/admin');
 
 // 쇼핑몰전용 PORT주소 설정
-const   PORT = 65001;
+const   PORT = 65002;
 
 // 실행환경 설정부분
 app.set('views', path.join(__dirname, 'views'));  // views경로 설정

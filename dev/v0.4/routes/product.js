@@ -332,7 +332,7 @@ const getFurniture=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'furniture\' ORDER BY regist_day ASC limit 8;';
+    const sql='SELECT * FROM t1_goods where goo_type=\'furniture\' ORDER BY regist_day deSC limit 8;';
     client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");

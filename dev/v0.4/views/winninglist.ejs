@@ -5,19 +5,20 @@
 <% winninglist.forEach(function(item, i){ %>
     <div class="main-add" style="background: #FFFFFF; margin:20px; padding:10px;">
         <div class="row" style="height:275px">
-                <div class="col-2 product">
- 					<%img='/img/goods/'+item.goo_img%>
-					<img src=<%=img%> style="max-width:90%; max-height:200px">
-                </div>
-                <div class="col product text-left">
-                    <p>상품명 : <%=item.goo_name%></p>
-                    <p>목표가격 : <%=item.goal_price%> 원</p>
-		<%if(item.shipment==null){%>
-		<p>판매자가 아직 배송 정보를 입력하지 않았습니다.</p>
-		<%}else{%>
-		<p><%=item.shipment%></p>
-		<%}%>
-                </div>
+            <div class="col-2 product">
+ 				<%img='/img/goods/'+item.goo_img%>
+				<img src=<%=img%> style="max-width:90%; max-height:200px">
+            </div>
+            <div class="col product text-left">
+                <p>상품명 : <%=item.goo_name%></p>
+                <p>목표금액 : <%=item.goal_price%>원</p>
+                <p>응모액 : <%=item.invest_coin%>원</p>
+		        <%if(item.shipment==null){%>
+	                <p>판매자가 아직 배송 정보를 입력하지 않았습니다.</p>
+		        <%}else{%>
+	                <p><%=item.shipment%></p>
+		        <%}%>
+            </div>
         </div>
     </div>
 <%})%>

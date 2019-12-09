@@ -52,7 +52,6 @@ const getApply=(req, res)=>{
          res.end(ejs.render(htmlstream));
       }
       else {  // 조회된 상품이 있다면, 상품리스트를 출력
-         console.log(results[1]);
          db.records=results[1];
          
          res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});

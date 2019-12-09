@@ -9,6 +9,7 @@ const   multer = require('multer');
 // 업로드 디렉터리를 설정한다. 실제디렉터리: /home/bmlee/
 // const  upload = multer({dest: __dirname + '/../uploads/products'});
 const router = express.Router();
+const db=require('./records');
 // router.use(bodyParser.urlencoded({ extended: false }));
 const client = mysql.createConnection({
 	host: 'localhost', // DB서버 IP주소
@@ -55,7 +56,8 @@ const getAdmin=(req, res)=>{
             res.end(ejs.render(htmlstream));
         }            
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-                let deal={
+            db.records=results[0];
+            let deal={
                 id:0,
                 buyers:[],
             }

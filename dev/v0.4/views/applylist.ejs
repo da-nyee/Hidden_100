@@ -7,20 +7,21 @@
 <% applylist.forEach(function(item, i){%>
     <div class="main-add" style="background: #FFFFFF; margin:20px; padding:10px;">
         <div class="row">
-                <div class="col-2 product">
-                    <img src="/images/product/1.jpg" style="width:100%">
-                </div>
-                <div class="col-3 product text-left">
-                    <p>상품명 : <%=item.goo_name%></p>
-                    <p>목표금액 : <%=item.goal_price%>원</p>
-                    <p>응모액 : <%=item.total%>원</p>
-                    <p id=<%=item.goo_id%>></p>
-                    <%if(item.status=='active'){%>
-                        <p>진행중입니다.</p>
-                    <%} else if(item.status=='win'){%>
-                        <p>당첨되셨습니다.</p>
-                    <%}%>
-                </div>
+            <div style="height:300px; text-align: center;">
+				<%img='/img/goods/'+item.goo_img%>
+			    <img src=<%=img%> style="max-width:90%; max-height:100% ">
+			</div>
+            <div class="col-3 product text-left">
+                <p>상품명 : <%=item.goo_name%></p>
+                <p>목표금액 : <%=item.goal_price%>원</p>
+                <p>응모액 : <%=item.total%>원</p>
+                <p id=<%=item.goo_id%>></p>
+                <%if(item.status=='active'){%>
+                    <p>진행중입니다.</p>
+                <%} else if(item.status=='win'){%>
+                    <p>당첨되셨습니다.</p>
+                <%}%>
+            </div>
         </div>
     </div>
 <%})%>
