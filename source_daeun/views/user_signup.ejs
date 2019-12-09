@@ -1,4 +1,4 @@
-<!-- 주소(우편번호) API -->
+<!-- 주소(우편번호) 검색 API -->
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
 <div class="container">
@@ -46,7 +46,7 @@
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-                <input type="text" class="form-control" name="email" placeholder="이메일 ('@' 포함해서 입력해주세요" required>
+                <input type="email" class="form-control" name="email" placeholder="이메일 ('@' 포함해서 입력해주세요)" required>
             </div>
         </div>
         <br/>
@@ -97,6 +97,7 @@
     </form>
 </div>
 
+<!-- 주소(우편번호) 검색 API-->
 <script>
     function execPostCode() {
          new daum.Postcode({
