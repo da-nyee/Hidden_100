@@ -30,10 +30,9 @@ const PrintSignup = (req, res) => {
    if(req.session.who==undefined){req.session.who='0';}
 
     res.end(ejs.render(htmlstream, {
-   auth:req.session.auth ,
-   mem_id:req.session.who,
+    auth:req.session.auth ,
+    mem_id:req.session.who,
     }));
-
 };
 
 const HandleSignup = (req, res) => {
@@ -47,8 +46,11 @@ const HandleSignup = (req, res) => {
         res.send('<script type="text/javascript">alert("비밀번호가 서로 다릅니다. 다시 확인해주세요!"); location.href="/users/reg"; </script>');
     }
     else{
+        var temp = body.addr1+body.addr2+body.addr3;
+        temp.replace("undefined","");
+
         db.query('INSERT INTO t1_member(mem_name, mem_id, mem_pass, mem_email, mem_phone, mem_bday, mem_addr) VALUES(?,?,?,?,?,?,?)',
-        [body.name, body.id, body.pass1, body.email, body.phone, body.bday, body.addr], (error, results, fields) => {
+        [body.name, body.id, body.pass1, body.email, body.phone, body.bday, temp], (error, results, fields) => {
             if(error){
                 htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
                 res.status(562).end(ejs.render(htmlstream, {
