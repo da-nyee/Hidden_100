@@ -38,8 +38,8 @@ const HandleSignup = (req, res) => {
         res.status(561).end('<meta charset="utf-8">데이터가 입력되지 않아 회원가입을 할 수 없습니다!');
     }
     else{
-        db.query('INSERT INTO t1_member(mem_id, mem_pass, mem_name, mem_addr) VALUES(?,?,?,?)',
-        [body.id, body.pass1, body.name, body.addr], (error, results, fields) => {
+        db.query('INSERT INTO t1_member(mem_id, mem_pass, mem_name, mem_phone, mem_addr) VALUES(?,?,?,?,?)',
+        [body.id, body.pass1, body.name, body.phone, body.addr], (error, results, fields) => {
             if(error){
                 htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
                 res.status(562).end(ejs.render(htmlstream, {
@@ -186,7 +186,7 @@ const HandleProfile = (req, res) => {
     else{
         db.query("SELECT * from t1_member where mem_id=?", [body.id], (error, results, fields) => {
             if(!error){
-                db.query("UPDATE t1_member SET mem_pass=?, mem_addr=? where mem_id=?", [body.pass1, body.addr, body.id], (error, results, fields) => {
+                db.query("UPDATE t1_member SET mem_pass=?, mem_phone=?, mem_addr=? where mem_id=?", [body.pass1, body.phone, body.addr, body.id], (error, results, fields) => {
                     if(error){
                         htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
                         res.status(562).end(ejs.render(htmlstream, {
