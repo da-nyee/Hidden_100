@@ -150,4 +150,13 @@ const HandleSignin = (req, res) => {
 router.get('/auth', PrintSignin);
 router.post('/auth', HandleSignin);
 
+/* 로그아웃 */
+const HandleSignout = (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+}
+
+/* REST API의 URI와 handler를 mapping */
+router.get('/logout', HandleSignout);
+
 module.exports = router;
