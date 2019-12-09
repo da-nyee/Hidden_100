@@ -1,35 +1,35 @@
 <div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h1>회원탈퇴</h1>
+        </div>
+    </div>
+    <br/>
+
+    <form name="deletion" method=post action="/users/deletion">
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-                <h1>회원탈퇴</h1>
+                <input type="text" class="form-control" name="id" placeholder="아이디" required>
             </div>
         </div>
         <br/>
-    
-        <form name="deletion" method=post action="/users/deletion">
-            <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <input type="text" class="form-control" name="id" placeholder="아이디">
-                </div>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <input type="password" class="form-control" name="pass" placeholder="비밀번호" required>
             </div>
-            <br/>
-    
-            <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <input type="password" class="form-control" name="pass" placeholder="비밀번호">
-                </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <button type="submit" class="btn">탈퇴하기</button>
             </div>
-            <br/>
-    
-            <div class="row">
-                <div class="col-4"></div>
-                <div class="col-4">
-                    <button type="submit" class="btn">탈퇴하기</button>
-                </div>
-            </div>
-        </form>
-    </div>
-    <br/><br/><br/><br/>
+        </div>
+    </form>
+</div>
+<br/><br/><br/><br/>
