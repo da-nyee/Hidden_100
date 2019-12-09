@@ -1,0 +1,18 @@
+<h1 style="margin:20px;" class="display-3">거래내역</h1>
+
+<h3 style="margin:20px;" class="display-4 text-muted">응모내역</h3>
+
+<% applylist.forEach(function(item, i){ %>
+    <div class="main-add" style="background: #FFFFFF; margin:20px; padding:10px;">
+        <div class="row" style="height:275px">
+                <div class="col-2 product">
+ 					<%img='/img/goods/'+item.goo_img%>
+					<img src=<%=img%> style="max-width:90%; max-height:200px">
+                </div>
+                <div class="col product text-left">
+                    <p>상품명 : <%=item.goo_name%></p>
+                    <p>목표가격 : <%=item.goal_price%> 원</p>
+                </div>
+        </div>
+    </div>
+<%})%>

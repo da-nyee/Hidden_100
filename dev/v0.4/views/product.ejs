@@ -1,0 +1,54 @@
+<%
+	const calcTime=(results)=>{
+    	const leftTime=new Array();
+    	const currentTime=new Date();   //UTC현재 시간
+
+    	//*UTC시간을 그냥 문자열로 바꾸면 KST시간으로 자동으로 바뀐다. 주의가 필요!!!
+    	results.forEach((item)=>{
+        	let endTime=new Date(item.time_year, item.time_month-1, item.time_day-1,
+            	item.time_hour, item.time_minute); //UTC끝나는 시간-1일
+    
+        	//console.log(new Date(endTime-currentTime).toUTCString());   //UTC시간으로 문자열 변환
+			const temp=new Date(endTime-currentTime).toUTCString().split(' ');
+
+			leftTime.push(temp[1]+':'+temp[4].substring(0, 5));
+    	});
+		
+		//console.log('left : ', leftTime);
+		return leftTime;
+	}
+
+	let leftTime=calcTime(goodslist);
+%>
+
+<div class="main-add" style="background: #FFFFFF;">
+	<div class="row" style="padding: 2%; margin: 0px "> 
+		<div class="col-3">
+			<img src="/img/today_product.png" style="width:100%; height: auto;">
+		</div>
+		<div class="col-1"> 
+		</div>
+	</div>
+</div>
+
+<%# 상품 페이지 1행 main_good1의 데이터 사용%>
+<div class="row" style="padding: 2%; margin: 0px ">
+	<% goodslist.forEach(function(item, i){ %>
+		<div class="col-3 product">
+ 			<div style="height:300px; text-align: center;">
+ 			<%img='/img/goods/'+item.goo_img%>
+			<img src=<%=img%> style="max-width:90%; max-height:100% "></div>
+			<p><%=item.goo_name%></p>
+			<p><%=item.goal_price%> 원</p>
+			<p id=time style="font-size:15px"><%=leftTime[i].split(':')[0]%>일 <%=leftTime[i].split(':')[1]%>시간 <%=leftTime[i].split(':')[2]%>분 남음</p>
+			<div style="text-align:center;">
+				<button type="button" class="btn">응모하기</button>
+			</div>
+		</div>
+ 	<%})%>
+</div>
+
+
+
+
+	
