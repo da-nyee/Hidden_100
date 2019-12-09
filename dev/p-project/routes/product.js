@@ -17,7 +17,8 @@ const client = mysql.createConnection({
 	port: 3306, // DB서버 Port주소
 	user: '2019pprj', // DB접속 아이디
 	password: 'pprj2019', // 암호
-	database: 'db2019' //사용할 DB명
+    database: 'db2019', //사용할 DB명
+    multipleStatements: true
 });
 
 client.connect((error)=>{
@@ -28,6 +29,8 @@ client.connect((error)=>{
         console.log("connect sucess!!!");
 });
 
+const sql2='select goo_id, buyer_id from t1_deal where status=\'active\' order by goo_id;';
+
 const getClothes=(req, res)=>{
     let htmlstream='';
     htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
@@ -35,8 +38,8 @@ const getClothes=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'clothes\' and status=\'active\' ORDER BY regist_day DESC limit 8';
-    client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
+    const sql='SELECT * FROM t1_goods where goo_type=\'clothes\' and status=\'active\' ORDER BY regist_day DESC limit 8;';
+    client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
 
@@ -53,9 +56,42 @@ const getClothes=(req, res)=>{
             res.end(ejs.render(htmlstream));
         }        
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            db.records=results;
+            db.records=results[0];
+            let deal={
+                id:0,
+                buyers:[],
+            }
+            let deals=new Array();
+
+            results[1].forEach((data, index)=>{
+                if(deal.buyers.length==0){
+                    deal.id=data.goo_id;
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                if(deal.id!=data.goo_id){
+                    deals.push(Object.assign({}, deal));
+                    deal.id=data.goo_id;
+                    deal.buyers=[];
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                for(let i=0;i<deal.buyers.length;i++){
+                    if(deal.buyers[i]==data.buyer_id){
+                        break;
+                    }
+
+                    if(i==(deal.buyers.length-1)){
+                        deal.buyers.push(data.buyer_id);
+                    }
+                }
+
+                if(index==(results[1].length-1))
+                    deals.push(Object.assign({}, deal));
+            });
+
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-            res.end(ejs.render(htmlstream, {goodslist:results}));  // 조회된 상품정보
+            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:deals}));  // 조회된 상품정보
         }
     });
 }
@@ -69,8 +105,8 @@ const getDigital=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'digital\' and status=\'active\' ORDER BY regist_day DESC limit 8';
-    client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
+    const sql='SELECT * FROM t1_goods where goo_type=\'digital\' and status=\'active\' ORDER BY regist_day DESC limit 8;';
+    client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
 
@@ -87,9 +123,42 @@ const getDigital=(req, res)=>{
             res.end(ejs.render(htmlstream));
         }
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            db.records=results;
+            db.records=results[0];
+            let deal={
+                id:0,
+                buyers:[],
+            }
+            let deals=new Array();
+
+            results[1].forEach((data, index)=>{
+                if(deal.buyers.length==0){
+                    deal.id=data.goo_id;
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                if(deal.id!=data.goo_id){
+                    deals.push(Object.assign({}, deal));
+                    deal.id=data.goo_id;
+                    deal.buyers=[];
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                for(let i=0;i<deal.buyers.length;i++){
+                    if(deal.buyers[i]==data.buyer_id){
+                        break;
+                    }
+
+                    if(i==(deal.buyers.length-1)){
+                        deal.buyers.push(data.buyer_id);
+                    }
+                }
+
+                if(index==(results[1].length-1))
+                    deals.push(Object.assign({}, deal));
+            });
+
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-            res.end(ejs.render(htmlstream, {goodslist:results}));  // 조회된 상품정보
+            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:deals}));  // 조회된 상품정보
         }
     });
 }
@@ -103,8 +172,8 @@ const getMakeup=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'makeup\' and status=\'active\' ORDER BY regist_day DESC limit 8';
-    client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
+    const sql='SELECT * FROM t1_goods where goo_type=\'makeup\' and status=\'active\' ORDER BY regist_day DESC limit 8;';
+    client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
 
@@ -121,9 +190,42 @@ const getMakeup=(req, res)=>{
             res.end(ejs.render(htmlstream));
         }
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            db.records=results;
+            db.records=results[0];
+            let deal={
+                id:0,
+                buyers:[],
+            }
+            let deals=new Array();
+
+            results[1].forEach((data, index)=>{
+                if(deal.buyers.length==0){
+                    deal.id=data.goo_id;
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                if(deal.id!=data.goo_id){
+                    deals.push(Object.assign({}, deal));
+                    deal.id=data.goo_id;
+                    deal.buyers=[];
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                for(let i=0;i<deal.buyers.length;i++){
+                    if(deal.buyers[i]==data.buyer_id){
+                        break;
+                    }
+
+                    if(i==(deal.buyers.length-1)){
+                        deal.buyers.push(data.buyer_id);
+                    }
+                }
+
+                if(index==(results[1].length-1))
+                    deals.push(Object.assign({}, deal));
+            });
+
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-            res.end(ejs.render(htmlstream, {goodslist:results}));  // 조회된 상품정보
+            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:deals}));  // 조회된 상품정보
         }
     });
 }
@@ -137,8 +239,8 @@ const getFurniture=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where goo_type=\'furniture\' and status=\'active\' ORDER BY regist_day DESC limit 8';
-    client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
+    const sql='SELECT * FROM t1_goods where goo_type=\'furniture\' and status=\'active\' ORDER BY regist_day DESC limit 8;';
+    client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행
         if (error)
             res.status(562).end("DB query is failed");
 
@@ -155,10 +257,42 @@ const getFurniture=(req, res)=>{
             res.end(ejs.render(htmlstream));
         }            
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            db.records=results;
-            //console.log('records : ', records);
+            db.records=results[0];
+            let deal={
+                id:0,
+                buyers:[],
+            }
+            let deals=new Array();
+
+            results[1].forEach((data, index)=>{
+                if(deal.buyers.length==0){
+                    deal.id=data.goo_id;
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                if(deal.id!=data.goo_id){
+                    deals.push(Object.assign({}, deal));
+                    deal.id=data.goo_id;
+                    deal.buyers=[];
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                for(let i=0;i<deal.buyers.length;i++){
+                    if(deal.buyers[i]==data.buyer_id){
+                        break;
+                    }
+
+                    if(i==(deal.buyers.length-1)){
+                        deal.buyers.push(data.buyer_id);
+                    }
+                }
+
+                if(index==(results[1].length-1))
+                    deals.push(Object.assign({}, deal));
+            });
+
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-            res.end(ejs.render(htmlstream, {goodslist:results}));  // 조회된 상품정보
+            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:deals}));  // 조회된 상품정보
         }
     });
 }
@@ -168,7 +302,7 @@ router.get('/furniture', getFurniture);
 const calcTime=(req, res)=>{
     const leftTime=new Array();
     const currentTime=new Date();   //UTC현재 시간
-
+    
     //*UTC시간을 그냥 문자열로 바꾸면 KST시간으로 자동으로 바뀐다. 주의가 필요!!!
     db.records.forEach((item)=>{
         let endTime=new Date(item.time_year, item.time_month-1, item.time_day-1,

@@ -18,6 +18,14 @@
 			<p><%=item.goo_name%></p>
 			<p><%=item.goal_price%> 원</p>
 			<p id=<%=item.goo_id%>></p>
+			<%for(let i=0;i<attend.length;i++){
+                if(attend[i].id==item.goo_id){%>
+                    <p><%=attend[i].buyers.length%>명 참가 중</p>
+                    <%break;
+                } else if(i==(attend.length-1)){%>
+                    <p>0명 참가 중</p>
+                <%}
+            }%>
 			<div style="text-align:center;">
 				<button type="button" class="btn">응모하기</button>
 			</div>

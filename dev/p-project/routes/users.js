@@ -14,7 +14,8 @@ const client = mysql.createConnection({
 	port: 3306, // DB서버 Port주소
 	user: '2019pprj', // DB접속 아이디
 	password: 'pprj2019', // 암호
-	database: 'db2019' //사용할 DB명
+   database: 'db2019', //사용할 DB명
+   multipleStatements: true
 });
 
 client.connect((error)=>{
@@ -32,8 +33,9 @@ const getApply=(req, res)=>{
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/applylist.ejs', 'utf8');  //Body
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-   const sql='select t1_deal.*, t1_goods.time_year, t1_goods.time_month, t1_goods.time_day, t1_goods.time_hour, t1_goods.time_minute from t1_deal inner join t1_goods on t1_deal.goo_id=t1_goods.goo_id where buyer_id=2 ORDER BY invest_day deSC'; //로그인 기능이 완성 되면 buyer_id값 수정
-   client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
+   const sql='select goo_id, goo_name, goal_price, buyer_id, status, sum(invest_coin)total from t1_deal where buyer_id=2 group by goo_id order by invest_day desc;'; //로그인 기능이 완성 되면 buyer_id값 수정
+   const sql2='select t1_deal.*, t1_goods.time_year, t1_goods.time_month, t1_goods.time_day, t1_goods.time_hour, t1_goods.time_minute from t1_deal inner join t1_goods on t1_deal.goo_id=t1_goods.goo_id where buyer_id=2 ORDER BY invest_day deSC;'
+   client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행
       if (error)
          res.status(562).end("DB query is failed");
 
@@ -50,10 +52,11 @@ const getApply=(req, res)=>{
          res.end(ejs.render(htmlstream));
      }
       else {  // 조회된 상품이 있다면, 상품리스트를 출력
-         db.records=results;
-         //console.log(db.records);
+         console.log(results[1]);
+         db.records=results[1];
+         
          res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-         res.end(ejs.render(htmlstream, {applylist:results}));  // 조회된 상품정보
+         res.end(ejs.render(htmlstream, {applylist:results[0]}));  // 조회된 상품정보
       }
    });
 }
@@ -67,7 +70,7 @@ const getWinning=(req, res)=>{
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/winninglist.ejs', 'utf8');  //Body
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-   const sql='SELECT * FROM t1_deal where buyer_id=2 and status=\'win\' ORDER BY invest_day desc limit 8'; //로그인 기능이 완성 되면 buyer_id값 수정
+   const sql='SELECT * FROM t1_deal where buyer_id=2 and status=\'win\' ORDER BY invest_day desc'; //로그인 기능이 완성 되면 buyer_id값 수정
    client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
       if (error)
          res.status(562).end("DB query is failed");

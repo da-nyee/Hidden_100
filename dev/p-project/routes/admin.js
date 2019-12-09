@@ -9,9 +9,6 @@ const   multer = require('multer');
 // 업로드 디렉터리를 설정한다. 실제디렉터리: /home/bmlee/
 // const  upload = multer({dest: __dirname + '/../uploads/products'});
 const router = express.Router();
-
-const db=require('./records');
-
 // router.use(bodyParser.urlencoded({ extended: false }));
 const client = mysql.createConnection({
 	host: 'localhost', // DB서버 IP주소
@@ -39,7 +36,7 @@ const getAdmin=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
     const sql='SELECT * FROM t1_goods where status=\'active\' and goo_type=\'digital\' ORDER BY regist_day deSC limit 8;';
-    const sql2='select goo_id from t1_deal where status=\'active\' group by buyer_id;';
+    const sql2='select goo_id, buyer_id from t1_deal where status=\'active\' order by goo_id;';
     const sql3='select goo_id, sum(invest_coin)total from t1_deal where status=\'active\' group by goo_id;'
     client.query(sql+sql2+sql3, (error, results, fields) => {  // 상품조회 SQL실행. 레코드 전체는 배열으로, 레코드 각각은 json형식으로 가져온다.        
         if (error)
@@ -58,10 +55,41 @@ const getAdmin=(req, res)=>{
             res.end(ejs.render(htmlstream));
         }            
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            db.records=results[0]; //db객체의 records변수에 저장.
+                let deal={
+                id:0,
+                buyers:[],
+            }
+            let deals=new Array();
+
+            results[1].forEach((data, index)=>{
+                if(deal.buyers.length==0){
+                    deal.id=data.goo_id;
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                if(deal.id!=data.goo_id){
+                    deals.push(Object.assign({}, deal));
+                    deal.id=data.goo_id;
+                    deal.buyers=[];
+                    deal.buyers.push(data.buyer_id);
+                }
+
+                for(let i=0;i<deal.buyers.length;i++){
+                    if(deal.buyers[i]==data.buyer_id){
+                        break;
+                    }
+
+                    if(i==(deal.buyers.length-1)){
+                        deal.buyers.push(data.buyer_id);
+                    }
+                }
+
+                if(index==(results[1].length-1))
+                    deals.push(Object.assign({}, deal));
+            });
             
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:results[1], total:results[2]}));  // 조회된 상품정보
+            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:deals, total:results[2]}));  // 조회된 상품정보
         }
     });
 }
