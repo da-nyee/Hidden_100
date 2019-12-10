@@ -14,6 +14,7 @@ const product = require('./routes/product');
 const mainui = require('./routes/main');
 const admin = require('./routes/admin');
 const coin=require('./routes/coin');
+const apply=require('./routes/apply');
 
 // 쇼핑몰전용 PORT주소 설정
 const   PORT = 65001;
@@ -40,7 +41,7 @@ app.use('/product', product);
 app.use('/userdeal', userdeal);
 app.use('/admin', admin);
 app.use('/coin', coin);
-
+app.use('/apply', apply);
 
 // 서버를 실행합니다.
 app.listen(PORT, function () {
