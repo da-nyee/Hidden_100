@@ -39,8 +39,6 @@ const HandleSignup = (req, res) => {
     let body = req.body;
     let htmlstream = '';
 
-    let mem_pass1, mem_pass2;
-
     if(body.pass1 != body.pass2){
         console.log("비밀번호가 서로 다릅니다. 다시 확인해주세요!");
         res.send('<script type="text/javascript">alert("비밀번호가 서로 다릅니다. 다시 확인해주세요!"); location.href="/users/reg"; </script>');
@@ -93,10 +91,8 @@ const PrintSignin = (req, res) => {
     }
     else{
         res.end(ejs.render(htmlstream, {
- 
-        auth:0 ,
-             mem_id:0
-
+            auth:0 ,
+            mem_id:0
         }));
     }
 };

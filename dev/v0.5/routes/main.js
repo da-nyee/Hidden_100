@@ -92,7 +92,7 @@ const getMain=(req, res)=>{
                     res.end(ejs.render(htmlstream, {goodslist:results[0], 
                         attend:deals,
 					    auth:req.session.auth ,
-					    mem_id:req.session.who,
+                        mem_id:req.session.who,
 		    }));  // 조회된 상품정보
         }
     });

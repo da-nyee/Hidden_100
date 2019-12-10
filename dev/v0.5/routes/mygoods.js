@@ -224,8 +224,6 @@ const getGoodslist=(req, res)=>{
 router.post('/shipment', (req,res)=>{
 	           htmlstream = fs.readFileSync(__dirname + '/../views/mygoods_shipform.ejs','utf8');
                    res.status(200).end(ejs.render(htmlstream, {goo_ship:req.body.goo_ship}));
-
-
 });
 
 router.post('/shipment/post', (req,res)=>{
@@ -236,9 +234,6 @@ router.post('/shipment/post', (req,res)=>{
 	client.query(sql_ship, (error, results, fields) => {  // 상품조회 SQL실행
 		        res.redirect('/mygoods/goodslist');
 	});
-
-
-
 });
 
 

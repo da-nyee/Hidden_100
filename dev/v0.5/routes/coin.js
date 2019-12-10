@@ -26,7 +26,7 @@ client.connect((error)=>{
         console.log("connect sucess!!!");
 });
 
-const getChargeCoin=(req, res)=>{
+const getCoin=(req, res)=>{
     if(req.session.auth==99){
         let htmlstream='';
         htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
@@ -39,15 +39,14 @@ const getChargeCoin=(req, res)=>{
             if(error){
                 res.status(562).end("DB query is failed");
             }
-            else {  // 조회된 상품이 있다면, 상품리스트를 출력 
-                console.log(results);
-                console.log(results[0].coin);
-
+            else {
+                req.session.coin=results[0].coin;
+                
                 res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
                 res.end(ejs.render(htmlstream, {nowCoin:results[0].coin,
                     auth:req.session.auth ,
                     mem_id:req.session.who,
-                }));  // 조회된 상품정보
+                })); 
             }
         })
     }
@@ -63,6 +62,22 @@ const getChargeCoin=(req, res)=>{
     }
 }
 
-router.get('/chargeCoin', getChargeCoin);
+router.get('/getCoin', getCoin);
+
+const chargeCoin=(req, res)=>{
+    const sql=`update t1_member set coin=coin+${req.body.how} where mem_id=\'${req.session.who}\';`
+    client.query(sql, (error, result)=>{
+        if(error){
+            res.status(562).end("DB query is failed");
+        }
+        else{
+            console.log(result);
+
+            res.send('<script type="text/javascript">alert("충전이 완료되었습니다."); location.href="/coin/getCoin"; </script>');
+        }
+    });
+}
+
+router.post('/chargeCoin', chargeCoin);
 
 module.exports = router;
