@@ -91,7 +91,7 @@ const getAdmin=(req, res)=>{
             });
             
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:deals, total:results[2], auth:0, admin_id:'t'}));  // 조회된 상품정보
+            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:deals, total:results[2], auth:req.session.auth, admin_id:req.session.who}));  // 조회된 상품정보
         }
     });
 }

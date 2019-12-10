@@ -135,10 +135,7 @@ const HandleSignin = (req, res) => {
                     if(body.id == admin_id && body.pass == admin_pass){
                         req.session.auth = 99; // 임의의 수로 로그인 성공 설정
                         req.session.who = admin_id;
-
-                        if(body.id == 'admin'){ // 인증된 사용자가 관리자(admin)인 경우 이를 표시
-                            req.session.who = true;
-                        }
+                        
                         res.send('<script type="text/javascript">alert("로그인 되었습니다!"); location.href="/admin"; </script>');
                     }
                 });
