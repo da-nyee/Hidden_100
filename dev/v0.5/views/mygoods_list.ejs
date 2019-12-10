@@ -26,7 +26,7 @@
 
 <% goodslist.forEach(function(item, i){ %>
     <div class="main-add" style="background: #FFFFFF; margin:20px; padding:10px;">
-        <div class="row" style="height:275px">
+        <div class="row" style="height:275px;">
                 <div class="col-2 product">
  					<%img='/img/goods/'+item.goo_img%>
 					<img src=<%=img%> style="max-width:90%; max-height:200px">
@@ -36,7 +36,7 @@
                     <p>목표가격 : <%=item.goal_price%> 원</p>
 				<%if(item.status=='active'){%>
                     <p><%=leftTime[i].split(':')[0]%>일 <%=leftTime[i].split(':')[1]%>시간 <%=leftTime[i].split(':')[2]%>분 남음</p>
-		 	<p>상세정보 : <div class="card" style="padding=2%"><div class="card-body"><%=item.goo_info%></div></div></p>
+		 	<p>상세정보 : <div class="card" style="padding:2%"><div class="card-body"><%=item.goo_info%></div></div></p>
                 </div>
 			<div class="col"><br>
 				     <p class="btn">누적금액 : <%=item.gain_coin%></p><br><br>
@@ -59,12 +59,10 @@
 				     <p class="btn">누적금액 : <%=item.gain_coin%></p><br><br>
 					<form action='/mygoods/shipment'  method="post">
   						<input type='hidden' class="btn" name='goo_ship' value=<%=item.goo_id%>>
-
   						<input type='submit' class="btn" value='운송장 번호 입력'/>
-
 					</form>
 			</div>
 			<%}%>
         </div>
     </div>
-<%})%>
+<%});%>

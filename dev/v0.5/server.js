@@ -13,6 +13,7 @@ const userdeal = require('./routes/userdeal');
 const product = require('./routes/product');
 const mainui = require('./routes/main');
 const admin = require('./routes/admin');
+const coin=require('./routes/coin');
 
 // 쇼핑몰전용 PORT주소 설정
 const   PORT = 65002;
@@ -38,6 +39,7 @@ app.use('/users', users);
 app.use('/product', product);
 app.use('/userdeal', userdeal);
 app.use('/admin', admin);
+app.use('/coin', coin);
 
 
 // 서버를 실행합니다.

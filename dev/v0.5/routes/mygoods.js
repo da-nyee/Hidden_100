@@ -68,8 +68,6 @@ router.post('/post', upload.single('goo_img'), (req, res) => {
 	   res.redirect('goodslist');
 	  }
    });
-		  
-
 });
 
 router.post('/delete/:goo_id', (req,res)=>{

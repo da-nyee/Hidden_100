@@ -34,13 +34,13 @@ const getApply=(req, res)=>{
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/applylist.ejs', 'utf8');  //Body
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
    
-   const sql='select t1_goods.goo_img, t1_deal.goo_id, t1_deal.goo_name, t1_deal.goal_price, t1_deal.buyer_id, t1_deal.status, sum(invest_coin)total from t1_deal inner join t1_goods on t1_deal.goo_id=t1_goods.goo_id where buyer_id=\''+req.session.who+'\' group by goo_id order by invest_day desc;'; //로그인 기능이 완성 되면 buyer_id값 수정
+   const sql='select t1_goods.goo_img, t1_deal.goo_id, t1_deal.goo_name, t1_deal.goal_price, t1_deal.buyer_id, t1_deal.status, sum(invest_coin)total from t1_deal inner join t1_goods on t1_deal.goo_id=t1_goods.goo_id where buyer_id=\''+req.session.who+'\' group by goo_id order by invest_day desc;';
    const sql2='select t1_deal.*, t1_goods.time_year, t1_goods.time_month, t1_goods.time_day, t1_goods.time_hour, t1_goods.time_minute from t1_deal inner join t1_goods on t1_deal.goo_id=t1_goods.goo_id where buyer_id=\''+req.session.who+'\' ORDER BY invest_day deSC;'
    client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행
       if (error)
          res.status(562).end("DB query is failed");
 
-      else if (results.length <= 0){  // 조회된 상품이 없다면, 오류메시지 출력
+      else if (results[1].length <= 0){  // 조회된 상품이 없다면, 오류메시지 출력
          console.log('조회된 상품이 없습니다');
 
          htmlstream='';

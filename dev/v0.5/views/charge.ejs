@@ -1,0 +1,63 @@
+<h1 style="margin:20px;" class="display-3">코인</h1>
+
+<h3 style="margin:20px;" class="display-4 text-muted">코인 충전</h3>
+<div>
+   <form action="/mygoods/post" method="post">
+        <div class="row" style="margin: 0px">
+            <div class="col-2"><br></div>
+            <div class="col-8 main-add" style="padding: 10px;">
+                <div class="row"><br></div>
+                <div class="row"><br></div>
+                <div class="row">
+                    <div class="col-2"><br></div>
+                    <div class="custom-file col-2">
+                            보유 금액 : 
+                    </div>
+                    <p class="col-5" stye="text-align:right" id="now"><%=nowCoin%></p>
+                    <div style="font-size: 25px; display:inline-block">
+                        원
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2"><br></div>
+                    <div class="custom-file col-2">
+                       충전할 금액 : 
+                    </div>
+                    <div class="custom-file col-5">
+                       <input type="text" class="form-control" id="how"  name="how" style="direction:RTL" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
+                    </div>
+                    <div style="font-size: 25px; display:inline-block">
+                        원
+                    </div>
+                    <div class="col-2"><br></div>
+                </div>
+                <div class="row">
+                    <div class="col-2"><br></div>
+                    <div class="custom-file col-2">
+                        충전 후 금액 : 
+                    </div>
+                    <p class="col-5" stye="text-align:right" id="after"></p>
+                    <div style="font-size: 25px; display:inline-block">
+                        원
+                    </div>
+                </div>
+            </div>
+       </div>
+   </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	// 입력란에 입력을 하면 입력내용에 내용이 출력
+	// 1. #data 공간에서 keyup이라는 이벤트가 발생했을 때
+	$("#how").keyup(function(){
+		// 2. #out 공간에 #data의 내용이 출력된다.
+		$("#after").text($("#now").val()*1+$("#how").val()*1);
+		// #out의 위치에 text로 데이터를 받는다.(setter)
+		// 들어가는 데이터는 #data의 값(.val())이다. (getter)
+		// 메서드 괄호 안에 아무것도 없으면 getter, 파라미터가 있으면 setter이다.
+	});
+});
+</script>
+<br><br>
