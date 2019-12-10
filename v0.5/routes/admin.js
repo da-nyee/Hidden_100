@@ -6,11 +6,11 @@ const   mysql = require('mysql');
 const   bodyParser = require('body-parser');
 const   session = require('express-session');
 const   multer = require('multer');
-// 업로드 디렉터리를 설정한다. 실제디렉터리: /home/bmlee/
-// const  upload = multer({dest: __dirname + '/../uploads/products'});
+/* 업로드 디렉터리를 설정한다. 실제디렉터리: /home/bmlee/ */
+/* const  upload = multer({dest: __dirname + '/../uploads/products'}); */
 const router = express.Router();
 const db=require('./records');
-// router.use(bodyParser.urlencoded({ extended: false }));
+/* router.use(bodyParser.urlencoded({ extended: false })); */
 const client = mysql.createConnection({
 	host: 'localhost', // DB서버 IP주소
 	port: 3306, // DB서버 Port주소
@@ -31,7 +31,7 @@ client.connect((error)=>{
 const getAdmin=(req, res)=>{
     var htmlstream='';
 
-    htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
+    htmlstream=fs.readFileSync(__dirname+'/../views/admin_header.ejs', 'utf8');    //Header
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/admin_nav.ejs', 'utf8'); //admin_nav
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/adminpro.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
@@ -47,13 +47,13 @@ const getAdmin=(req, res)=>{
             console.log('조회된 상품이 없습니다');
 
             htmlstream='';
-            htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
+            htmlstream=fs.readFileSync(__dirname+'/../views/admin_header.ejs', 'utf8');    //Header
             htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/admin_nav.ejs', 'utf8'); //admin_nav                
             htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/nothing.ejs', 'utf8');  //Body
             htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
         
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-            res.end(ejs.render(htmlstream), {auth:0, mem_id:"0"});
+            res.end(ejs.render(htmlstream), {auth:0,admin_id:"0"});
         }            
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
             db.records=results[0];
@@ -91,7 +91,7 @@ const getAdmin=(req, res)=>{
             });
             
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:deals, total:results[2], auth:0, mem_id:'t'}));  // 조회된 상품정보
+            res.end(ejs.render(htmlstream, {goodslist:results[0], attend:deals, total:results[2], auth:0, admin_id:'t'}));  // 조회된 상품정보
         }
     });
 }
