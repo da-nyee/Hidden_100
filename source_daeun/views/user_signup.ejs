@@ -10,7 +10,7 @@
     </div>
     <br/>
 
-    <form name="signup" method=post action="/users/reg">
+    <form id="signup" name="signup" method=post action="/users/reg">
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
@@ -88,12 +88,28 @@
                 <button type="button" class="btn btn-default" onclick="execPostCode();"><i class="fa fa-search"></i>주소 검색</button>
             </div>
         </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h4>이용약관</h4>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4" style="text-align: center;">
+                <textarea style="font-size: 16px; width: 100%;" rows="4" readonly>Hidden 100은 데이터 시각화를 이용한 중고거래 서비스입니다. 컴퓨터공학과 P-실무프로젝트 수업에서 개발하게 되었습니다. 이우석, 이다은, 한혜경이 함께 구현하고 있습니다.</textarea>
+                <h6><input type="checkbox" id="check" name="check" required> 위의 약관에 동의합니다.</h6>
+            </div>
+        </div>
         <br/><br/>
 
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-                <button type="submit" class="btn">회원가입</button>
+                <button type="submit" class="btn" id="signupBtn">회원가입</button>
             </div>
         </div>
     </form>
