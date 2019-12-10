@@ -54,7 +54,8 @@
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-                <input type="text" class="form-control" name="phone" placeholder="전화번호 ('-' 없이 숫자만 입력해주세요)" required>
+                <input type="text" class="form-control" name="phone" maxlength="11"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="전화번호 ('-' 없이 숫자만 입력해주세요)" required>
             </div>
         </div>
         <br/>
@@ -62,7 +63,8 @@
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4">
-                <input type="text" class="form-control" name="bday" placeholder="생년월일 (6자리로 입력해주세요 ex. 970418)" required>
+                <input type="text" class="form-control" name="bday" maxlength="6"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="생년월일 (6자리로 입력해주세요 ex. 970418)" required>
             </div>
         </div>
         <br/>
