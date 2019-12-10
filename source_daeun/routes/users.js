@@ -46,11 +46,11 @@ const HandleSignup = (req, res) => {
         res.send('<script type="text/javascript">alert("비밀번호가 서로 다릅니다. 다시 확인해주세요!"); location.href="/users/reg"; </script>');
     }
     else{
-        var temp = body.addr1+body.addr2+' '+body.addr3;
+        var temp = body.addr1+body.addr2;
         temp = temp.replace("undefined","");
 
-        db.query('INSERT INTO t1_member(mem_name, mem_id, mem_pass, mem_email, mem_phone, mem_bday, mem_addr) VALUES(?,?,?,?,?,?,?)',
-        [body.name, body.id, body.pass1, body.email, body.phone, body.bday, temp], (error, results, fields) => {
+        db.query('INSERT INTO t1_member(mem_name, mem_id, mem_pass, mem_email, mem_phone, mem_bday, mem_addr1, mem_addr2) VALUES(?,?,?,?,?,?,?,?)',
+        [body.name, body.id, body.pass1, body.email, body.phone, body.bday, temp, body.addr3], (error, results, fields) => {
             if(error){
                 htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
                 res.status(562).end(ejs.render(htmlstream, {
@@ -212,7 +212,10 @@ const HandleProfile = (req, res) => {
     else{
         db.query("SELECT * from t1_member where mem_id=?", [body.id], (error, results, fields) => {
             if(!error){
-                db.query("UPDATE t1_member SET mem_pass=?, mem_email=?, mem_phone=?, mem_addr=? where mem_id=?", [body.pass1, body.email, body.phone, body.addr, body.id], (error, results, fields) => {
+                var temp = body.addr1+body.addr2;
+                temp = temp.replace("undefined","");
+
+                db.query("UPDATE t1_member SET mem_pass=?, mem_email=?, mem_phone=?, mem_addr1=?, mem_addr2=? where mem_id=?", [body.pass1, body.email, body.phone, temp, body.addr3, body.id], (error, results, fields) => {
                     if(error){
                         htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
                         res.status(562).end(ejs.render(htmlstream, {
@@ -287,7 +290,7 @@ const HandleDeletion = (req, res) => {
     console.log(body.id);
     console.log(body.pass);
 
-    sql_str = "SELECT mem_id, mem_pass, mem_name from t1_member where mem_id='"+body.id+"' and mem_pass='"+body.pass+"';";
+    sql_str = "SELECT * from t1_member where mem_id='"+body.id+"' and mem_pass='"+body.pass+"';";
     console.log("SQL: " + sql_str);
 
     db.query(sql_str, (error, results, fields) => {
@@ -304,7 +307,7 @@ const HandleDeletion = (req, res) => {
                                 'title':'Hidden 100',
                                 'warn_title':'회원탈퇴 오류',
                                 'warn_message':'회원탈퇴에 실패하였습니다!',
-                                'return_url':'/users/reg'
+                                'return_url':'/users/deletion'
                             }));
                         }
                         else{
