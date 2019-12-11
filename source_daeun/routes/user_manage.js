@@ -13,7 +13,8 @@ const db = mysql.createConnection({
     port:3306,
     user:'2019pprj',
     password:'pprj2019',
-    database:'db2019'
+    database:'db2019',
+    multipleStatements:true
 });
 
 /* 회원조회 */
@@ -107,13 +108,17 @@ const HandleControl_level = (req, res) => {
     let body = req.body;
     let htmlstream = '';
 
-    console.log(req.body)
+    console.log(req.body);
 
-    const sql_settings = "SELECT * from t1_member";
+    const sql_control = "SELECT * from t1_member";
 
-    db.query(sql_settings, (error, results, fields) => {
+    /* sql='select goo_id, goo_img from t1_goods where goo_id in('+goods.join()+');'; */
+
+    db.query(sql_control, (error, results, fields) => {
         if(!error){
-            db.query("UPDATE t1_member SET level=? where mem_id=?", [body.level, body.id], (error, results, fields) => {
+            const sql_control_level = "UPDATE t1_member SET level='+results.join()+' where mem_id in ('+results.join()+');";
+
+            db.query(sql_control_level, [body.level], (error, results, fields) => {
                 if(error){
                     htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
                     res.status(562).end(ejs.render(htmlstream, {
@@ -137,6 +142,48 @@ router.get('/control_level', PrintControl_level);
 router.post('/control_level', HandleControl_level);
 
 /* 회원정지 관리 */
+const PrintControl_status = (req, res) => {
+    if(req.session.auth==91){
+ 
+        let htmlstream = '';
 
+        htmlstream = fs.readFileSync(__dirname + '/../views/admin_header.ejs','utf8');
+        htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/admin_nav.ejs','utf8');
+        htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/admin_control_status.ejs','utf8');
+        htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/footer.ejs','utf8');
+
+        const sql_settings = "SELECT * from t1_member";
+
+        db.query(sql_settings, (error, results, fields) => {
+            res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
+
+            if(req.session.auth){
+                res.end(ejs.render(htmlstream, {
+                    mem_info:results,
+                    auth:req.session.auth,
+                    admin_id:req.session.who
+                }));
+            }
+            else{
+                res.end(ejs.render(htmlstream, {
+                    auth:req.session.auth,
+                    admin_id:req.session.who
+                }))
+            }
+        });}
+    else{
+        htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
+
+        res.status(562).end(ejs.render(htmlstream, {
+            'title':'Hidden 100',
+            'warn_title':'로그인 오류',
+            'warn_message':'로그인이 필요한 서비스입니다.',
+            'return_url':'/admin/admins/auth'
+        }));
+    }
+};
+
+/* REST API의 URI와 handler를 mapping */
+router.get('/control_status', PrintControl_status);
 
 module.exports = router;
