@@ -177,7 +177,7 @@ const getGoodslist=(req, res)=>{
     htmlstream = htmlstream+fs.readFileSync(__dirname + '/../views/mygoods_list.ejs','utf8');
     htmlstream = htmlstream+fs.readFileSync(__dirname + '/../views/footer.ejs','utf8');
 
-    const sql_mygoods='SELECT * FROM t1_goods where mem_id=\''+req.session.who+'\';';
+    const sql_mygoods='SELECT * FROM t1_goods where mem_id=\''+req.session.who+'\' order by regist_day desc;';
     client.query(sql_mygoods, (error, results, fields) => {  // 상품조회 SQL실행
 	results.forEach(function(item,i){
 		item.gain_coin=0;
