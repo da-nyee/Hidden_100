@@ -1,0 +1,60 @@
+<br/><br/><br/><br/>
+<div class="container">
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-8">
+            <h1>회원조회</h1>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row">
+        <div class="col-8"></div>
+        <div class="col-8">
+            <table id="user_table">
+                <thead>
+                    <tr>
+                        <th>이름</th>
+                        <th>아이디</th>
+                        <th>비밀번호</th>
+                        <th>이메일</th>
+                        <th>전화번호</th>
+                        <th>생년월일</th>
+                        <th>도로명주소</th>
+                        <th>상세주소</th>
+                        <th>등록일자</th>
+                        <th>보유코인수</th>
+                        <th>등급</th>
+                        <th>경험치</th>
+                        <th>상태</th>
+                    </tr>
+                </thead>
+
+<% mem_info.forEach(function(item, i){ %>
+                <tbody>
+                    <tr>
+                        <td><%=item.mem_name%></td>
+                        <td><%=item.mem_id%></td>
+                        <td><%=item.mem_pass%></td>
+                        <td><%=item.mem_email%></td>
+                        <td><%=item.mem_phone%></td>
+                        <td><%=item.mem_addr1%></td>
+                        <td><%=item.mem_addr2%></td>
+                        <td><%=item.regist_day%></td>
+                        <td><%=item.coin%></td>
+                        <td><%=item.level%></td>
+                        <td><%=item.point%></td>
+                        <td><%=item.status%></td>
+                    </tr>
+                </tbody>
+<% }) %>
+            </table>
+        </div>
+        <br/><br/><br/><br/><br/>
+
+        <div class="col-4"></div>
+        <div class="col-4">
+            검색::: 이름, 생년월일, 등급, 상태
+        </div>
+    </div>
+</div>
