@@ -6,15 +6,23 @@
 
 <br/><br/><br/>
 <div class="container"></div>
-    <div class="row" style="padding-left: 85px; padding-right: 60px;">
+    <div class="row" style="padding-left: 60px; padding-right: 60px;">
         <div class="col-8">
             <h1>회원조회</h1>
         </div>
     </div>
+    <br/>
 
-    <div class="row" style="padding-left: 85px; padding-right: 60px;">
+    <div class="row" style="padding-left: 60px; padding-right: 60px;">
+        <div class="col-8">
+            <h5>검색: <input type="text" id="keyword"></h5>
+        </div>
+    </div>
+    <br/>
+
+    <div class="row" style="padding-left: 60px; padding-right: 60px;">
         <div>
-            <table class="table table-hover table-condensed" id="user_table">
+            <table class="table table-hover table-condensed" id="userTable">
                 <thead>
                     <tr>
                         <th>이름</th>
@@ -22,10 +30,10 @@
                         <th style="width: 120px">비밀번호</th>
                         <th>이메일</th>
                         <th>전화번호</th>
-                        <th style="width: 80px">생년월일</th>
+                        <th style="width: 120px">생년월일</th>
                         <th style="width: 650px">도로명주소</th>
                         <th style="width: 400px">상세주소</th>
-                        <th style="width: 180px">코인수</th>
+                        <th style="width: 120px">코인수</th>
                         <th>등급</th>
                         <th>상태</th>
                     </tr>
@@ -54,3 +62,14 @@
 </div>
 
 <!-- 검색::: 이름, 생년월일, 등급, 상태-->
+<script>
+    $(document).ready(function(){
+        $("#keyword").keyup(function(){
+            var keyword = $(this).val();
+            $("#userTable > tbody > tr").hide();
+
+            var temp = $("#userTable > tbody > tr > td:nth-child(n):contains('"+keyword+"')");
+            $(temp).parent().show();
+        })
+    })
+</script>
