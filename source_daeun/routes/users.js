@@ -49,8 +49,8 @@ const HandleSignup = (req, res) => {
         var temp = body.addr1+body.addr2;
         temp = temp.replace("undefined","");
 
-        db.query('INSERT INTO t1_member(mem_name, mem_id, mem_pass, mem_email, mem_phone, mem_bday, mem_addr1, mem_addr2) VALUES(?,?,?,?,?,?,?,?)',
-        [body.name, body.id, body.pass1, body.email, body.phone, body.bday, temp, body.addr3], (error, results, fields) => {
+        db.query('INSERT INTO t1_member(mem_name, mem_id, mem_pass, mem_email, mem_phone, mem_bday, mem_addr1, mem_addr2, level, status) VALUES(?,?,?,?,?,?,?,?,?,?)',
+        [body.name, body.id, body.pass1, body.email, body.phone, body.bday, temp, body.addr3, "silver", "active"], (error, results, fields) => {
             if(error){
                 htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
                 res.status(562).end(ejs.render(htmlstream, {

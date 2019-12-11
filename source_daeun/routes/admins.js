@@ -26,8 +26,8 @@ const PrintSignup = (req, res) => {
     htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/footer.ejs','utf8');
 
     res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-   if(req.session.auth==undefined){req.session.auth=0;}
-   if(req.session.who==undefined){req.session.who='0';}
+    if(req.session.auth==undefined){req.session.auth=0;}
+    if(req.session.who==undefined){req.session.who='0';}
 
     res.end(ejs.render(htmlstream, {
     auth:req.session.auth ,
@@ -133,7 +133,7 @@ const HandleSignin = (req, res) => {
                     console.log("DB에서 로그인 성공한 ID/비밀번호: %s/%s", admin_id, admin_pass);
 
                     if(body.id == admin_id && body.pass == admin_pass){
-                        req.session.auth = 99; // 임의의 수로 로그인 성공 설정
+                        req.session.auth = 91; // 임의의 수로 로그인 성공 설정
                         req.session.who = admin_id;
                         
                         res.send('<script type="text/javascript">alert("로그인 되었습니다!"); location.href="/admin"; </script>');
@@ -159,7 +159,7 @@ router.get('/logout', HandleSignout);
 
 /* 정보수정 */
 const PrintProfile = (req, res) => {
-    if(req.session.auth==99){
+    if(req.session.auth==91){
         let htmlstream = '';
 
         let body = req.body;
@@ -233,7 +233,7 @@ router.post('/profile', HandleProfile);
 
 /* 회원탈퇴 */
 const PrintDeletion = (req, res) => {
-    if(req.session.auth==99){
+    if(req.session.auth==91){
 
         let htmlstream = '';
 
