@@ -10,7 +10,6 @@ const calcTime=(req, res)=>{
         const temp=new Date(endTime-currentTime).toUTCString().split(' ');
 
         leftTime.push(time.goo_id+':'+temp[1]+':'+temp[4]);
-        //console.log(leftTime);
     });
     
     res.end(JSON.stringify(leftTime));

@@ -167,8 +167,6 @@ const getMygoods=(req, res)=>{
 
 }
 
-
-var test=[];
 const getGoodslist=(req, res)=>{
 	if(req.session.auth==99){
 
@@ -185,12 +183,10 @@ const getGoodslist=(req, res)=>{
 		item.gain_coin=0;
 		var sql_mygood = 'SELECT * FROM t1_deal where goo_id='+item.goo_id+';';
 		client.query(sql_mygood, (error, data, fields) => {
-			//console.log(data);
 			if(!error){ 
 				data.forEach(function(d){
 					item.gain_coin=item.gain_coin+d.invest_coin;
 				})
-			//console.log(item.gain_coin);
 			}
 		});
 	

@@ -47,7 +47,6 @@ const getApply=(req, res)=>{
             }
             else {
                 req.session.item=results[0];
-                //console.log('req.session.time', req.session.time);
                 
                 res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
                 res.end(ejs.render(htmlstream, {item:results[0], member:results[1],
