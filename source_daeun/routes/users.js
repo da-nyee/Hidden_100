@@ -95,7 +95,7 @@ const PrintSignin = (req, res) => {
         res.end(ejs.render(htmlstream, {
  
         auth:0 ,
-             mem_id:0
+        mem_id:0
 
         }));
     }
