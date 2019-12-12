@@ -43,7 +43,7 @@ const getClothes=(req, res)=>{
         if (error)
             res.status(562).end("DB query is failed");
 
-        else if (results.length <= 0){  // 조회된 상품이 없다면, 오류메시지 출력
+        else if (results[0].length <= 0){  // 조회된 상품이 없다면, 오류메시지 출력
             console.log('조회된 상품이 없습니다');
 
             htmlstream='';
@@ -122,7 +122,7 @@ const getDigital=(req, res)=>{
         if (error)
             res.status(562).end("DB query is failed");
 
-        else if (results.length <= 0){  // 조회된 상품이 없다면, 오류메시지 출력
+        else if (results[0].length <= 0){  // 조회된 상품이 없다면, 오류메시지 출력
             console.log('조회된 상품이 없습니다');
 
             htmlstream='';
@@ -201,7 +201,7 @@ const getMakeup=(req, res)=>{
         if (error)
             res.status(562).end("DB query is failed");
 
-        else if (results.length <= 0){  // 조회된 상품이 없다면, 오류메시지 출력
+        else if (results[0].length <= 0){  // 조회된 상품이 없다면, 오류메시지 출력
             console.log('조회된 상품이 없습니다');
     
             htmlstream='';
@@ -276,7 +276,7 @@ const getFurniture=(req, res)=>{
         if (error)
             res.status(562).end("DB query is failed");
 
-        else if (results.length <= 0){  // 조회된 상품이 없다면, 오류메시지 출력
+        else if (results[0].length <= 0){  // 조회된 상품이 없다면, 오류메시지 출력
             console.log('조회된 상품이 없습니다');
     
             htmlstream='';
