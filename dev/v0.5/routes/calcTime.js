@@ -19,15 +19,15 @@ client.connect((error)=>{
         console.log("connect sucess!!!");
 });
 
-whenFinish.on('finish', (item, res)=>{
+whenFinish.on('finish', (item)=>{
     console.log('item', item);
 
     const sql=`update t1_goods set status=\'finish\' where goo_id=${item.goo_id};`;
 
     client.query(sql, (error, result)=>{
-        if(error)
+        if(error){
             console.log('error', error);
-
+        }
         else{
             console.log('result', result);
         }
@@ -49,7 +49,7 @@ const calcTime=(req, res)=>{
         if(Math.floor(currentTime.getTime()/1000)*1000==Math.floor(endTime/1000)*1000){
             console.log(time);
 
-            whenFinish.emit('finish', time, res);
+            //whenFinish.emit('finish', time);
         }
 
         const temp=new Date(endTime-currentTime.getTime()).toUTCString().split(' ');

@@ -29,7 +29,7 @@ client.connect((error)=>{
         console.log("connect sucess!!!");
 });
 
-const sql2='select goo_id, buyer_id from t1_deal where status=\'active\' order by goo_id;';
+const sql2='select goo_id, buyer_id from t1_deal where status=\'active\' order by goo_id;'; //투자한 인원 수 계산
 
 const getClothes=(req, res)=>{
     let htmlstream='';

@@ -9,7 +9,7 @@
  				<%img='/img/goods/'+item.goo_img%>
 				<img src=<%=img%> style="max-width:90%; max-height:200px">
             </div>
-            <div class="col product text-left">
+            <div class="col-8 product text-left">
                 <p>상품명 : <%=item.goo_name%></p>
                 <p>목표금액 : <%=item.goal_price%>원</p>
                 <p>응모액 : <%=item.invest_coin%>원</p>
@@ -18,6 +18,19 @@
 		        <%}else{%>
 	                <p><%=item.shipment%></p>
 		        <%}%>
+            </div>
+            <div class="col-2">
+                <div class="row"><br></div>
+                <div class="row"><br></div>
+                <div class="row"><br></div>
+                <div class="row"><br></div>
+                <div class="row"><br></div>
+                <div class="row"><br></div>
+                <div class="row">
+                    <div>
+                        <button type="button" class="btn" onclick="location.href='/userdeal/report?item=<%=item.goo_id%>'">신고하기</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

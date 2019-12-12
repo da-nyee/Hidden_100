@@ -36,9 +36,9 @@ const getAdmin=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/adminpro.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-    const sql='SELECT * FROM t1_goods where status=\'active\' and goo_type=\'digital\' ORDER BY regist_day deSC limit 8;';
-    const sql2='select goo_id, buyer_id from t1_deal where status=\'active\' order by goo_id;';
-    const sql3='select goo_id, sum(invest_coin)total from t1_deal where status=\'active\' group by goo_id;'
+    const sql='SELECT * FROM t1_goods where status=\'active\' ORDER BY regist_day deSC limit 8;';   //시간 계산
+    const sql2='select goo_id, buyer_id from t1_deal where status=\'active\' order by goo_id;'; //상품에 투자한 인원 계산
+    const sql3='select goo_id, sum(invest_coin)total from t1_deal where status=\'active\' group by goo_id;' //상품에 투자 된 금액 계산
     client.query(sql+sql2+sql3, (error, results, fields) => {  // 상품조회 SQL실행. 레코드 전체는 배열으로, 레코드 각각은 json형식으로 가져온다.        
         if (error)
             res.status(562).end("DB query is failed");

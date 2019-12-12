@@ -35,9 +35,7 @@ const getApply=(req, res)=>{
         htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
         const parseUrl=url.parse(req.url);
-        //console.log('parseUrl', parseUrl);
         const query=querystring.parse(parseUrl.query);
-        //console.log('query', query);
 
         const sql='SELECT * FROM t1_goods where goo_id=\''+query.item+'\';';
         const sql2=`select coin from t1_member where mem_id=\'${req.session.who}\';`
@@ -81,8 +79,6 @@ const postApply=(req, res)=>{
             res.status(562).end("DB query is failed");
         }
         else{
-            //console.log(result);
-
             res.send(`<script type="text/javascript">alert("응모를 했습니다."); location.href="/apply/getApply?item=${req.session.item[0].goo_id}"; </script>`);
         }
     });

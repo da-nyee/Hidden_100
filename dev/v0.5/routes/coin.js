@@ -34,7 +34,7 @@ const getCoin=(req, res)=>{
         htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/charge.ejs', 'utf8');  //Body
         htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-        const sql='SELECT coin FROM t1_member where mem_id=\''+req.session.who+'\';';
+        const sql='SELECT coin FROM t1_member where mem_id=\''+req.session.who+'\';';   //보유 코인 조회
         client.query(sql, (error, results)=>{
             if(error){
                 res.status(562).end("DB query is failed");
@@ -65,7 +65,7 @@ const getCoin=(req, res)=>{
 router.get('/getCoin', getCoin);
 
 const chargeCoin=(req, res)=>{
-    const sql=`update t1_member set coin=coin+${req.body.how} where mem_id=\'${req.session.who}\';`
+    const sql=`update t1_member set coin=coin+${req.body.how} where mem_id=\'${req.session.who}\';` //코인 충전
     client.query(sql, (error, result)=>{
         if(error){
             res.status(562).end("DB query is failed");

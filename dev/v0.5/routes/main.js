@@ -34,7 +34,7 @@ const getMain=(req, res)=>{
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
     const sql='SELECT * FROM t1_goods where status=\'active\' ORDER BY regist_day deSC limit 8;';
-    const sql2='select goo_id, buyer_id from t1_deal where status=\'active\' order by goo_id;';
+    const sql2='select goo_id, buyer_id from t1_deal where status=\'active\' order by goo_id;'; //투자한 인원 수 계산
     client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행. 레코드 전체는 배열으로, 레코드 각각은 json형식으로 가져온다.
         if (error)
             res.status(562).end("DB query is failed");
