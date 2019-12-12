@@ -5,6 +5,8 @@ const router = express.Router();
 const mysql = require('mysql');
 const fs = require('fs');
 const ejs = require('ejs');
+const url=require('url');
+const querystring=require('querystring');
 
 router.use(bodyParser.urlencoded({extended:false}));
 
@@ -231,7 +233,7 @@ const getRepoted=(req, res)=>{
 
         db.query(sql_settings, (error, results, fields) => {
             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-            console.log(results);
+            //console.log(results);
 
             if(req.session.auth){
                 res.end(ejs.render(htmlstream, {
@@ -260,5 +262,59 @@ const getRepoted=(req, res)=>{
 };
 
 router.get('/getReported', getRepoted);
+
+const getContent=(req, res)=>{
+    const parsedUrl=url.parse(req.url);
+    const query=querystring.parse(parsedUrl.query);
+ 
+     if(req.session.auth==91){
+       let htmlstream='';
+       htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
+       htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/user_nav.ejs', 'utf8'); //user_nav
+       htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/report_content.ejs', 'utf8');  //Body
+       htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
+ 
+       const sql=`select t1_report.*, t1_goods.goo_name, t1_goods.goo_type from t1_report inner join t1_goods on t1_goods.goo_id=t1_report.goo_id where num=${query.num};`; //당첨 내역 정보
+       db.query(sql, (error, result, fields) => {  
+          if (error)
+             res.status(562).end("DB query is failed");
+ 
+          else if (result.length <= 0){  
+             console.log('조회된 상품이 없습니다');
+ 
+             htmlstream='';
+             htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
+             htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/user_nav.ejs', 'utf8'); //user_nav
+             htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/nothing.ejs', 'utf8');  //Body
+             htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
+         
+             res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
+             res.end(ejs.render(htmlstream, {
+                         auth:req.session.auth ,
+                         mem_id:req.session.who,
+                 })); 
+          }
+          else {  
+            console.log(result);
+
+            res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
+            res.end(ejs.render(htmlstream, {info:result,
+                         auth:req.session.auth ,
+                         mem_id:req.session.who,
+                })); 	  
+          }
+       });
+     } else{
+        htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
+          res.status(562).end(ejs.render(htmlstream, {
+             'title':'Hidden 100',
+             'warn_title':'로그인 오류',
+             'warn_message':'로그인이 필요한 서비스입니다.',
+             'return_url':'/users/auth'
+       }));
+    }
+ }
+ 
+ router.get('/report/content', getContent);
 
 module.exports = router;

@@ -225,7 +225,7 @@ const postReport=(req, res)=>{
          console.log(info);
          console.log(info[2].buyer_id);
 
-         const sql=`insert into t1_report values(default, ${info[2].buyer_id}, \'${info[0]}\', \'${info[2].subject}\', \'${info[2].goo_info}\', default, \'${img_url}\', ${info[2].seller_id}, \'${info[1]}\');`;
+         const sql=`insert into t1_report values(default, ${info[2].buyer_id}, \'${info[0]}\', \'${info[2].subject}\', \'${info[2].goo_info}\', default, \'${img_url}\', ${info[2].seller_id}, \'${info[1]}\', ${info[2].goo_id});`;
          client.query(sql, (error, result)=>{
             if(error)
                res.end(JSON.stringify(error));
