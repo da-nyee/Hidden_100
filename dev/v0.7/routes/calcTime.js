@@ -20,9 +20,8 @@ client.connect((error)=>{
 });
 
 whenFinish.on('finish', (item)=>{
-    console.log('item', item);
-
     const sql=`update t1_goods set status=\'finish\' where goo_id=${item.goo_id};`;
+
     client.query(sql, (error, result)=>{
         if(error){
             console.log('error', error);

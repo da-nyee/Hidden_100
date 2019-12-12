@@ -1,0 +1,73 @@
+<style>
+.table-condensed{
+    font-size: 15px;
+}
+</style>
+
+<br/><br/><br/>
+<div class="row" style="padding-left: 60px; padding-right: 60px;">
+    <div class="col-8">
+        <h1>회원조회</h1>
+    </div>
+</div>
+<br/>
+
+<div class="row" style="padding-left: 60px; padding-right: 60px;">
+    <div class="col-8">
+        <h5>검색: <input type="text" id="keyword"></h5>
+    </div>
+</div>
+<br/>
+
+<div class="row" style="padding-left: 60px; padding-right: 60px;">
+    <div>
+        <table class="table table-hover table-condensed" id="userTable">
+            <thead>
+                <tr>
+                    <th style="width: 120px">이름</th>
+                    <th style="width: 120px">아이디</th>
+                    <th style="width: 140px">비밀번호</th>
+                    <th style="width: 300px">이메일</th>
+                    <th style="width: 140px">전화번호</th>
+                    <th style="width: 140px">생년월일</th>
+                    <th style="width: 720px">도로명주소</th>
+                    <th style="width: 270px">상세주소</th>
+                    <th style="width: 110px">코인수</th>
+                    <th style="width: 100px">등급</th>
+                    <th style="width: 100px">상태</th>
+                </tr>
+            </thead>
+
+            <tbody>
+<% mem_info.forEach(function(item, i){ %>
+                <tr>
+                    <td><%=item.mem_name%></td>
+                    <td><%=item.mem_id%></td>
+                    <td><%=item.mem_pass%></td>
+                    <td><%=item.mem_email%></td>
+                    <td><%=item.mem_phone%></td>
+                    <td><%=item.mem_bday%></td>
+                    <td><%=item.mem_addr1%></td>
+                    <td><%=item.mem_addr2%></td>
+                    <td><%=item.coin%></td>
+                    <td><%=item.level%></td>
+                    <td><%=item.status%></td>
+                </tr>
+<% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- 키워드 검색 -->
+<script>
+    $(document).ready(function(){
+        $("#keyword").keyup(function(){
+            var keyword = $(this).val();
+            $("#userTable > tbody > tr").hide();
+
+            var temp = $("#userTable > tbody > tr > td:nth-child(n):contains('"+keyword+"')");
+            $(temp).parent().show();
+        })
+    })
+</script>

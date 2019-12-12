@@ -1,0 +1,50 @@
+<script type="text/javascript" src="/javascript/moduleTime.js"></script>
+
+<div class="main-add" style="background: #FFFFFF; margin:20px; padding:10px;">
+    <div class="row" style="height:275px;">
+        <div class="col-2 product">
+            <%img='/img/goods/'+item[0].goo_img%>
+            <img src=<%=img%> style="max-width:90%; max-height:200px">
+        </div>
+        <div class="col-6 product text-left">
+            <p>상품명 : <%=item[0].goo_name%></p>
+            <p>목표가격 : <%=item[0].goal_price%> 원</p>
+            <p id=<%=item[0].goo_id%>></p>
+            <p>상세정보 : <div class="card" style="padding:2%"><div class="card-body"><%=item[0].goo_info%></div></div></p>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-3" style="text-align: left;">
+            <div class="row"><br></div>
+            <p style="margin:10px; display:inline-block">보유 중 : </p>
+            <p style="text-align: right; display: inline-block; width:140px" id="now"><%=member[0].coin%></p>
+            <p style="display: inline-block;">&nbsp&nbsp&nbsp원</p>
+            <form action="/apply/postApply" method="post">
+                <input style="margin:10px; width:250px; display: inline-block; direction:RTL" type="text" class="form-control" id="how"  name="how" style="direction:RTL" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
+                <p style="display:inline-block"> 원</p>
+                <p style="margin:10px; display:inline-block;">잔액 : </p>
+                <p style="text-align: right; display: inline-block; width:165px" id="after"></p>
+                <p style="display: inline-block;">&nbsp&nbsp&nbsp원</p>
+                <div style="text-align: right;">
+                    <button style="margin:10px;" type="submit" class="btn">응모하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        // 입력란에 입력을 하면 입력내용에 내용이 출력
+        // 1. #how 공간에서 keyup이라는 이벤트가 발생했을 때
+        $("#how").keyup(function(){
+            // 2. #after 공간에 내용이 출력된다.
+            $("#after").text($("#now").text()*1-$("#how").val()*1);
+            // #after의 위치에 text로 데이터를 set한다.(setter)
+            // 들어가는 데이터는 값(.text(), .val())이다. (getter)
+            // 메서드 괄호 안에 아무것도 없으면 getter, 파라미터가 있으면 setter이다.
+            
+            //console.log($("#now").text()*1);
+            //console.log($("#how").val()*1);
+        });
+    });
+</script>
