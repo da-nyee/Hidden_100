@@ -1,0 +1,59 @@
+<style>
+    .table-condensed{
+        font-size: 15px;
+    }
+</style>
+    
+<br/><br/><br/>
+<div class="row" style="padding-left: 60px; padding-right: 60px;">
+    <div class="col-8">
+        <h1>신고회원</h1>
+    </div>
+</div>
+<br/>
+
+<div class="row" style="padding-left: 60px; padding-right: 60px;">
+    <div class="col-8">
+        <h5>검색: <input type="text" id="keyword"></h5>
+    </div>
+</div>
+<br/>
+
+<div class="row" style="padding-left: 60px; padding-right: 60px;">
+    <div>
+        <table class="table table-hover table-condensed" id="userTable">
+            <thead>
+                <tr>
+                    <th style="width: 250px">번호</th>
+                    <th style="width: 600px">제목</th>
+                    <th style="width: 250px">신고자</th>
+                    <th style="width: 250px">작성일</th>
+                </tr>
+            </thead>
+
+            <tbody>
+<% reports.forEach(function(report, i){ %>
+                <tr>
+                    <td><%=i+1%></td>
+                    <td><a href="/admin/user_manage/report/content?num=<%=report.num%>&item=<%=report.goo_id%>"><%=report.subject%></a></td>
+                    <td><%=report.mem_id%>&nbsp(<%=report.mem_name%>)</td>
+                    <td><%=String(report.regist_day).substring(0, 25)%></td>
+                </tr>
+<% }) %>
+            </tbody>
+        </table>
+    </div>
+</div>    
+
+<!-- 키워드 검색 -->
+<script>
+    $(document).ready(function(){
+        $("#keyword").keyup(function(){
+            var keyword = $(this).val();
+            $("#userTable > tbody > tr").hide();
+
+            var temp = $("#userTable > tbody > tr > td:nth-child(n):contains('"+keyword+"')");
+            $(temp).parent().show();
+        })
+    })
+</script>
