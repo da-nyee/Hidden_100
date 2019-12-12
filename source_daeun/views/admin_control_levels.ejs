@@ -5,41 +5,41 @@
 </style>
     
 <br/><br/><br/>
-<form name="control_level" method=post action="/admin/user_manage/control_level">
-    <div class="row" style="padding-left: 60px; padding-right: 60px;">
-        <div class="col-8">
-            <h1>
-                회원등급 관리
-                <button type="submit" name="submit" class="btn">변경하기</button>
-            </h1>
-        </div>
+<div class="row" style="padding-left: 60px; padding-right: 60px;">
+    <div class="col-8">
+        <h1>회원등급 관리</h1>
     </div>
-    <br/>
+</div>
+<br/>
 
-    <div class="row" style="padding-left: 60px; padding-right: 60px;">
-        <div>
-            <table class="table table-hover table-condensed" id="userTable">
-                <thead>
-                    <tr>
-                        <th style="width: 120px">이름</th>
-                        <th style="width: 120px">아이디</th>
-                        <th style="width: 140px">비밀번호</th>
-                        <th style="width: 300px">이메일</th>
-                        <th style="width: 140px">전화번호</th>
-                        <th style="width: 140px">생년월일</th>
-                        <th style="width: 720px">도로명주소</th>
-                        <th style="width: 270px">상세주소</th>
-                        <th style="width: 110px">코인수</th>
-                        <th style="width: 100px">등급</th>
-                        <th style="width: 100px">상태</th>
-                    </tr>
-                </thead>
+<div class="row" style="padding-left: 60px; padding-right: 60px;">
+    <div>
+        <table class="table table-hover table-condensed" id="userTable">
+            <thead>
+                <tr>
+                    <th style="width: 120px">이름</th>
+                    <th style="width: 120px">아이디</th>
+                    <th style="width: 140px">비밀번호</th>
+                    <th style="width: 280px">이메일</th>
+                    <th style="width: 140px">전화번호</th>
+                    <th style="width: 140px">생년월일</th>
+                    <th style="width: 750px">도로명주소</th>
+                    <th style="width: 260px">상세주소</th>
+                    <th style="width: 110px">코인수</th>
+                    <th style="width: 150px">등급</th>
+                    <th style="width: 100px">상태</th>
+                </tr>
+            </thead>
 
-                <tbody>
+            <tbody>
 <% mem_info.forEach(function(item, i){ %>
+            <form name="control_level" method=post action="/admin/user_manage/control_level">
                     <tr>
                         <td><%=item.mem_name%></td>
-                        <td name="id"><%=item.mem_id%></td>
+                        <td>
+                            <%=item.mem_id%>
+                            <input type="hidden" name="id" value="<%=item.mem_id%>">
+                        </td>
                         <td><%=item.mem_pass%></td>
                         <td><%=item.mem_email%></td>
                         <td><%=item.mem_phone%></td>
@@ -47,19 +47,20 @@
                         <td><%=item.mem_addr1%></td>
                         <td><%=item.mem_addr2%></td>
                         <td><%=item.coin%></td>
-                        <td name="level">
+                        <td>
                             <select name="level">
                                 <option value="<%=item.level%>" selected="selected"><%=item.level%></option>
                                 <option value="silver">silver</option>
                                 <option value="gold">gold</option>
                             </select>
+                            <input type="image" src="/img/check.png" alt="변경하기" style="width: 15px;">
                         </td>
                         <td><%=item.status%></td>
                     </tr>
+            </form>
 <% }) %>
-                </tbody>
-            </table>
-        </div>
-        <br/><br/>
+            </tbody>
+        </table>
     </div>
-</form>
+    <br/><br/>
+</div>

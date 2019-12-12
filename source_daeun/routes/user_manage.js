@@ -110,16 +110,14 @@ const HandleControl_level = (req, res) => {
 
     console.log(req.body);
 
-    const sql_control = "SELECT * from t1_member";
+    const sql_control_level = "SELECT * from t1_member";
 
-    /* sql='select goo_id, goo_img from t1_goods where goo_id in('+goods.join()+');'; */
-
-    db.query(sql_control, (error, results, fields) => {
+    db.query(sql_control_level, (error, results, fields) => {
         if(!error){
-            const sql_control_level = "UPDATE t1_member SET level='+results.join()+' where mem_id in ('+results.join()+');";
-
-            db.query(sql_control_level, [body.level], (error, results, fields) => {
+            db.query("UPDATE t1_member SET level=? where mem_id=?", [body.level, body.id], (error, results, fields) => {
                 if(error){
+                    console.log(sql_control_level)
+
                     htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
                     res.status(562).end(ejs.render(htmlstream, {
                         'title':'Hidden 100',
@@ -183,7 +181,39 @@ const PrintControl_status = (req, res) => {
     }
 };
 
+const HandleControl_status = (req, res) => {
+    let body = req.body;
+    let htmlstream = '';
+
+    console.log(req.body);
+
+    const sql_control_status = "SELECT * from t1_member";
+
+    db.query(sql_control_status, (error, results, fields) => {
+        if(!error){
+            db.query("UPDATE t1_member SET status=? where mem_id=?", [body.status, body.id], (error, results, fields) => {
+                if(error){
+                    console.log(sql_control_status)
+
+                    htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
+                    res.status(562).end(ejs.render(htmlstream, {
+                        'title':'Hidden 100',
+                        'warn_title':'회원정지 관리 오류',
+                        'warn_message':'회원정지 관리에 실패하였습니다!',
+                        'return_url':'/admin/user_manage/control_status'
+                    }));
+                }
+                else{
+                    console.log("회원정지 관리가 성공적으로 완료되었습니다!");
+                    res.send('<script type="text/javascript">alert("회원정지 관리가 성공적으로 완료되었습니다!"); location.href="/admin/user_manage/control_status"; </script>');
+                }
+            });
+        }
+    });
+};
+
 /* REST API의 URI와 handler를 mapping */
 router.get('/control_status', PrintControl_status);
+router.post('/control_status', HandleControl_status);
 
 module.exports = router;
