@@ -227,7 +227,7 @@ const HandleProfile = (req, res) => {
                     }
                     else{
                         console.log("정보수정이 성공적으로 완료되었습니다!");
-                        res.send('<script type="text/javascript">alert("정보수정이 성공적으로 완료되었습니다!"); location.href="/users/profile"; </script>');
+                        res.send('<script type="text/javascript">alert("정보수정이 성공적으로 완료되었습니다!"); location.href="/"; </script>');
                     }
                 });
             }
