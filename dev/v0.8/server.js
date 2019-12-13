@@ -21,7 +21,7 @@ const apply = require('./routes/apply');
 const profit= require('./routes/profit');
 
 // 쇼핑몰전용 PORT주소 설정
-const PORT = 65001;
+const PORT = 65002;
 
 // 실행환경 설정부분
 app.set('views', path.join(__dirname, 'views'));  // views경로 설정

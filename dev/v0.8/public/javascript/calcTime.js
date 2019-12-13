@@ -15,7 +15,7 @@ const calcTime=()=>{
                 let temp=new Array();
                 temp=item.split(':');
 
-                document.getElementById(temp[0]).innerHTML='남은시간 : '+(temp[1]-1)+'일'+temp[2]+'시간'+temp[3]+'분';
+                document.getElementById(temp[0]).innerHTML='남은시간 : '+(temp[1]-1)+'일'+temp[2]+'시간'+temp[3]+'분'+temp[4]+'초';
             })
         }
         else
@@ -27,4 +27,4 @@ const calcTime=()=>{
 
 //setImmediate(calcTime);    setImmediate는 안 되더라...
 setTimeout(calcTime, 0);
-setInterval(calcTime, 30000);
+setInterval(calcTime, 100);

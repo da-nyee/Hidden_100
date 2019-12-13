@@ -226,6 +226,7 @@ const getMakeup=(req, res)=>{
             }
             let deals=new Array();
 
+            //상품 당 투자자 수를 구하는 알고리즘
             results[1].forEach((data, index)=>{
                 if(deal.buyers.length==0){
                     deal.id=data.goo_id;
@@ -351,7 +352,7 @@ const calcTime=(req, res)=>{
         //console.log(new Date(endTime-currentTime).toUTCString());   //UTC시간으로 문자열 변환
         const temp=new Date(endTime-currentTime).toUTCString().split(' ');
 
-        leftTime.push(item.goo_id+':'+temp[1]+':'+temp[4].substring(0, 5));
+        leftTime.push(item.goo_id+':'+temp[1]+':'+temp[4]);
     });
     
     //console.log('left : ', leftTime);
