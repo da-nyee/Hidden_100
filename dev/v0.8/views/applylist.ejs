@@ -1,0 +1,46 @@
+<script type="text/javascript" src="/javascript/calcTime.js"></script>
+
+ 
+
+
+
+    <div class="product_chart" style="padding-top:60px;">
+        <div class="row">
+            <table class="table table-hover">
+                <h4 class="Fhandon" style="padding-left: 20px;">응모내역</h4>
+                <tbody>
+	<% applylist.forEach(function(item, i){ %>
+                    <tr><%img='/img/goods/'+item.goo_img%>
+                        <td style="text-align: center;"><img class="cropping" src=<%=img%> alt="Card image">
+           		 <p style="padding-top: 5px;"><%=item.goo_name%></p>
+                        </td>
+                        <td style="width:40%;">
+
+                           <p style="padding:0px; margin:0px;"><i class="ri-archive-line"></i> 상품번호 : <%=item.goo_id%></p>
+                            <p style="padding:0px; margin:0px;"><i class="ri-wallet-line"></i> <%=item.goal_price%> 원 목표</p>
+                          <p style="padding:0px; margin:0px;"><i class="ri-wallet-fill"></i> 응모액 : <%=item.total%>원</p>
+                 <p id=<%=item.goo_id%>></p>
+                <%if(item.status=='active'){%>
+                    <p>진행중입니다.</p>
+                <%} else if(item.status=='win'){%>
+                    <p>당첨되셨습니다.</p>
+                <%}%>
+
+
+			</td>
+<td>
+<br>
+  <button type="button" class="btn" onclick="location.href='/userdeal/report?item=<%=item.goo_id%>'">신고하기</button>
+
+</td>
+                    </tr>
+ 
+ 
+ 	<%})%>
+                </tbody>
+            </table>
+        </div>
+    </div>
+	
+
+  

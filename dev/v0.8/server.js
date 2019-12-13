@@ -11,13 +11,14 @@ const mygoods = require('./routes/mygoods');
 const users = require('./routes/users');
 const userdeal = require('./routes/userdeal');
 const product = require('./routes/product');
-const mainui = require('./routes/main');
+const main = require('./routes/main');
 const admin = require('./routes/admin');
 const admin_page = require('./routes/admin_page');
 const admins = require('./routes/admins');
 const user_manage = require('./routes/user_manage');
 const coin = require('./routes/coin');
 const apply = require('./routes/apply');
+const profit= require('./routes/profit');
 
 // 쇼핑몰전용 PORT주소 설정
 const PORT = 65001;
@@ -37,7 +38,7 @@ app.use(session({ key: 'sid',
                   saveUninitialized: true })); // 세션id사용전에는 발급금지
 
 // URI와 핸들러를 매핑
-app.use('/', mainui);  
+app.use('/', main);  
 app.use('/mygoods', mygoods);
 app.use('/users', users);
 app.use('/product', product);
@@ -48,6 +49,7 @@ app.use('/admin/admins', admins);
 app.use('/admin/user_manage', user_manage);
 app.use('/coin', coin);
 app.use('/apply', apply);
+app.use('/admin/profit', profit);
 
 // 서버를 실행합니다.
 app.listen(PORT, function () {

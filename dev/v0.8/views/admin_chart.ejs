@@ -1,0 +1,117 @@
+	<%var temp=55;%>
+    <script type="text/javascript">
+        // Load Charts and the corechart package.
+        google.charts.load('current', {
+            'packages': ['corechart']
+        });
+
+        // Draw the pie chart for Sarah's pizza when Charts is loaded.
+        google.charts.setOnLoadCallback(drawALLChart);
+
+        // Draw the pie chart for the Anthony's pizza when Charts is loaded.
+        google.charts.setOnLoadCallback(drawTodayChart);
+
+        // Callback that draws the pie chart for Sarah's pizza.
+        function drawALLChart() {
+
+            // Create the data table for Sarah's pizza.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Slices');
+            data.addRows([
+                ['의류/잡화', <%=all_clothes[0].namesCount%>],
+                ['메이크업', <%=all_makeup[0].namesCount%>],
+                ['가전/디지털', <%=all_digital[0].namesCount%>],
+                ['가구', <%=all_furniture[0].namesCount%>]
+            ]);
+
+            // Set options for Sarah's pie chart.
+            var options = {
+                title: '전체 중고 상품 비율',
+                width: 500,
+                height: 300,
+                titleTextStyle: {
+                    fontName: 'Handon3gyeopsal600g',
+                    fontSize: 18,
+                },
+                fontName: 'Handon3gyeopsal300g',
+                fontSize: 14,
+                colors: ['88BCE1', 'FFAAA6', 'FECEAB', 'A8E6CE']
+            };
+
+            // Instantiate and draw the chart for Sarah's pizza.
+            var chart = new google.visualization.PieChart(document.getElementById('ALL_chart_div'));
+            chart.draw(data, options);
+        }
+
+        // Callback that draws the pie chart for Anthony's pizza.
+        function drawTodayChart() {
+
+            // Create the data table for Anthony's pizza.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Slices');
+            data.addRows([
+                ['의류/잡화', <%=today_clothes[0].namesCount%>],
+                ['메이크업', <%=today_makeup[0].namesCount%>],
+                ['가전/디지털', <%=today_digital[0].namesCount%>],
+                ['가구', <%=today_furniture[0].namesCount%>]
+            ]);
+
+            // Set options for Anthony's pie chart.
+            var options = {
+                title: '오늘 등록된 중고 상품 비율',
+                width: 500,
+                height: 300,
+                titleTextStyle: {
+                    fontName: 'Handon3gyeopsal600g',
+                    fontSize: 18,
+                },
+                fontName: 'Handon3gyeopsal300g',
+                fontSize: 14,
+                colors: ['88BCE1', 'FFAAA6', 'FECEAB', 'A8E6CE']            };
+
+            // Instantiate and draw the chart for Anthony's pizza.
+            var chart = new google.visualization.PieChart(document.getElementById('Today_chart_div'));
+            chart.draw(data, options);
+        }
+
+        // Draw the pie chart for the Anthony's pizza when Charts is loaded.
+        google.charts.setOnLoadCallback(drawUserChart);
+
+        // Callback that draws the pie chart for Sarah's pizza.
+        function drawUserChart() {
+
+            // Create the data table for Sarah's pizza.
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Topping');
+            data.addColumn('number', 'Slices');
+            data.addRows([
+                ['silver', <%=user_silver[0].namesCount%>],
+                ['gold', <%=user_gold[0].namesCount%>],
+                ['신규 회원', <%=user_new[0].namesCount%>],
+                ['정지 회원', <%=user_stop[0].namesCount%>]
+            ]);
+
+            // Set options for Sarah's pie chart.
+            var options = {
+                title: '전체 회원 비율',
+                width: 500,
+                height: 300,
+                titleTextStyle: {
+                    fontName: 'Handon3gyeopsal600g',
+                    fontSize: 18,
+                },
+                
+                fontName: 'Handon3gyeopsal300g',
+                fontSize: 14,
+                colors: ['88BCE1', 'FFAAA6', 'FECEAB', 'A8E6CE']
+            };
+
+            // Instantiate and draw the chart for Sarah's pizza.
+            var chart = new google.visualization.PieChart(document.getElementById('User_chart_div'));
+            chart.draw(data, options);
+        }
+
+
+    </script>
