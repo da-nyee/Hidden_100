@@ -1,0 +1,64 @@
+<script type="text/javascript" src="/javascript/moduleTime.js"></script>
+<div style="padding:30px;"></div>
+<div class="product main-add" style="max-width: 1000px; padding-top:30px; text-align: center;">
+    <form action="/apply/postApply" method="post">
+<table style="margin:0px; padding:3px; text-align: center;">
+ 
+	<tr style="margin:0px; padding:3px;">
+		<td rowspan='4' style="width:35%">    <%img='/img/goods/'+item[0].goo_img%>
+    <img src=<%=img%> style="max-width:90%; max-height:200px">
+</td>
+		<td style="border-right:2px dashed #454545;">  <p style="margin:0px; padding:3px; text-align: left;">상품명 : <%=item[0].goo_name%></p></td>
+		<td style="width:35%; text-align: left;"><p>&nbsp;&nbsp;&nbsp;&nbsp;소지금 : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=member[0].coin%> 원 </p>
+
+
+
+</td>
+	
+	</tr>
+	<tr style="margin:0px; padding:3px; text-align: left;">
+		<td style="border-right:2px dashed #454545;"> <p style="margin:0px; padding:3px; ">목표가격 : <%=item[0].goal_price%> 원</p></td>
+
+		<td style="padding-left:10px;">  
+
+        <input style="margin:10px; width:210px; display: inline-block; direction:RTL" type="text" class="btn btn-b" id="how" name="how" style="direction:RTL" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required>
+        <p style="display:inline-block"> 원</p><br>
+
+      
+</td>
+	</tr>
+	<tr style="margin:0px; padding:3px; text-align: left;">
+		<td style="border-right:2px dashed #454545;"><p style="margin:0px; padding:0px;" id=<%=item[0].goo_id%>></p></td>
+<td style="padding-left:15px;">        <p style="margin:10px; display:inline-block;">잔액 : </p>
+        <p style="text-align: right; display: inline-block; width:145px" id="after"></p>
+        <p style="display: inline-block;">&nbsp&nbsp&nbsp원</p><br>
+</td>
+	</tr>
+	<tr style="margin:0px; padding:3px;">
+		<td style="border-right:2px dashed #454545;"> <p style="margin:0px; padding:3px; text-align: left;" >상세정보 : <%=item[0].goo_info%> </p></td>
+ <td style="padding-left:10px;">  <button style="margin:10px;" type="submit" class="btn">응모하기</button></td>
+	</tr>
+ 
+</table>
+    </form>
+</div>
+
+<button type="button" onclick="location.href=document.referrer" class="btn" style="margin-top:10px; margin-left:80%">목록으로</button>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        // 입력란에 입력을 하면 입력내용에 내용이 출력
+        // 1. #how 공간에서 keyup이라는 이벤트가 발생했을 때
+        $("#how").keyup(function() {
+            // 2. #after 공간에 내용이 출력된다.
+            $("#after").text($("#now").text() * 1 - $("#how").val() * 1);
+            // #after의 위치에 text로 데이터를 set한다.(setter)
+            // 들어가는 데이터는 값(.text(), .val())이다. (getter)
+            // 메서드 괄호 안에 아무것도 없으면 getter, 파라미터가 있으면 setter이다.
+
+            //console.log($("#now").text()*1);
+            //console.log($("#how").val()*1);
+        });
+    });
+
+</script>
