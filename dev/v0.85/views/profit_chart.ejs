@@ -1,0 +1,40 @@
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawProfitChart);
+
+      function drawProfitChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['type', 'ALL', 'Success', 'Grate Success'],
+          ['의류잡화', 600, 400, 200],
+          ['메이크업', 500, 280, 220],
+          ['가전/디지털', 800, 310, 490],
+          ['가구', 700, 510, 190]
+        ]);
+
+        var options = {
+          chart: {
+            title: '전체 중고 거래',
+                titleTextStyle: {
+                    fontName: 'Handon3gyeopsal600g',
+                    fontSize: 18,
+                },
+                
+            subtitle: '이번달 수수료 수익 차트',
+          },
+		hAxis:{textStyle:{                fontName: 'Handon3gyeopsal300g',
+                		fontSize: 14, 
+		}},
+        };
+
+        var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+        chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+
+ 
+ 
+
+    </script>
+<div class="product">
+    <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+</div>

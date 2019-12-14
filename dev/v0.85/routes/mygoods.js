@@ -155,8 +155,7 @@ const getMygoods=(req, res)=>{
 					 mem_id:req.session.who,
 				}));
 	}catch(err){console.log(err)}
-	}
-	else{
+	}else{
 	           htmlstream = fs.readFileSync(__dirname + '/../views/alert.ejs','utf8');
                     res.status(562).end(ejs.render(htmlstream, {
                         'title':'Hidden 100',
@@ -166,6 +165,7 @@ const getMygoods=(req, res)=>{
                     }));
 
 	}
+
 }
 
 function getTotal(obj){
@@ -312,6 +312,8 @@ const getGoodslist=(req, res)=>{
 router.post('/shipment', (req,res)=>{
 	           htmlstream = fs.readFileSync(__dirname + '/../views/mygoods_shipform.ejs','utf8');
                    res.status(200).end(ejs.render(htmlstream, {goo_ship:req.body.goo_ship}));
+
+
 });
 
 router.post('/shipment/post', (req,res)=>{

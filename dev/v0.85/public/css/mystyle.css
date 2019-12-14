@@ -1,0 +1,210 @@
+@font-face {
+    font-family: 'SeoulNamsanM';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/SeoulNamsanM.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.Fnamsan {
+    font-family: 'SeoulNamsanM';
+}
+
+@font-face {
+    font-family: 'RIDIBatang';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.Fridi {
+    font-family: 'RIDIBatang';
+}
+
+@font-face {
+    font-family: 'Handon3gyeopsal600g';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/Handon3gyeopsal600g.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.Fhandon {
+    font-family: 'Handon3gyeopsal600g';
+}
+
+@font-face {
+    font-family: 'Handon3gyeopsal300g';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_seven@1.2/Handon3gyeopsal300g.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.Fhandon3 {
+    font-family: 'Handon3gyeopsal300g';
+
+}
+
+@font-face {
+    font-family: 'BMDOHYEON';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/BMDOHYEON.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.Fdo {
+    font-family: 'BMDOHYEON';
+}
+
+nav {
+    font-family: 'Handon3gyeopsal300g';
+    width: 100%;
+    background: #FFFFFF;
+    background-color: #FFFFFF;
+    padding: 0px;
+    margin: 0px;
+    font-size: 120%;
+    padding-top: 10px;
+    padding-left: 25px;
+}
+
+a {
+    color: #555555;
+}
+
+a:hover {
+    color: #000000;
+    text-decoration: none;
+}
+
+body {
+    font-family: 'RIDIBatang';
+    background: #ffffff;
+    margin-top: 90px;
+    color: #333333;
+}
+
+h1 {
+    font-size: 420%;
+}
+
+h2 {
+    font-size: 330%;
+}
+
+.carousel-inner img {
+    width: 100%;
+    height: 100%;
+}
+
+.caption {
+    position: absolute;
+    top: 42%;
+}
+
+.product {
+    margin: 1%;
+    padding: 1%;
+    padding-top: 40px;
+    max-width: 1300px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+
+}
+
+.chart {
+    padding: 0px;
+    margin: 0px;
+    max-width: 1500px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.product_chart {
+    padding: 0px;
+    margin: 0px;
+    max-width: 1500px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%); 
+}
+
+.card {
+    max-width: 400px;
+    border: 0px;
+    border-radius: 0px;
+
+}
+
+.card-title {
+    padding: 0px;
+    margin: 0px;
+    padding-bottom: 8px;
+}
+
+.card-text {
+    padding: 0px;
+    margin: 0px;
+    text-align: left;
+    position: relative;
+    left: 33%;
+    transform: translateX(-25%);
+    padding-bottom: 4px;
+}
+
+.card-img-top {
+    border-radius: 0px;
+}
+
+
+.cropping {
+
+    max-height: 80px;
+    max-width: 100px;
+    overflow: hidden;
+
+}
+
+
+
+.cropping img {
+
+    max-width: initial;
+    max-height: initial;
+
+    margin-top: -15%;
+    margin-left: 50%;
+
+}
+
+.btn {
+    font-size: 100%;
+    color: #555555;
+    border: 1px solid #555555;
+
+
+}
+
+.btn-b {
+    font-size: 90%;
+    border: 1px solid #555555;
+}
+
+
+.display-3{
+ font-family: 'Handon3gyeopsal600g';
+font-size: 24px;
+    padding-top: 60px;
+    padding-left: 60px;
+}
+
+.display-4{
+ font-family: 'Handon3gyeopsal300g';
+font-size: 18px; 
+    padding-left: 70px;
+}
+
+			div.main-add{
+				border: 6px solid #454545;
+				text-align: center; 
+			}

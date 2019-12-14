@@ -1,0 +1,44 @@
+			<br><br>
+ 		<div>
+			<form action="/admin/profit/change/post" method="post"  >
+ 
+				<div class="row" style="margin: 0px">
+			  		<div class="col-2"><br></div>
+					<div class="col-8 main-add" style="padding: 10px;">
+	  					<div class="row"><br></div>
+	  					<div class="row"><br></div>
+		  				<div class="row">
+			  				<div class="col-1"><br></div>
+							<div class="col-3"  style="text-align:right; padding-top:5px;">
+								판매 성공시 수수료
+				  			</div>
+				  			<div class="custom-file col-5">
+								<input type="text" class="form-control" name="fee" value="<%=data.fee%>" required>
+				  			</div>
+				  			<div class="col-1" style="text-align:left; padding-top:5px;">원</div>
+				  			<div class="col-2"><br></div>
+						</div>
+
+	  					<div class="row"><br></div>
+	  					<div class="row"><br></div>
+		  				<div class="row">
+			  				<div class="col-1"><br></div>
+							<div class=" col-3"  style="text-align:right; padding-top:5px;">
+								목표금액 1.5배 도달시 수수료
+				  			</div>
+				  			<div class="custom-file col-5">
+								<input type="text" class="form-control"  name="great_success" value="<%=data.great_success%>" required>
+				  			</div>
+				  			<div class="col-1" style="text-align:left; padding-top:5px;">%</div>
+				  			<div class="col-2"><br></div>
+						</div>	  					<div class="row"><br></div>
+	  					<div class="row"><br></div>
+		  			<br>
+<input class="btn" style="font-size: 110%;" type="submit" value="수정" ><br><br>
+		  				 
+				</div>
+
+
+			</form>
+    
+ 		</div>

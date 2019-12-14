@@ -1,0 +1,141 @@
+			<br><br>
+ 		<div>
+			<form action="/mygoods/post" method="post" enctype="multipart/form-data">
+				<div class="row" style="margin: 0px">
+			  		<div class="col-2"><br></div>
+					<div class="col-8 main-add" style="padding: 10px;">
+	  					<div class="row"><br></div>
+	  					<div class="row"><br></div>
+		  				<div class="row">
+			  				<div class="col-2"><br></div>
+							<div class="custom-file col-2">
+								상품명 : 
+				  			</div>
+				  			<div class="custom-file col-6">
+								<input type="text" class="form-control" id="goo_name"  name="goo_name" required>
+				  			</div>
+				  			<div class="col-2"><br></div>
+						</div>
+		  				<div class="row"><br></div>
+		  				<div class="row">
+			  				<div class="col-2"><br></div>
+							<div class="custom-file col-8">
+								<select name="goo_type" class="custom-select custom-select mb-3" required>
+									  <option value="" selecte>상품 종류</option>
+									  <option value="clothes" selecte>의류/잡화</option>
+									  <option value="makeup" selecte>메이크업</option>
+									  <option value="digital" selecte>가전디지털</option>
+									  <option value="furniture" selecte>가구</option>
+
+
+								</select>
+				  			</div>
+				  			<div class="col-2"><br></div>
+						</div>
+		  				<div class="row"><br></div>
+		  				<div class="row">
+			  				<div class="col-2"><br></div>
+							<div class="custom-file col-2">
+								목표금액 : 
+				  			</div>
+				  			<div class="custom-file col-6">
+								<input type="text" class="form-control" id="goal_price" name="goal_price" required>
+				  			</div>
+				  			<div class="col-2"><br></div>
+						</div>
+		  				<div class="row"><br></div>
+		  				<div class="row">
+			  				<div class="col-2"><br></div>
+							<div class="custom-file col-2">
+								마감일 : 
+				  			</div>
+				  			<div class="custom-file col">
+								    <select name="time_year" class="custom-select custom-select-sm mb-3" required>
+									  <option value="" selected>연</option>
+										<%for(var i = 2019; i<2022; i++){%>
+									  		<option value=<%=i%>><%=i%></option>
+										<%}%>
+									</select>
+				  			</div>
+				  			<div class="custom-file col">
+								    <select name="time_month" class="custom-select custom-select-sm mb-3" required>
+									  <option value="" selected>월</option>
+										<%for(var i = 1; i<13; i++){%>
+									  		<option value=<%=i%>><%=i%></option>
+										<%}%>
+									</select>
+				  			</div>
+				  			<div class="custom-file col">
+								    <select name="time_day" class="custom-select custom-select-sm mb-3" required>
+									  <option value="" selected>일</option>
+										<%for(var i = 1; i<32; i++){%>
+									  		<option value=<%=i%>><%=i%></option>
+										<%}%>
+									</select>
+				  			</div>
+				  			<div class="custom-file col">
+								    <select name="time_hour" class="custom-select custom-select-sm mb-3" required>
+									  <option value="" selected>시</option>
+										<%for(var i = 0; i<24; i++){%>
+									  		<option value=<%=i%>><%=i%></option>
+										<%}%>
+									</select>
+				  			</div>
+				  			<div class="custom-file col">
+								    <select name="time_minute" class="custom-select custom-select-sm mb-3" required>
+									  <option value="" selected>분</option>
+										<%for(var i = 0; i<60; i++){%>
+									  		<option value=<%=i%>><%=i%></option>
+										<%}%>
+									</select>
+				  			</div>
+				  			<div class="col-2"><br></div>
+						</div>
+		  				<div class="row"><br></div>
+		  				<div class="row">
+			  				<div class="col-2"><br></div>
+							<div class="custom-file col-8">
+								<input type="file" class="custom-file-input" id="goo_img" name="goo_img" required>
+								<label class="custom-file-label" for="goo_img">중고 상품의 이미지를 올려주세요.</label>
+				  			</div>
+				  			<div class="col-2"><br></div>
+						</div> 
+
+		  				<div class="row"><br></div>
+ 
+		  				<div class="row">
+			  				<div class="col-2"><br></div>
+							<div class="custom-file col-2">
+								<label for="comment">상세정보 : </label></div>
+				  			<div class="col-2"><br></div>
+						</div> 
+		  				<div class="row">
+			  				<div class="col-2"><br></div>
+							<div class="custom-file col-8">
+								<textarea class="form-control" rows="5" id="goo_info" name="goo_info" required></textarea>				  			</div>
+				  			<div class="col-2"><br></div>
+						</div> 
+		  				<div class="row"><br><br><br><br><br><br></div>
+
+		  				<div class="row">
+							<div class="col-8"><br></div>
+							<div class="col-4"><input class="btn" style="font-size: 110%; " type="submit" value="상품등록" ></div>
+
+		  				</div>
+						<br>
+				  	</div>
+				  	<div class="col-2"><br></div>
+				</div>
+
+
+			</form>
+    
+ 		</div>
+		<script>
+		// Add the following code if you want the name of the file appear on select
+		$(".custom-file-input").on("change", function() {
+		  var fileName = $(this).val().split("\\").pop();
+		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+		});
+		</script>
+<br><br>

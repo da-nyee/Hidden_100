@@ -67,6 +67,7 @@ const getApply=(req, res)=>{
 };
 
 router.get('/getApply', getApply);
+
 router.get('/calcTime', calcTime);
 
 const postApply=(req, res)=>{
