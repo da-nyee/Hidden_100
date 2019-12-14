@@ -50,7 +50,7 @@ const PrintGetuser = (req, res) => {
                 res.end(ejs.render(htmlstream, {
                     auth:req.session.auth,
                     admin_id:req.session.who
-                }))
+                }));
             }
         });}
     else{
