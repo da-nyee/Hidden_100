@@ -2,21 +2,21 @@
 <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+-->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.4/pagination.min.js"></script>
--->
 
+<!--
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="jquery.twbsPagination.js"></script>
-
+-->
 
 <style>
 .table-condensed{
     font-size: 15px;
 }
 
-/*
 #pagination {
   width: 100%;
   text-align: center;
@@ -26,7 +26,6 @@
   display: inline;
   margin-left: 10px;
 }
-*/
 </style>
 
 <br/><br/><br/>
@@ -87,7 +86,10 @@
 
 <div class="row">
     <div class="product_chart">
-        <ul id="pagination" class="pagination-sm"></ul>
+        <div id="pagination"></div>
+        <!--
+            <ul id="pagination" class="pagination-sm"></ul>
+        -->
     </div>
 </div>
 
@@ -107,16 +109,16 @@
     $('table tbody tr').each(function(i, row){
         return rows.push(row);
     });
-/*
+
     $('#pagination').pagination({
         dataSource: rows,
-        pageSize: 10,
+        pageSize: 50,
         callback: function(data, pagination){
             $('tbody').html(data);
         }
     })
-*/
 
+/*
     let totalPages = rows/pageSize;
     let visibleBlock = 5;
     let pageSize = 5;
@@ -152,4 +154,5 @@
             paging(page);
         }
     });
+*/
 </script>
