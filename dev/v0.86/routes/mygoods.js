@@ -68,23 +68,129 @@ router.post('/post', upload.single('goo_img'), (req, res) => {
 	   res.redirect('goodslist');
 	  }
    });
-		  
-
 });
 
 router.post('/delete/:goo_id', (req,res)=>{
-	const sql_delete='DELETE FROM t1_goods where goo_id='+req.params.goo_id+';';
-	client.query(sql_delete, (error, results, fields) => {
-	  if (error) {
-	   	res.redirect('/mygoods/goodslist');
-		console.log(error)
-	  } else {
-	   console.log("사용자가 상품을 삭제했습니다.");
-	   res.redirect('/mygoods/goodslist');
-	  }
-   });
+	const confirm=`select * from t1_deal where goo_id=${req.params.goo_id};`;
+	client.query(confirm, (error, result)=>{
+		if(error){
+			console.error(error);
+		}
+		else if(result.length<=0){
+			const sql_delete='DELETE FROM t1_goods where goo_id='+req.params.goo_id+';';
+			client.query(sql_delete, (error, results, fields) => {
+				if (error) {
+					console.log(error);
+					} 
+				else {
+				   console.log("사용자가 상품을 삭제했습니다.");
+				   res.send('<script type="text/javascript">alert("상품을 삭제했습니다."); location.href="/mygoods/goodslist"; </script>');
+				}
+			});
+		}
+		else{
+			console.log('async start');
 
+			(async function(){
+				console.log('async in');
 
+				const result=()=>{
+					console.log('first await');
+	
+					return new Promise((resolve, reject)=>{		
+						const sql=`select buyer_id, sum(invest_coin)total from t1_deal where goo_id=${req.params.goo_id} group by buyer_id;`
+						client.query(sql, (error, result)=>{
+							if(error){
+								reject('sql error');
+							}
+							else{
+								console.log('first await success');
+								console.log(result);
+								resolve(result);
+							}
+						});
+					});
+				};
+
+				const records=await result();
+
+				const second=(records)=>{
+					console.log('2nd await');
+					console.log(records);
+	
+					return new Promise((resolve, reject)=>{
+						const funcs=[];
+	
+						records.forEach((record)=>{
+							console.log(record);
+
+							const func=(record)=>{
+								return new Promise((resolve2, reject2)=>{
+									const sqls=`update t1_member set coin=coin+${record.total} where mem_id=\'${record.buyer_id}\';`;
+									client.query(sqls, (error, result)=>{
+										if(error){
+											reject2('func error');
+										}
+										else{
+											console.log('func success');
+											resolve2();
+										}
+									});
+								})
+							};
+	
+							funcs.push(func(record));
+						});
+	
+						try{
+							(async function(){
+								for await (promise of funcs){
+									console.log('promise success');
+								}
+
+								(await function(){
+									resolve();
+								}());
+							}());
+						}
+						catch(error){
+							console.error(error);
+						}
+					});
+				};
+				await second(records);
+				
+				(await function(){
+					console.log('3rd await');
+	
+					return new Promise((resolve, reject)=>{
+						const sql=`delete from t1_deal where goo_id=${req.params.goo_id};`;
+						client.query(sql, (error, result)=>{
+							if(error){
+								console.log('sql2 error');
+							}
+							else{
+								console.log('sql2 success');
+								resolve();
+							}
+						});
+					});
+				}());
+				(await function(){
+					const sql=`delete from t1_goods where goo_id=${req.params.goo_id};`;
+					client.query(sql, (error, result)=>{
+						if(error){
+							console.error('sql3 error');
+						}
+						else{
+							console.log('canceled!!!');
+							res.send('<script type="text/javascript">alert("상품을 삭제했습니다."); location.href="/mygoods/goodslist"; </script>');				
+						}
+					});
+				}());
+			}());
+		}
+	});
 });
 
 
@@ -171,11 +277,11 @@ const getMygoods=(req, res)=>{
 function getTotal(obj){
 	return new Promise((resolve, reject)=>{
 		if(obj.error){
-			console.log(obj.error);
+			//console.log(obj.error);
 			reject('error in getTotal');
 		}
 		else{	
-			console.log('sql success')
+			//console.log('sql success')
 			resolve(obj);
 		}
 	});
@@ -195,7 +301,7 @@ const getGoodslist=(req, res)=>{
 				console.log('sql error', error);
 
 			else{
-				console.log(results);
+				//console.log(results);
 				req.session.item=results;
 
 				const temp={
@@ -207,7 +313,7 @@ const getGoodslist=(req, res)=>{
 
 				getTotal(temp)
 					.then((obj)=>{
-						console.log('first then');
+						//console.log('first then');
 
 						return new Promise((resolve, reject)=>{
 							obj.results.forEach((item, i)=>{
@@ -221,7 +327,7 @@ const getGoodslist=(req, res)=>{
 						});
 					})
 					.then((obj)=>{
-						console.log('second then');
+						//console.log('second then');
 						
 						return new Promise((resolve, reject)=>{
 							obj.results.forEach((item, index)=>{
@@ -235,7 +341,7 @@ const getGoodslist=(req, res)=>{
 						});
 					})
 					.then((obj)=>{
-						console.log('3rd then');
+						//console.log('3rd then');
 
 						return new Promise((resolve, reject)=>{
 							const funcs=[];
@@ -247,7 +353,7 @@ const getGoodslist=(req, res)=>{
 											if(error)
 												console.log('func query error');
 											else{
-												console.log('func query success');
+												//console.log('func query success');
 										
 												delete item.sql
 
@@ -264,7 +370,7 @@ const getGoodslist=(req, res)=>{
 
 							Promise.all(funcs)
 								.then((datas)=>{
-									console.log('promise all');
+									//console.log('promise all');
 
 									obj.results.forEach((item)=>{
 										datas.forEach((data)=>{
@@ -283,7 +389,7 @@ const getGoodslist=(req, res)=>{
 						});
 					})
 					.then((obj)=>{
-						console.log('4rd then');
+						//console.log('4rd then');
 
 						res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
            				res.end(ejs.render(htmlstream, {goodslist:obj.results,
@@ -292,7 +398,7 @@ const getGoodslist=(req, res)=>{
 						})); 
 					})
 					.catch((error)=>{
-						console.log(error);
+						//console.log(error);
 						res.end(error);
 					});
 			}
