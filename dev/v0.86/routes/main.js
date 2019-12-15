@@ -58,7 +58,7 @@ slide_data=JSON.parse(slide_data);
         }            
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
 	        req.session.items=results[0]; //db객체의 records변수에 저장.
-            //req.session.item=results[0];
+            req.session.item=results[0];
             let deal={
                 id:0,
                 buyers:[],
