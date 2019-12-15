@@ -1,4 +1,4 @@
-<script type="text/javascript" src="/javascript/moduleTime.js"></script>
+<script type="text/javascript" src="/javascript/calcTime.js"></script>
 
  
 
@@ -24,18 +24,11 @@
                     <p>진행중입니다.</p>
                 <%} else if(item.status=='win'){%>
                     <p>당첨되셨습니다.</p>
+                <%} else if(item.status2=='finish'){%>
+                    <p>꽝 입니다.</p>
                 <%}%>
-
-
 			</td>
-<td>
-<br>
-  <button type="button" class="btn" onclick="location.href='/userdeal/report?item=<%=item.goo_id%>'">신고하기</button>
-
-</td>
                     </tr>
- 
- 
  	<%})%>
                 </tbody>
             </table>

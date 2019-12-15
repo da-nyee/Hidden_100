@@ -35,7 +35,7 @@ const getClothes=(req, res)=>{
     let htmlstream='';
     htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/user_nav.ejs', 'utf8'); //user_nav
-    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
+    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product2.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
     const sql='SELECT * FROM t1_goods where goo_type=\'clothes\' and status=\'active\' ORDER BY regist_day desc limit 8;';
@@ -114,7 +114,7 @@ const getDigital=(req, res)=>{
     let htmlstream='';
     htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/user_nav.ejs', 'utf8'); //user_nav
-    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
+    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product2.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
     const sql='SELECT * FROM t1_goods where goo_type=\'digital\' and status=\'active\' ORDER BY regist_day desc limit 8;';
@@ -193,7 +193,7 @@ const getMakeup=(req, res)=>{
     let htmlstream='';
     htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/user_nav.ejs', 'utf8'); //user_nav
-    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
+    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product2.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
     const sql='SELECT * FROM t1_goods where goo_type=\'makeup\' and status=\'active\' ORDER BY regist_day desc limit 8;';
@@ -268,7 +268,7 @@ const getFurniture=(req, res)=>{
     let htmlstream='';
     htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/user_nav.ejs', 'utf8'); //user_nav
-    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product.ejs', 'utf8');  //Body
+    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/product2.ejs', 'utf8');  //Body
     htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
     const sql='SELECT * FROM t1_goods where goo_type=\'furniture\' and status=\'active\' ORDER BY regist_day deSC limit 8;';
@@ -349,9 +349,15 @@ const calcTime=(req, res)=>{
             item.time_hour, item.time_minute); //UTC끝나는 시간-1일
 
         //console.log(new Date(endTime-currentTime).toUTCString());   //UTC시간으로 문자열 변환
-        const temp=new Date(endTime-currentTime).toUTCString().split(' ');
 
-        leftTime.push(item.goo_id+':'+temp[1]+':'+temp[4]);
+        if(Math.floor(currentTime.getTime()/1000)*1000<Math.floor(endTime/1000)*1000){
+            const temp=new Date(endTime-currentTime.getTime()).toUTCString().split(' ');
+
+            leftTime.push(item.goo_id+':'+temp[1]+':'+temp[4]);
+        }
+        else if(Math.floor(currentTime.getTime()/1000)*1000>Math.floor(endTime/1000)*1000){
+            leftTime.push(item.goo_id+':01:00:00:00');
+        }
     });
     
     //console.log('left : ', leftTime);

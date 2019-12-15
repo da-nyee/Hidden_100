@@ -1,4 +1,4 @@
-<script type="text/javascript" src="/javascript/moduleTime.js"></script>
+<script type="text/javascript" src="/javascript/calcTime.js"></script>
 <div style="padding:30px;"></div>
 <div class="product main-add" style="max-width: 1000px; padding-top:30px; text-align: center;">
     <form action="/apply/postApply" method="post">
@@ -9,12 +9,8 @@
     <img src=<%=img%> style="max-width:90%; max-height:200px">
 </td>
 		<td style="border-right:2px dashed #454545;">  <p style="margin:0px; padding:3px; text-align: left;">상품명 : <%=item[0].goo_name%></p></td>
-		<td style="width:35%; text-align: left;"><p>&nbsp;&nbsp;&nbsp;&nbsp;소지금 : &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <%=member[0].coin%> 원 </p>
-
-
-
+		<td style="width:35%; text-align: left;"><p style="display: inline-block; margin-left:25px; margin-top:12px">소지금 : </p><p id="now" style="display: inline-block; width:145px; text-align: right;"><%=member[0].coin%></p><p style="display: inline-block; margin-left:20px">원</p>
 </td>
-	
 	</tr>
 	<tr style="margin:0px; padding:3px; text-align: left;">
 		<td style="border-right:2px dashed #454545;"> <p style="margin:0px; padding:3px; ">목표가격 : <%=item[0].goal_price%> 원</p></td>
@@ -34,16 +30,16 @@
         <p style="display: inline-block;">&nbsp&nbsp&nbsp원</p><br>
 </td>
 	</tr>
-	<tr style="margin:0px; padding:3px;">
+	<tr style="padding:3px;">
 		<td style="border-right:2px dashed #454545;"> <p style="margin:0px; padding:3px; text-align: left;" >상세정보 : <%=item[0].goo_info%> </p></td>
- <td style="padding-left:10px;">  <button style="margin:10px;" type="submit" class="btn">응모하기</button></td>
+ <td style="padding-left:10px;">  <button style="margin:10px; margin-left: 150px;" type="submit" class="btn">응모하기</button></td>
 	</tr>
  
 </table>
     </form>
 </div>
 
-<button type="button" onclick="location.href=document.referrer" class="btn" style="margin-top:10px; margin-left:80%">목록으로</button>
+<button type="button" onclick="location.href='/'" class="btn" style="margin-top:10px; margin-left:80%">목록으로</button>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -56,9 +52,8 @@
             // 들어가는 데이터는 값(.text(), .val())이다. (getter)
             // 메서드 괄호 안에 아무것도 없으면 getter, 파라미터가 있으면 setter이다.
 
-            //console.log($("#now").text()*1);
+            console.log($("#now").text()*1);
             //console.log($("#how").val()*1);
         });
     });
-
 </script>

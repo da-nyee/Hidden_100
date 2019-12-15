@@ -38,7 +38,7 @@ slide_data=JSON.parse(slide_data);
 
 //var slide_data = require('./public/add.json');
 
-    const sql='SELECT * FROM t1_goods where status=\'active\' ORDER BY regist_day deSC limit 8;';
+    const sql='SELECT * FROM t1_goods where status=\'active\' ORDER BY regist_day deSC;';
     const sql2='select goo_id, buyer_id from t1_deal where status=\'active\' order by goo_id;'; //투자한 인원 수 계산
     client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행. 레코드 전체는 배열으로, 레코드 각각은 json형식으로 가져온다.
         if (error)
@@ -57,7 +57,8 @@ slide_data=JSON.parse(slide_data);
             res.end(ejs.render(htmlstream));
         }            
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-	        req.session.item=results[0]; //db객체의 records변수에 저장.
+	        req.session.items=results[0]; //db객체의 records변수에 저장.
+            //req.session.item=results[0];
             let deal={
                 id:0,
                 buyers:[],

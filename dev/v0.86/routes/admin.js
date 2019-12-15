@@ -78,7 +78,7 @@ const getAdmin=(req, res)=>{
             res.end(ejs.render(htmlstream), {auth:0, mem_id:"0"});
         }            
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
-            req.session.item=results[0];
+            req.session.items=results[0];
             let deal={
                 id:0,
                 buyers:[],

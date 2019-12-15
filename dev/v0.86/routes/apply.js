@@ -71,16 +71,35 @@ router.get('/getApply', getApply);
 router.get('/calcTime', calcTime);
 
 const postApply=(req, res)=>{
-    const sql=`update t1_member set coin=coin-${req.body.how} where mem_id=\'${req.session.who}\';`
-    const sql2=`insert into t1_deal values(default, ${req.session.item[0].goo_id}, \'${req.session.item[0].goo_name}\', \'${req.session.item[0].goo_type}\', ${req.session.item[0].goal_price}, \'${req.session.item[0].mem_id}\', \'${req.session.who}\', ${req.body.how}, default, \'${req.session.item[0].status}\')`
-    client.query(sql+sql2, (error, result)=>{
-        if(error){
-            console.log(error);
-            res.status(562).end("DB query is failed");
-        }
-        else{
-            res.send(`<script type="text/javascript">alert("응모를 했습니다."); location.href="/apply/getApply?item=${req.session.item[0].goo_id}"; </script>`);
-        }
+    const promise=new Promise((resolve, reject)=>{
+        const sql3=`select status from t1_goods where goo_id=${req.session.item[0].goo_id};`;
+        client.query(sql3, (error, result)=>{
+            if(error){
+                console.log(error);
+                res.status(562).end("DB query is failed");
+            }
+            else{
+                console.log(result);
+                
+                if(result[0].status=='finish')
+                    res.send(`<script type="text/javascript">alert("이미 종료된 거래 입니다."); location.href="/"; </script>`);
+                else
+                    resolve();
+            }
+        })
+    })
+    promise.then(()=>{
+        const sql=`update t1_member set coin=coin-${req.body.how} where mem_id=\'${req.session.who}\';`
+        const sql2=`insert into t1_deal values(default, ${req.session.item[0].goo_id}, \'${req.session.item[0].goo_name}\', \'${req.session.item[0].goo_type}\', ${req.session.item[0].goal_price}, \'${req.session.item[0].mem_id}\', \'${req.session.who}\', ${req.body.how}, default, \'${req.session.item[0].status}\')`
+        client.query(sql+sql2, (error, result)=>{
+            if(error){
+                console.log(error);
+                res.status(562).end("DB query is failed");
+            }
+            else{
+                res.send(`<script type="text/javascript">alert("응모를 했습니다."); location.href="/apply/getApply?item=${req.session.item[0].goo_id}"; </script>`);
+            }
+        });
     });
 }
 

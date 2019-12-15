@@ -15,6 +15,9 @@ const calcTime=()=>{
                 let temp=new Array();
                 temp=item.split(':');
 
+                if(temp[1]-1=='0')
+                    document.getElementById(temp[0]).style.color="red";
+
                 document.getElementById(temp[0]).innerHTML='남은시간 : '+(temp[1]-1)+'일'+temp[2]+'시간'+temp[3]+'분'+temp[4]+'초';
             })
         }

@@ -52,7 +52,7 @@ const getApply=(req, res)=>{
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/applylist.ejs', 'utf8');  //Body
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
    
-   const sql='select t1_goods.goo_img, t1_deal.goo_id, t1_deal.goo_name, t1_deal.goal_price, t1_deal.buyer_id, t1_deal.status, sum(invest_coin)total from t1_deal inner join t1_goods on t1_deal.goo_id=t1_goods.goo_id where buyer_id=\''+req.session.who+'\' group by goo_id order by invest_day desc;';  //사용자가 투자한 금액 계산
+   const sql='select t1_goods.goo_img, t1_deal.goo_id, t1_deal.goo_name, t1_deal.goal_price, t1_deal.buyer_id, t1_deal.status, t1_goods.status as status2, sum(invest_coin)total from t1_deal inner join t1_goods on t1_deal.goo_id=t1_goods.goo_id where buyer_id=\''+req.session.who+'\' group by goo_id order by invest_day desc;';  //사용자가 투자한 금액 계산
    const sql2='select t1_deal.*, t1_goods.time_year, t1_goods.time_month, t1_goods.time_day, t1_goods.time_hour, t1_goods.time_minute from t1_deal inner join t1_goods on t1_deal.goo_id=t1_goods.goo_id where buyer_id=\''+req.session.who+'\' ORDER BY invest_day deSC;' //시간 계산
    client.query(sql+sql2, (error, results, fields) => {  // 상품조회 SQL실행
       if (error)
@@ -75,6 +75,8 @@ const getApply=(req, res)=>{
      }
       else {  // 조회된 상품이 있다면, 상품리스트를 출력
          req.session.item=results[1];
+
+         console.log(results[0]);
 
          res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
          res.end(ejs.render(htmlstream, {applylist:results[0],
@@ -104,7 +106,7 @@ const getWinning=(req, res)=>{
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/winninglist.ejs', 'utf8');  //Body
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-   const sql='select t1_deal.*, t1_goods.goo_img from t1_deal inner join t1_goods on t1_deal.goo_id=t1_goods.goo_id where buyer_id=\''+req.session.who+'\' and t1_deal.status=\'win\' ORDER BY invest_day deSC;'; //당첨 내역 정보
+   const sql='select t1_deal.goo_id, t1_deal.goal_price, t1_deal.goo_name, sum(t1_deal.invest_coin)total, t1_goods.goo_img, t1_goods.shipment from t1_deal inner join t1_goods on t1_deal.goo_id=t1_goods.goo_id where buyer_id=\''+req.session.who+'\' and t1_deal.status=\'win\' ORDER BY invest_day deSC;'; //당첨 내역 정보
    client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
       if (error)
          res.status(562).end("DB query is failed");
@@ -125,6 +127,8 @@ const getWinning=(req, res)=>{
 					})); 
      }
       else {  // 조회된 상품이 있다면, 상품리스트를 출력
+         //console.log(results);
+
          res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
          res.end(ejs.render(htmlstream, {winninglist:results,
 					 auth:req.session.auth ,
@@ -216,8 +220,8 @@ function getInfo(formInfo, sqls){
 const postReport=(req, res)=>{
    console.log('body', req.body);
 
-   const sql=`select mem_name as buyer_name from t1_member where mem_id=${req.body.buyer_id};`;
-   const sql2=`select mem_name as seller_name from t1_member where mem_id=${req.body.seller_id};`;
+   const sql=`select mem_name as buyer_name from t1_member where mem_id=\'${req.body.buyer_id}\';`;
+   const sql2=`select mem_name as seller_name from t1_member where mem_id=\'${req.body.seller_id}\';`;
    const sqls=sql+sql2;
 
    getInfo(req.body, sqls)
@@ -225,7 +229,7 @@ const postReport=(req, res)=>{
          console.log(info);
          console.log(info[2].buyer_id);
 
-         const sql=`insert into t1_report values(default, ${info[2].buyer_id}, \'${info[0]}\', \'${info[2].subject}\', \'${info[2].goo_info}\', default, \'${img_url}\', ${info[2].seller_id}, \'${info[1]}\', ${info[2].goo_id});`;
+         const sql=`insert into t1_report values(default, \'${info[2].buyer_id}\', \'${info[0]}\', \'${info[2].subject}\', \'${info[2].goo_info}\', default, \'${img_url}\', \'${info[2].seller_id}\', \'${info[1]}\', ${info[2].goo_id});`;
          client.query(sql, (error, result)=>{
             if(error)
                res.end(JSON.stringify(error));
