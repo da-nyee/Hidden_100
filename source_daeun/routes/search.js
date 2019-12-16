@@ -17,7 +17,7 @@ const db = mysql.createConnection({
     multipleStatements: true
 });
 
-/* 검색 기능 */
+/* 검색 기능 (사용자) */
 const searchGoods = (req, res) => {
     let htmlstream='';
     htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    /* header */
@@ -67,7 +67,7 @@ const searchGoods = (req, res) => {
                 buyers:[],
             }
 
-            let deals=new Array();
+            let deals = new Array();
 
             results[1].forEach((data, index)=>{
                 if(deal.buyers.length==0){
