@@ -7,6 +7,14 @@
                 <div class="col-1"><a class="link Fdo" style="font-size: 200%;" href="/admin">Hidden<b style="color: #80BCE1">100</b></a></div>
                 <div class="col" style="padding-left: 100px;padding-top: 5px">
                     <form method="post" action="/admin/search">
+                        <select name="category">
+                            <option value="all">전체</option>
+                            <option value="clothes">의류/잡화</option>
+                            <option value="makeup">메이크업</option>
+                            <option value="digital">가전/디지털</option>
+                            <option value="furniture">가구</option>
+                            <option value="others">기타</option>
+                        </select>
                         <input class="mr-sm-2 btn btn-b" style="width: 70%; text-align: left;" type="text" name="search" placeholder="찾고 싶은 상품을 검색하세요">&nbsp;&nbsp;
                         <button class="btn btn-b btn-outline-dark" type="submit">검색</button>&nbsp;&nbsp;
  
