@@ -106,7 +106,7 @@ const getWinning=(req, res)=>{
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/winninglist.ejs', 'utf8');  //Body
    htmlstream=htmlstream+fs.readFileSync(__dirname+'/../views/footer.ejs', 'utf8');  // Footer
 
-   const sql='select t1_deal.goo_id, t1_deal.goal_price, t1_deal.goo_name, sum(t1_deal.invest_coin)total, t1_goods.goo_img, t1_goods.shipment from t1_deal inner join t1_goods on t1_deal.goo_id=t1_goods.goo_id where buyer_id=\''+req.session.who+'\' and t1_deal.status=\'win\' ORDER BY invest_day deSC;'; //당첨 내역 정보
+   const sql='select t1_deal.goo_id, t1_deal.goal_price, t1_deal.invest_coin, t1_deal.goo_name, t1_goods.goo_img, t1_goods.shipment from t1_deal inner join t1_goods on t1_deal.goo_id=t1_goods.goo_id where buyer_id=\''+req.session.who+'\' and t1_deal.status=\'win\' ORDER BY invest_day deSC;'; //당첨 내역 정보
    client.query(sql, (error, results, fields) => {  // 상품조회 SQL실행
       if (error)
          res.status(562).end("DB query is failed");
@@ -127,7 +127,7 @@ const getWinning=(req, res)=>{
 					})); 
      }
       else {  // 조회된 상품이 있다면, 상품리스트를 출력
-         //console.log(results);
+         console.log(results);
 
          res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
          res.end(ejs.render(htmlstream, {winninglist:results,

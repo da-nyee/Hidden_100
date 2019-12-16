@@ -19,7 +19,7 @@ client.connect((error)=>{
         console.log("connect sucess!!!");
 });
 
-whenFinish.on('finish', (item)=>{
+whenFinish.on('finish', (item)=>{   //타임 아웃 이벤트
     //console.log('item', item);
     const promise=new Promise((resolve, reject)=>{
         const sql=`update t1_goods set status=\'finish\' where goo_id=${item.goo_id};`;
@@ -175,9 +175,35 @@ const calcTime=(req, res)=>{
             time.time_hour, time.time_minute); //UTC끝나는 시간-1일
         
         if(Math.floor(currentTime.getTime()/100)*100==Math.floor(endTime/100)*100){
-            //console.log(time);
+            const sql=`select goo_id, goal_price, sum(invest_coin) as total from t1_deal where goo_id=${time.goo_id} group by goo_id;`;
+            client.query(sql, (error, result)=>{
+                if(error){
+                    console.error(error);
+                }
+                else{
+                    console.log(result);
 
-            whenFinish.emit('finish', time);
+                    if(result.length==0||result[0].total<result[0].goal_price){
+                        const sql2=`update t1_goods set status=\'fail\' where goo_id=${time.goo_id};`;
+                        client.query(sql2, (error, result2)=>{
+                            if(error){
+                                console.error(error);
+                            }
+                            else{
+                                const sql3=`update t1_deal set status=\'fail\' where goo_id=${time.goo_id};`;
+                                client.query(sql3, (error, result3)=>{
+                                    if(error){
+                                        console.error(error);
+                                    }
+                                })
+                            }
+                        })
+                    }
+                    else{
+                        whenFinish.emit('finish', time);
+                    }
+                }
+            })
         }
         else if(Math.floor(currentTime.getTime()/1000)*1000<Math.floor(endTime/1000)*1000){
             const temp=new Date(endTime-currentTime.getTime()).toUTCString().split(' ');

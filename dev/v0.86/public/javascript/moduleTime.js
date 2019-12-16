@@ -9,4 +9,4 @@ const calcTime2=()=>{
 
 //setImmediate(calcTime);    setImmediate는 안 되더라...
 setTimeout(calcTime2, 0);
-setInterval(calcTime2, 10);
+setInterval(calcTime2, 100);

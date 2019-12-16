@@ -359,7 +359,7 @@ const getContent = (req, res) => {
         htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/report_content.ejs','utf8');
         htmlstream = htmlstream + fs.readFileSync(__dirname + '/../views/footer.ejs','utf8');
 
-        const sql_content = `SELECT t1_report.*, t1_goods.goo_name, t1_goods.goo_type from t1_report inner join t1_goods on t1_goods.goo_id=t1_report.goo_id where num=${query.num};`;
+        const sql_content = `SELECT t1_report.*, t1_goods.goo_name, t1_goods.goo_type, t1_goods.status from t1_report inner join t1_goods on t1_goods.goo_id=t1_report.goo_id where num=${query.num};`;
 
         db.query(sql_content, (error, result, fields) => {
             if(error){

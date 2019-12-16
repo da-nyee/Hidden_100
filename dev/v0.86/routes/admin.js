@@ -79,7 +79,7 @@ const getAdmin=(req, res)=>{
         }            
         else {  // 조회된 상품이 있다면, 상품리스트를 출력
             req.session.items=results[0];
-            req.session.item=result[0];
+            req.session.item=results[0];
             let deal={
                 id:0,
                 buyers:[],

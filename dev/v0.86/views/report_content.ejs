@@ -1,10 +1,5 @@
 <br><br>
 <div>
-    <form action="/userdeal/report/post" method="post" enctype="multipart/form-data">
-        <input type="hidden" name="buyer_id" id="id" value="<%=info[0].buyer_id%>">
-        <input type="hidden" name="seller_id" value="<%=info[0].seller_id%>">
-        <input type="hidden" name="goo_id" value="<%=info[0].goo_id%>">
-        <input type="hidden" name="goo_name" value="<%=info[0].goo_name%>">
         <div class="row" style="margin: 0px">
             <div class="col-2"><br></div>
             <div class="col-8 main-add" style="padding: 10px;">
@@ -76,12 +71,19 @@
                 <div class="row"><br><br><br><br><br><br></div>
                 <div class="row">
                     <div class="col-9"><br></div>
-                    <button type="button" class="btn" onclick="history.go(-1);">목록보기</a></button>
+                    <button type="button" class="btn" onclick="history.go(-1);">목록보기</button>
+                    <%if(info[0].status=='canceled'){%>
+                        <button style="margin-left:10px" type="button" class="btn">처리 됨</button>
+                    <%}else{%>
+                        <form action="/mygoods/delete/<%=info[0].goo_id%>" method="post">
+                            <input style="margin-left:10px;" type="submit" class="btn" value="환불하기"/>
+                        </form>
+                    <%}%>
+                    
                 </div>
                 <br>
             </div>
         </div>
-    </form>
 </div>
 
 <script>

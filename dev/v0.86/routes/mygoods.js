@@ -70,14 +70,14 @@ router.post('/post', upload.single('goo_img'), (req, res) => {
    });
 });
 
-router.post('/delete/:goo_id', (req,res)=>{
+router.post('/delete/:goo_id', (req,res)=>{	//판매 취소, 환불
 	const confirm=`select * from t1_deal where goo_id=${req.params.goo_id};`;
 	client.query(confirm, (error, result)=>{
 		if(error){
 			console.error(error);
 		}
 		else if(result.length<=0){
-			const sql_delete='DELETE FROM t1_goods where goo_id='+req.params.goo_id+';';
+			const sql_delete='update t1_goods set status=\'canceled\' where goo_id='+req.params.goo_id+';';
 			client.query(sql_delete, (error, results, fields) => {
 				if (error) {
 					console.log(error);
@@ -177,14 +177,14 @@ router.post('/delete/:goo_id', (req,res)=>{
 					});
 				}());
 				(await function(){
-					const sql=`delete from t1_goods where goo_id=${req.params.goo_id};`;
+					const sql=`update t1_goods set status='canceled' where goo_id=${req.params.goo_id};`;
 					client.query(sql, (error, result)=>{
 						if(error){
 							console.error('sql3 error');
 						}
 						else{
 							console.log('canceled!!!');
-							res.send('<script type="text/javascript">alert("상품을 삭제했습니다."); location.href="/mygoods/goodslist"; </script>');				
+							res.send('<script type="text/javascript">alert("상품을 삭제했습니다."); location.href="history.go(-2)"; </script>');				
 						}
 					});
 				}());
@@ -204,15 +204,19 @@ router.post('/put/:goo_id', (req,res)=>{
 
     const sql_put='SELECT * FROM t1_goods where goo_id='+req.params.goo_id+';';
 	client.query(sql_put, (error, results, fields) => {
-	//console.log(results);
-	res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
-	res.end(ejs.render(htmlstream, {goods_info:results[0],
-					 auth:req.session.auth ,
-					 mem_id:req.session.who,
-					goo_id:req.params.goo_id
-				}));
+		//console.log(results);
+		if(results.status=='finish'||results.status=='fail'){
+			res.send('<script type="text/javascript">alert("이미 종료된 거래입니다."); location.href="/mygoods/goodslist"; </script>')
+		}
+		else{
+			res.writeHead(200, {'Content-Type':'text/html; charset=utf8'});
+			res.end(ejs.render(htmlstream, {goods_info:results[0],
+						 auth:req.session.auth ,
+						 mem_id:req.session.who,
+						goo_id:req.params.goo_id
+			}));
+		}
 	});
-
 });
 
 

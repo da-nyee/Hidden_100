@@ -28,28 +28,34 @@
 			<div class="col">
 				     <p class="btn btn-b">누적금액 : <%=item.gain_coin%></p><br>
 					<%temp_url = '/mygoods/put/'+item.goo_id%>
+					<%if(item.status!='finish'||item.status!='fail'){%>
 					<form action=<%=temp_url%>  method="post">
   						<input type='submit' class="btn btn-b" value='정보 수정'/>
 					</form><br>
-
 					<%temp_url = '/mygoods/delete/'+item.goo_id%>
 					<form action=<%=temp_url%>  method="post">
   						<input type='submit' class="btn btn-b" value='판매취소'/>
 					</form>
-
+					<%}%>
 
 			</div>
         		<%}else{%>
         	
                 </div>
 			<div class="col"> 
-				     <p class="btn btn-b">누적금액 : <%=item.gain_coin%></p><br> 
-					<form action='/mygoods/shipment'  method="post">
-  						<input type='hidden' class="btn" name='goo_ship' value=<%=item.goo_id%>>
-
-  						<input type='submit' class="btn btn-b" value='운송장 번호 입력'/>
-
-					</form>
+					 <p class="btn btn-b">누적금액 : <%=item.gain_coin%></p><br> 
+					<%if(item.status=='finish'){%>
+						<form action='/mygoods/shipment'  method="post">
+							<input type='hidden' class="btn" name='goo_ship' value=<%=item.goo_id%>>
+  
+							<input type='submit' class="btn btn-b" value='운송장 번호 입력'/>
+  
+					  </form>
+					<%}else if(item.status=='canceled'){%>
+						<input type='button' class="btn btn-b" value="취소됨"/>
+					<%}else{%>
+						<input type='button' class="btn btn-b" value='목표금액 도달 실패!'/>
+						<%}%>
 			</div>
 			<%}%>
 
