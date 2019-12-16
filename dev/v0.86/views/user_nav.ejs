@@ -75,8 +75,9 @@ $(document).ready(function(){
                 <div class="col-2" style="padding-top: 10px; text-align: right; padding-right: 40px;">
 
 
-			<%if(auth==99){%>
-			        <a class="link" href="#" style="padding-left: 20px; font-size: 90%"><%=mem_id%> 님!</a>&nbsp;&nbsp;
+            <%if(auth==99){%>
+                    <button style="border:0px;" class="btn" onClick="getNotification()"><i id="icon" class="ri-notification-line" data-toggle="modal" data-target="#notification"></i></button>
+			        <a class="link" href="#" style="margin-left: 10px; font-size: 90%"><%=mem_id%> 님!</a>&nbsp;&nbsp;
                     <a class="link" href="/users/logout" style="font-size: 90%">로그아웃</a>
 			<%}else{%>
                     <a class="link" href="/users/reg" style="padding-left: 20px; font-size: 90%">회원가입</a>&nbsp;&nbsp;
