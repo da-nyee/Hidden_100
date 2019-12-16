@@ -1,0 +1,135 @@
+ 
+</head>
+
+<body>
+
+    <header>
+        <nav class="fixed-top">
+            <div class="row">
+                <div class="col-1"><a class="link Fdo" style="font-size: 200%;" href="/admin">Hidden<b style="color: #80BCE1">100</b></a></div>
+                <div class="col" style="padding-left: 100px;padding-top: 5px">
+                    <form method="post" action="/admin/search">
+                        <select name="category" class="btn btn-b" style="width:150px; padding:9px;" >
+                            <option value="all">전체</option>
+                            <option value="clothes">의류/잡화</option>
+                            <option value="makeup">메이크업</option>
+                            <option value="digital">가전/디지털</option>
+                            <option value="furniture">가구</option>
+                            <option value="others">기타</option>
+                        </select>
+                        <input class="mr-sm-2 btn btn-b" style="width: 70%; text-align: left;" type="text" name="search" placeholder="찾고 싶은 상품을 검색하세요">&nbsp;&nbsp;
+                        <button class="btn btn-b btn-outline-dark" type="submit">검색</button>&nbsp;&nbsp;
+ 
+                    </form>
+
+                </div>
+                <div class="col-2" style="padding-top: 10px; text-align: right; padding-right: 40px;">
+
+
+		<%if(auth==91){%>
+			        <a class="link" href="#" style="padding-left: 20px; font-size: 90%"><%=admin_id%> 님!</a>&nbsp;&nbsp;
+                    <a class="link" href="/admin/admins/logout" style="font-size: 90%">로그아웃</a>
+			<%}else{%>
+                    <a class="link" href="/admin/admins/reg" style="padding-left: 20px; font-size: 90%">관리자가입</a>&nbsp;&nbsp;
+                    <a class="link" href="/admin/admins/auth" style="font-size: 90%">로그인</a>
+
+			<%}%>
+
+
+                </div>
+            </div>
+            <div class="row" style="padding: 0px; margin: 0px; font-size:90%;">
+
+                <div class="col-6" style="padding-left: 30px;">
+                    <div class="btn-group" style="padding-right: 8px;">
+                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="border:0px;">
+                            회원관리
+                        </button>
+                        <div class="dropdown-menu">
+						<a class="dropdown-item" href="/admin/user_manage/getuser">회원조회</a>
+						<a class="dropdown-item" href="/admin/user_manage/control_level">회원등급 변경</a>
+						<a class="dropdown-item" href="/admin/user_manage/control_setting">회원설정 변경</a>
+                                                <a class="dropdown-item" href="/admin/user_manage/getReported">신고회원조회</a>
+						<a class="dropdown-item" href="/admin/user_manage/control_status">회원정지</a>
+                        </div>
+                    </div>
+                    <div class="btn-group" style="padding-right: 8px;">
+                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="border:0px;">
+                            수익관리
+                        </button>
+                        <div class="dropdown-menu">
+						<a class="dropdown-item" href="/admin/profit/change">수수료 설정</a>
+						<a class="dropdown-item" href="/admin/profit/chart">수익 조회</a>
+						<a class="dropdown-item" href="/admin/profit/search">검색 기록 조회</a>
+                        </div>
+                    </div>
+                    <div class="btn-group" style="padding-right: 8px;">
+                        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown" style="border:0px;">
+                            화면관리
+                        </button>
+                        <div class="dropdown-menu">
+						<a class="dropdown-item" href="/admin/admin_page/mainadd">메인 슬라이드 관리</a>
+ 
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col" style="text-align: right; padding-right: 23px; font-size: 1.3em;"> 
+                <%if(auth==91){%>
+
+                         <button type="button" class="btn btn-dropdown" data-toggle="dropdown" style="padding: 0px; margin: 0px; margin-bottom: 6px; border:0px;">
+                            <i class="ri-account-box-line" ></i>
+                        </button>
+                        <div class="dropdown-menu">
+ 
+						<a class="dropdown-item" href="/admin/admins/profile">개인 정보 변경</a> 
+						<a class="dropdown-item" href="/admin/admins/deletion">관리자탈퇴</a>
+						<a class="dropdown-item" href="/admin/admins/reg">관리자가입</a>
+ 
+
+                        </div>
+
+                <%}%>
+                <i class="ri-information-line" data-toggle="modal" data-target="#info"></i></div>
+            </div>
+        </nav>
+    </header>
+    <!-- The Modal -->
+    <div class="modal fade" id="info">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title Fdo">Hidden<b style="color: #80BCE1">100</b></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+		<div  style="padding:30px;">
+                    <p>100원부터 참여하는 중고거래</p>
+                    <p>당첨 확률은 응모가격을 높일수록 올라갑니다!</p>
+                    <p><i class="ri-wallet-line"></i> 목표 금액을 달성하면 응모한 사람 중에 랜덤으로 당첨자를 골라 물건을 전달합니다.</p>
+                    <p><i class="ri-timer-line"></i> 실시간으로 남은 시간을 확인할 수 있습니다.</p>
+                    <p><i class="ri-group-line"></i> 실시간으로 참여자 수를 확인할 수 있습니다.</p>
+                    <br>
+                    <p>가입 후 별도의 인증 과정 없이 상품 판매가 가능합니다.</p>
+                    <p><small><i class="ri-alarm-warning-line"></i>거래 사기의 경우 판매자에게 돈을 지불하지 않고 전액 환불하여 거래 사기를 방지합니다. </small></p></div>
+			<hr>
+                    <div  style="padding:30px;">
+			<p style="font-size:120%"><i class="ri-wallet-fill"></i>수수료 안내</p>
+			<p style="padding-left:15px;">silver 등급 코인 충전 <%=profit.charge_fee_silver%>%</p>
+			<p style="padding-left:15px;">gold 등급 코인 충전 <%=profit.charge_fee_gold%>%</p>
+			<p style="padding-left:15px;">중고 판매시 수수료 <%=profit.fee%>원</p>
+			<p style="padding-left:15px;">중고 판매 목표금액 2배 도달시 누적금의 <%=profit.great_success%>%</p></div>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-b" data-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>

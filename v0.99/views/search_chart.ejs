@@ -1,0 +1,48 @@
+<%
+all_data.forEach(function(data,i){
+	all_data[i].num=all_data[i].num+now_data[i].num
+});
+%> 
+
+   <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawSeriesChart);
+
+    function drawSeriesChart() {
+
+      var data = google.visualization.arrayToDataTable([
+        ['검색어', '최근검색빈도', '검색시간', ' ',     '총검색빈도'],
+        ['<%=now_data[0].str%>',<%=now_data[0].num%>,<%=now_data[0].time%>,'검색어',<%=all_data[0].num%>],
+        ['<%=now_data[1].str%>',<%=now_data[1].num%>,<%=now_data[1].time%>,'검색어',<%=all_data[1].num%>],
+        ['<%=now_data[2].str%>',<%=now_data[2].num%>,<%=now_data[2].time%>,'검색어',<%=all_data[2].num%>],
+        ['<%=now_data[3].str%>',<%=now_data[3].num%>,<%=now_data[3].time%>,'검색어',<%=all_data[3].num%>],
+        ['<%=now_data[4].str%>',<%=now_data[4].num%>,<%=now_data[4].time%>,'검색어',<%=all_data[4].num%>],
+        ['<%=now_data[5].str%>',<%=now_data[5].num%>,<%=now_data[5].time%>,'검색어',<%=all_data[5].num%>],
+        ['<%=now_data[6].str%>',<%=now_data[6].num%>,<%=now_data[6].time%>,'검색어',<%=all_data[6].num%>],
+        ['<%=now_data[7].str%>',<%=now_data[7].num%>,<%=now_data[7].time%>,'검색어',<%=all_data[7].num%>],
+        ['<%=now_data[8].str%>',<%=now_data[8].num%>,<%=now_data[8].time%>,'검색어',<%=all_data[8].num%>],
+        ['<%=now_data[9].str%>',<%=now_data[9].num%>,<%=now_data[9].time%>,'검색어',<%=all_data[9].num%>],
+      ]);
+
+      var options = {
+          title: '전체 중고 상품 비율',
+                width: 1000,
+                height: 700,
+                titleTextStyle: {
+                    fontName: 'Handon3gyeopsal600g',
+                    fontSize: 18,
+                },
+                fontName: 'Handon3gyeopsal300g',
+                fontSize: 14,
+
+        hAxis: {title: '검색빈도'},
+        vAxis: {title: '검색시간'},
+        bubble: {textStyle: {fontSize: 14, fontName: 'Handon3gyeopsal600g'},  colors: ['88BCE1' ]} ,       colors: ['88BCE1' ]
+};
+
+      var chart = new google.visualization.BubbleChart(document.getElementById('series_chart_div'));
+      chart.draw(data, options);
+    }
+    </script>
+ 
+<div class="product_chart " id="series_chart_div" style="width: 1000px; height: 700px; max-width: 1100px;"></div>

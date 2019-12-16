@@ -1,0 +1,84 @@
+<br/><br/><br/><br/>
+<div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h4 class="Fhandon">정보수정</h4>
+        </div>
+    </div>
+    <br/>
+
+    <form name="settings" onsubmit="return validate()" method=post action="/admin/admins/profile">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h6>이름</h6>
+                <input type="text" class="form-control" name="name" value="<%=admin_info.admin_name%>" readonly required>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h6>아이디</h6>
+                <input type="text" class="form-control" name="id" value="<%=admin_info.admin_id%>" readonly required>
+            </div>
+        </div>
+        <br/>
+        
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h6>비밀번호</h6>
+                <input type="password" class="form-control" name="pass1" value="<%=admin_info.admin_pass%>" required>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h6>비밀번호 확인</h6>
+                <input type="password" class="form-control" name="pass2" value="<%=admin_info.admin_pass%>" required>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h6>이메일 ('@' 포함해서 입력해주세요)</h6>
+                <input type="email" class="form-control" name="email" value="<%=admin_info.admin_email%>" required>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h6>전화번호 ('-' 없이 숫자만 입력해주세요)</h6>
+                <input type="text" class="form-control" name="phone" maxlength="11"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="<%=admin_info.admin_phone%>" required>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <h6>생년월일</h6>
+                <input type="text" class="form-control" name="bday" maxlength="6"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" value="<%=admin_info.admin_bday%>" readonly required>
+            </div>
+        </div>
+        <br/><br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <button type="submit" name="submit" class="btn">수정하기</button>
+            </div>
+        </div>
+    </form>
+</div>
