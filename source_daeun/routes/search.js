@@ -52,15 +52,15 @@ const searchGoods = (req, res) => {
             if(req.session.who==undefined){req.session.who='0';}
 
             res.end(ejs.render(htmlstream, {
-                   auth:req.session.auth ,
-                   mem_id:req.session.who,
+                   auth:req.session.auth,
+                   mem_id:req.session.who
           }));
         }
         else{   /* select 결과가 있는 경우 */
             if(req.session.auth==undefined){req.session.auth=0;}
             if(req.session.who==undefined){req.session.who='0';}
 
-            db.records=results[0];
+            req.session.item = results[0];
 
             let deal={
                 id:0,
