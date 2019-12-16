@@ -1,15 +1,15 @@
-console.log('스크립트');
+//console.log('스크립트');
 
 let leftTime=new Array();
 
 const calcTime=()=>{
-    console.log('반복');
+    //console.log('반복');
     let xhr=new XMLHttpRequest();
 
     xhr.onload=()=>{
         if(xhr.status==200){
             leftTime=JSON.parse(xhr.response);
-            console.log('브라우저 : ', leftTime);
+            //console.log('브라우저 : ', leftTime);
             
             leftTime.forEach((item)=>{
                 let temp=new Array();

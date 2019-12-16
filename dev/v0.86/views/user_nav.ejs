@@ -1,27 +1,87 @@
 
 <body>
+  <script>
+$(document).ready(function(){
+    $("#AdminOn").change(function(){
+        if($("#AdminOn").is(":checked")){
+            $("#signForm").attr("action", "/admin/admins/auth");
+        }else{
+            $("#signForm").attr("action", "/users/auth");
+        }
+    });
+});
+</script>
+  <!-- The Modal -->
+  <div class="modal" id="loginModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title Fdo">Hidden<b style="color: #80BCE1">100</b></h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body"><br>
+		<h4 class="Fhandon" style="padding: 0px; margin:0px; margin-bottom:10px;">로그인</h4>
+    <form name="signin" id="signForm" method=post action="/users/auth"  style="margin:20px;">
+        <div class="row"> 
+                <input type="text" class="form-control" name="id" placeholder="아이디" required>
+
+        </div>
+        <br/>
+
+        <div class="row"> 
+                <input type="password" class="form-control" name="pass" placeholder="비밀번호" required>
+
+        </div>
+        <br/><br>
+<div class="custom-control custom-switch row" style="margin-left:1px;">
+    <input type="checkbox" class="custom-control-input" id="AdminOn" name="AdminOn">
+    <label class="custom-control-label" for="AdminOn">관리자로 로그인하기</label>
+</div>
+        <div class="row" style="font-size:110%; margin-top:5px;"> 
+                <button type="submit" class="btn btn-b form-control">로그인</button>
+        </div>
+    </form>
+
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-b" data-dismiss="modal">닫기</button>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  
 
     <header>
         <nav class="fixed-top">
             <div class="row">
                 <div class="col-1"><a class="link Fdo" style="font-size: 200%;" href="/">Hidden<b style="color: #80BCE1">100</b></a></div>
                 <div class="col" style="padding-left: 100px;padding-top: 5px">
-                    <form action="/action_page.php">
-                        <input class="mr-sm-2 btn btn-b" style="width: 70%; text-align: left;" type="text" placeholder="Search">&nbsp;&nbsp;
-                        <button class="btn btn-b btn-outline-dark" type="submit">검색</button>&nbsp;&nbsp;
-                        <button class="btn btn-b btn-outline-dark" type="button" onclick="location.href='/mygoods'">상품등록</button>
-                    </form>
+                      <form method="post" action="/search">
+                          <input class="mr-sm-2 btn btn-b" style="width: 80%; text-align: left;" type="text" name="search" placeholder="찾고 싶은 상품을 검색하세요">&nbsp;&nbsp;
+                          <button class="btn btn-b btn-outline-dark" type="submit">검색</button>&nbsp;&nbsp;
+              <%if(auth==99){%>
+                          <button class="btn btn-b btn-outline-dark" type="button" onclick="location.href='/mygoods'">상품등록</button>
+              <%}%>
+                      </form>
 
                 </div>
-                <div class="col-3" style="padding-top: 10px; text-align: right; padding-right: 40px;">
+                <div class="col-2" style="padding-top: 10px; text-align: right; padding-right: 40px;">
 
 
 			<%if(auth==99){%>
-			        <a class="link" href="#" style="margin-left: 20px; font-size: 90%"><%=mem_id%> 님!</a>&nbsp;&nbsp;
+			        <a class="link" href="#" style="padding-left: 20px; font-size: 90%"><%=mem_id%> 님!</a>&nbsp;&nbsp;
                     <a class="link" href="/users/logout" style="font-size: 90%">로그아웃</a>
 			<%}else{%>
                     <a class="link" href="/users/reg" style="padding-left: 20px; font-size: 90%">회원가입</a>&nbsp;&nbsp;
-                    <a class="link" href="/users/auth" style="font-size: 90%">로그인</a>
+ 		 <a data-toggle="modal" data-target="#loginModal" style="padding-left: 20px; font-size: 90%; color:#454545; border:0px;" href="#">로그인</a >
+
 
 			<%}%>
 
@@ -44,6 +104,7 @@
 
                 </div>
                                 <div class="col" style="text-align: right; padding-right: 23px; font-size: 1.3em;"> 
+  		<a href="/end"><i class="ri-trophy-line"></i></a> 
                 <%if(auth==99){%>
                          <button type="button" class="btn btn-dropdown" data-toggle="dropdown" style="padding: 0px; margin: 0px; margin-bottom: 6px; border:0px;">
                             <i class="ri-account-box-line" ></i>
@@ -101,3 +162,26 @@
             </div>
         </div>
     </div>
+
+<!-- The Modal -->
+<div class="modal fade" id="notification">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title Fdo">Notification</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body" id="contents">
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-b" data-dismiss="modal" onClick="window.location.reload()">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

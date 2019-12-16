@@ -150,14 +150,74 @@ whenFinish.on('finish', (item)=>{   //타임 아웃 이벤트
             })
         })
         .then((obj)=>{
-            const sql4=`update t1_deal set status='lose' where buyer_id!=\'${obj.winner}\' and goo_id=${obj.item_id};`;
-            client.query(sql4, (error, result)=>{
-                if(error)
-                    reject('sql4 error');
-                else{
-                    console.log(result);
-                }
-            })
+            return new Promise((resolve, reject)=>{
+                const sql4=`update t1_deal set status='lose' where buyer_id!=\'${obj.winner}\' and goo_id=${obj.item_id};`;
+                client.query(sql4, (error, result)=>{
+                    if(error)
+                        reject('sql4 error');
+                    else{
+                        console.log(result);
+                        resolve(obj);
+                    }
+                }); 
+            });
+        })
+        .then((obj)=>{
+            return new Promise((resolve, reject)=>{
+                const sql5=`select * from t1_deal where goo_id=${obj.item_id} group by buyer_id;`;
+                client.query(sql5, (error, result)=>{
+                    if(error){
+                        reject('sql5 error');
+                    }
+                    else{
+                        console.log(result);
+                        obj.messages=result;
+                        resolve(obj);
+                    }
+                });
+            });
+        })
+        .then((obj)=>{
+            return new Promise((resolve, reject)=>{
+                const funcs=[];
+                
+                obj.messages.forEach((message)=>{
+                    const func=(message)=>{
+                        return new Promise((resolve2, reject2)=>{
+                            let temp='';
+
+                            if(message.status=='win'){
+                                temp=`${message.goo_name}에 당첨되셨습니다!`;
+                            }
+                            else if(message.status=='lose'){
+                                temp=`${message.goo_name}에 당첨되지 않으셨습니다.`;
+                            }
+
+                            const sql6='insert into t1_message (receiver, contents) values(?, ?);';
+                            client.query(sql6, [message.buyer_id, temp], (error, result)=>{
+                                if(error){
+                                    console.log(error);
+                                    reject2(error);
+                                }
+                                else{
+                                    resolve2();
+                                }
+                            });
+                        });
+                    };
+
+                    funcs.push(func(message));
+                });
+
+                Promise.all(funcs)
+                        .then(()=>{
+                            console.log('promise all');
+                            resolve();
+                        })
+                        .catch((error)=>{
+                            reject(error);
+                        });
+            });
         })
         .catch((error)=>{
             console.log(error);

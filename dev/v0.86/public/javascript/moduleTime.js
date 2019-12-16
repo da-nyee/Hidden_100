@@ -2,6 +2,9 @@
 const calcTime2=()=>{
     //console.log('반복');
     let xhr=new XMLHttpRequest();
+    xhr.onload=()=>{
+        //console.log('test');
+    }
 
     xhr.open('GET', '/apply/calcTime');
     xhr.send();

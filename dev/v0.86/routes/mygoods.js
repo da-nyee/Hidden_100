@@ -205,7 +205,7 @@ router.post('/put/:goo_id', (req,res)=>{
     const sql_put='SELECT * FROM t1_goods where goo_id='+req.params.goo_id+';';
 	client.query(sql_put, (error, results, fields) => {
 		//console.log(results);
-		if(results.status=='finish'||results.status=='fail'){
+		if(results[0].status=='finish'||results[0].status=='fail'){
 			res.send('<script type="text/javascript">alert("이미 종료된 거래입니다."); location.href="/mygoods/goodslist"; </script>')
 		}
 		else{

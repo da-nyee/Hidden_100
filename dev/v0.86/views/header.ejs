@@ -16,3 +16,53 @@
 
     <script type="text/javascript" src="/javascript/moduleTime.js"></script>
 </head>
+<script>
+const getExist=()=>{
+    let xhr=new XMLHttpRequest();
+
+    xhr.onload=()=>{
+        if(xhr.status==200){
+            const number=JSON.parse(xhr.response);
+            console.log(number);
+
+            const icon=document.getElementById("icon");
+
+            if(number!=0){
+                icon.style.color="red";
+            }
+            else{
+                icon.style.color="black";
+            }
+        }
+        else
+            console.error(xhr.response);
+    }
+    xhr.open('GET', '/message/getExist?receiver=<%=mem_id%>');
+    xhr.send();
+}
+
+$( document ).ready(function() {
+    getExist();
+});
+
+const getNotification=()=>{
+    let xhr=new XMLHttpRequest();
+
+    xhr.onload=()=>{
+        if(xhr.status==200){
+            const result=JSON.parse(xhr.response);
+            console.log(result);
+
+            const contents=document.getElementById("contents");
+
+            result.forEach((content, i)=>{
+                contents.append(i+1+'. '+content.contents);
+            })
+        }
+        else
+            console.error(xhr.response);
+    }
+    xhr.open('GET', '/message/getNotification?receiver=<%=mem_id%>');
+    xhr.send();
+}
+</script>

@@ -19,6 +19,7 @@ const user_manage = require('./routes/user_manage');
 const coin = require('./routes/coin');
 const apply = require('./routes/apply');
 const profit= require('./routes/profit');
+const message=require('./routes/message');
 
 // 쇼핑몰전용 PORT주소 설정
 const PORT = 65002;
@@ -50,6 +51,7 @@ app.use('/admin/user_manage', user_manage);
 app.use('/coin', coin);
 app.use('/apply', apply);
 app.use('/admin/profit', profit);
+app.use('/message', message);
 
 // 서버를 실행합니다.
 app.listen(PORT, function () {

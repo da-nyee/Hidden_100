@@ -26,7 +26,7 @@ client.connect((error)=>{
         console.log("connect sucess!!!");
 });
 
-const getApply=(req, res)=>{
+const getApply=(req, res)=>{    //응모하기 폼
     if(req.session.auth==99){
         let htmlstream='';
         htmlstream=fs.readFileSync(__dirname+'/../views/header.ejs', 'utf8');    //Header
@@ -70,7 +70,7 @@ router.get('/getApply', getApply);
 
 router.get('/calcTime', calcTime);
 
-const postApply=(req, res)=>{
+const postApply=(req, res)=>{   //응모하기
     const promise=new Promise((resolve, reject)=>{
         const sql3=`select status from t1_goods where goo_id=${req.session.item[0].goo_id};`;
         client.query(sql3, (error, result)=>{
