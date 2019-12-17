@@ -1,0 +1,77 @@
+<br/><br/><br/><br/>
+<div class="container">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-4">
+            <h4 class="Fhandon">관리자가입</h4>
+        </div>
+    </div>
+    <br/>
+
+    <form id="signup" name="signup" method=post action="/admin/admins/reg">
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <input type="text" class="form-control" name="name" placeholder="이름" required>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <input type="text" class="form-control" name="id" placeholder="아이디" required>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <input type="password" class="form-control" name="pass1" placeholder="비밀번호" required>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <input type="password" class="form-control" name="pass2" placeholder="비밀번호 확인" required>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <input type="email" class="form-control" name="email" placeholder="이메일 ('@' 포함해서 입력해주세요)" required>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <input type="text" class="form-control" name="phone" maxlength="11"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="전화번호 ('-' 없이 숫자만 입력해주세요)" required>
+            </div>
+        </div>
+        <br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <input type="text" class="form-control" name="bday" maxlength="6"
+                oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" placeholder="생년월일 (6자리로 입력해주세요 ex. 970418)" required>
+            </div>
+        </div>
+        <br/><br/>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <button type="submit" class="btn" id="signupBtn">관리자가입</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,165 @@
+<script type="text/javascript" src="/javascript/calcTime.js"></script>
+
+    <style>
+        .apply-btn {
+            color: #aaaaaa;
+            background-color: rgba(255, 255, 255, 0);
+            border: 0px;
+        }
+.apply-form {
+    margin: 1%;
+    padding-top: 80px;
+    max-width: 900px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+
+
+}
+
+
+        .apply-btn:hover {
+            color: #FFFFFF;
+            border: 0px;
+            background-color: rgba(255, 255, 255, 0);
+        }
+
+
+        .apply-btn:checked {
+            outline: 0;
+            color: #FFFFFF;
+            background-color: rgba(255, 255, 255, 0);
+            border: 0px;
+        }
+
+        .apply-cropping {
+            max-height: 160px;
+            max-width: 180px;
+            overflow: hidden;
+	     padding-top:15px;
+
+        }
+
+        .info {
+            border: 2px solid #002060;
+            border-radius: 30px;
+            margin-top: 50px;
+            width: 785px;
+            max-height: 1000px;
+            box-shadow: 0px 5px 5px #999999;
+            text-align: justify;
+    transform: translateX(-1.5%);
+
+        }
+
+
+        .apply-cropping img {
+	    
+            max-width: initial;
+            max-height: initial;
+
+            margin-top: -15%;
+            margin-left: 50%;
+
+        }
+
+    </style>
+    <script type="text/javascript">
+        function myMove() {
+            var elem = document.getElementById("ticket");
+            var pos = 0;
+            var id = setInterval(frame, 5);
+	      var temp =elem.style.left;
+            function frame() {
+                if (pos == 150) {
+			elem.style.left=temp
+                    clearInterval(id);
+                } else {
+                    pos++;
+                    elem.style.left = pos + "px";
+                    if (pos > 30) {
+                        pos++;
+                    }
+                }
+            }
+        }
+        $(document).ready(function() {
+            // 입력란에 입력을 하면 입력내용에 내용이 출력
+            // 1. #how 공간에서 keyup이라는 이벤트가 발생했을 때
+            $("#how").keyup(function() {
+                // 2. #after 공간에 내용이 출력된다.
+                $("#after").text($("#now").text() * 1 - $("#how").val() * 1);
+                // #after의 위치에 text로 데이터를 set한다.(setter)
+                // 들어가는 데이터는 값(.text(), .val())이다. (getter)
+                // 메서드 괄호 안에 아무것도 없으면 getter, 파라미터가 있으면 setter이다.
+
+                //console.log($("#now").text()*1);
+                //console.log($("#how").val()*1);
+            });
+        });
+
+    </script>
+
+<form action="/apply/postApply" method="post" class="apply-form">
+    <div class="row ticket">
+        <div class="card ticket-body">
+            <img class="card-img-top " src="/img/ticket-body.png" alt="Card image" style="width: 600px; height: 300px;">
+            <div class="card-img-overlay">
+                <h4 class="card-title Fhandon" style="color: #fff; padding-top: 20px;">No.<%=item[0].goo_id%> <small style="font-size:70%;"><%=item[0].goo_name%></small></h4>
+                <div class="d-flex flex-row ">
+                    <div class="p-2" style="width: 200px; height: 180px; margin-left:10px;">
+                        <%img='/img/goods/'+item[0].goo_img%>
+                        <img src=<%=img%> class="apply-cropping ">
+                    </div>
+                    <div class="p-2 flex-grow-1">
+                        <table class=" " style="margin-top: 17px; margin-left: 20px; width: 240px;text-align:right;  ">
+      
+                            <tr style="padding: 6px;">
+                                <td>현재코인 : </td>
+                                <td id="now" style=" margin:auto;text-align:ringt;"><%=member[0].coin%> </td>
+                                <td>원</td>
+                            </tr>
+                            <tr>
+                                <td>응모코인 : </td>
+                                <td> <input type="text" class="btn btn-b" style="width: 80px;" id="how" name="how" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');" required> </td>
+                                <td>원</td>
+                            </tr>
+                            <tr>
+                                <td >나머지 : </td>
+                                <td id="after"  style="text-align:ringt;"> </td>
+                                <td>원</td>
+                            </tr>
+                            <tr height="50px;">
+                                <td colspan="3"><p style="margin:0px; padding:0px;" id=<%=item[0].goo_id%>></p></td>
+ 
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card ticket-side" style="margin-left: 193px;" id="ticket" onclick="myMove()">
+            <img class="" src="/img/ticket-side.png" alt="Card image" style="width: 200px; height: 300px;">
+            <div class="card-img-overlay">
+                <button type="submit" class="stretched-link apply-btn" style="margin-top: 20px;">
+                    <div class="row">
+                        &nbsp;&nbsp;&nbsp;
+                        <i class="ri-play-fill" style="font-size:160%; margin-top: -6px;"></i>&nbsp;
+                        <h4 class="card-title Fhandon">
+                            응모</h4>
+                    </div>
+                </button>
+
+            </div>
+        </div>
+
+
+    </div>
+    <div class="info">
+        <div class="Fhandon" style="background-color: #002060; color: white; margin-top: 20px; padding: 10px; font-size: 130%;">상세 정보</div>
+
+        <p style="padding: 20px;"><%=item[0].goo_info%>.</p>
+    </div>
+
+</form>
