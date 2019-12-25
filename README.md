@@ -6,6 +6,10 @@
 
 ### Detail
 - C2C business
+- Cloud based web service
+
+### Development Environment
+- Node.js + Express + EJS + Bootstrap + MariaDB
 
 ### Developers
 - https://github.com/da-nyee (Daeun Lee, 이다은)
