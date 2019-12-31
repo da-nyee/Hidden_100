@@ -1,0 +1,55 @@
+			<br><br>
+ 				<div class="row" style="margin: 0px">
+			  		<div class="col-2"><br></div>
+					<div class="col-8" style="padding: 10px; text-align:left;">  
+						 <h4 class="Fhandon" style="padding-left: 20px;">슬라이드 이미지 변경</h4></div>
+			  		<div class="col-2"><br></div>
+
+				</div>
+
+ 		<div>
+			<form action="/admin/admin_page/mainimg/post" method="post" enctype="multipart/form-data" >
+ 
+				<div class="row" style="margin: 0px">
+			  		<div class="col-2"><br></div>
+					<div class="col-8 main-add" style="padding: 10px;">
+	  					<div class="row"><br></div>
+	  					<div class="row"><br></div>
+	  					<div class="row"><p class="col">가로 : 1299px, 세로 :515px 비율의 png 파일</p></div>
+		  				<div class="row">
+			  				<div class="col-2"><br></div>
+							<div class="custom-file col-2">
+							    <select name="slide_num" class="custom-select custom-select-sm mb-3" required>
+									  <option value="slide1" selected>slide1</option>
+									  <option value="slide2">slide2</option>
+									  <option value="slide3">slide3</option>
+									  <option value="slide4">slide4</option>
+									</select>
+				  			</div>
+							<div class="custom-file col-6">
+								<input type="file" class="custom-file-input" id="slide_img" name="slide_img" accept=".png" required>
+								<label class="custom-file-label" for="slide_img">변경할 슬라이드의 이미지를 올려주세요.</label>
+				  			</div>
+				  			<div class="col-2"><br></div>
+						</div>
+	  			 
+<br><br>
+<input class="btn" style="font-size: 110%;" type="submit" value="수정" >
+		  				 <br> <br>
+ 
+
+				</div>
+
+
+			</form>
+    
+ 		</div>
+
+		<script>
+		// Add the following code if you want the name of the file appear on select
+		$(".custom-file-input").on("change", function() {
+		  var fileName = $(this).val().split("\\").pop();
+		  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+		});
+		</script>
+
