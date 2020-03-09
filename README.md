@@ -6,7 +6,8 @@
 
 ### Detail
 - C2C business
-- Cloud based web service
+- Data visualization
+- Based on cloud computing
 
 ### Development Environment
 - Node.js + Express + EJS + Bootstrap + MariaDB
