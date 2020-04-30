@@ -1,5 +1,5 @@
 ## Hidden 100 (Capstone Design Project)
-데이터 시각화를 이용한 중고거래 서비스
+응모 및 추첨형, 데이터 시각화를 이용한 중고거래 웹 서비스
 
 ### Preview
 ![hidden_100_main](./img/hidden_100.PNG)
