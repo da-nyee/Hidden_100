@@ -9,8 +9,11 @@
 - Data visualization
 - Based on cloud computing
 
-### Development Environment
-- Node.js + Express + EJS + Bootstrap + MariaDB
+### Tech Stack
+|Frontend   |Backend  |Database |API                         |
+|-----------|---------|---------|----------------------------|
+|`EJS`      |`Node.js`|`MariaDB`|`Kakao Postcode Service API`|
+|`Bootstrap`|`Express`|         |`Google Charts API`         |
 
 ### Developer
 - https://github.com/da-nyee (Daeun Lee, 이다은)
