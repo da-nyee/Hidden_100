@@ -1,4 +1,4 @@
-## Hidden 100 (Capstone Design Project)
+## Hidden 100 (4-week Project)
 응모 및 추첨형, 데이터 시각화를 이용한 중고거래 웹 서비스
 
 ### Preview
