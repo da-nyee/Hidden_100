@@ -5,9 +5,9 @@
 ![hidden_100_main](./img/hidden_100.PNG)
 
 ### Details
-- C2C business
-- Data visualization
-- Cloud Computing Services
+- C2C Business
+- Data Visualization
+- Cloud Computing Service
 
 ### Tech Stack
 |Frontend   |Backend  |Database |API                         |
