@@ -4,10 +4,10 @@
 ### Preview
 ![hidden_100_main](./img/hidden_100.PNG)
 
-### Detail
+### Details
 - C2C business
 - Data visualization
-- Based on cloud computing
+- Cloud Computing Services
 
 ### Tech Stack
 |Frontend   |Backend  |Database |API                         |
@@ -15,7 +15,7 @@
 |`EJS`      |`Node.js`|`MariaDB`|`Kakao Postcode Service API`|
 |`Bootstrap`|`Express`|         |`Google Charts API`         |
 
-### Developer
+### Developers
 - https://github.com/da-nyee (Daeun Lee, 이다은)
 - https://github.com/qkdrnvhrrur (Wooseok Lee, 이우석)
 - https://github.com/Han-HeyGyeong (Hyegyeong Han, 한혜경)
